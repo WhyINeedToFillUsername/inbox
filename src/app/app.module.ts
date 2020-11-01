@@ -9,17 +9,21 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { PleromaOAuthComponent } from './components/pleroma-oauth/pleroma-oauth.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PleromaComponent
+    PleromaComponent,
+    PleromaOAuthComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule
+    MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

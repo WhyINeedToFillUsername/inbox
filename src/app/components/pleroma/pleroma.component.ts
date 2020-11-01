@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {PleromaService} from '../../services/pleroma.service';
 
 @Component({
   selector: 'app-pleroma',
@@ -8,13 +9,24 @@ import {Component, OnInit} from '@angular/core';
 export class PleromaComponent implements OnInit {
   public idInput;
 
-  constructor() {
+  constructor(private readonly pleromaService: PleromaService) {
   }
 
   ngOnInit(): void {
   }
 
   submit() {
-    console.log(this.idInput);
+    console.log('Fetching ', this.idInput);
+    this.pleromaService.fetchUser(this.idInput).subscribe(
+      user => {
+        console.log("Fetched user: ", user)
+        this.pleromaService.registerApp(user.endpoints.oauthRegistrationEndpoint).subscribe(
+          app => {
+            console.log("Registered app: ", app);
+            this.pleromaService.logUserIn(user, app);
+          }
+        );
+      }
+    )
   }
 }
