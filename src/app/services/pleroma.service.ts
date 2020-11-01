@@ -9,7 +9,7 @@ import {map} from 'rxjs/operators';
 })
 export class PleromaService {
   private static readonly STORAGE_PREFIX = 'inbox_app_data_';
-  private static readonly CALLBACK_URI = encodeURIComponent(window.location.origin + '/pleroma/oauth');
+  private static readonly CALLBACK_URI = location.origin + '/pleroma';
 
   constructor(
     private http: HttpClient) {
@@ -23,18 +23,20 @@ export class PleromaService {
     const storageKey = PleromaService.STORAGE_PREFIX + btoa(oauthRegistrationEndpoint);
 
     if (storageKey in localStorage) {
+      console.log("App is already in local storage, loading.");
       return of(PleromaService.loadFromLocalStorage(storageKey));
     } else {
+      console.log("App is not in local storage, retrieving...");
 
       const body = {
         client_name: 'inbox',
-        redirect_uris: location.href,
+        redirect_uris: PleromaService.CALLBACK_URI,
         scopes: 'read write follow',
       };
       const options = {headers: {'Content-Type': 'application/json'}};
-      this.http.post(oauthRegistrationEndpoint, body, options).pipe(
+      return this.http.post(oauthRegistrationEndpoint, body, options).pipe(
         map(app => {
-          console.log('Registered app, saving to local storage.');
+          console.log('Registered app, saving to local storage: ', app);
           PleromaService.saveToLocalStorage(storageKey, app);
           return app;
         })
@@ -45,7 +47,7 @@ export class PleromaService {
   logUserIn(user, app) {
     const redirectUrl = user.endpoints.oauthAuthorizationEndpoint +
       '?response_type=code&client_id=' + app.client_id +
-      '&redirect_uri=' + PleromaService.CALLBACK_URI +
+      '&redirect_uri=' + encodeURIComponent(PleromaService.CALLBACK_URI) +
       '&state=' + encodeURIComponent(user.id);
 
     location.assign(redirectUrl);
