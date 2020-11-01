@@ -4,3 +4,11 @@
 </mat-form-field>
 
 <button mat-raised-button color="primary" type="submit" (click)="submit()">Connect</button>
+
+<ul>
+  <li *ngFor="let status of statuses">
+    Cite: {{status.actor}}
+
+    Content: {{status.object.content}};
+  </li>
+</ul>

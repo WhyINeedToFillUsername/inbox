@@ -12,6 +12,7 @@ export class PleromaComponent implements OnInit {
 
   private code: string;
   private apid: string; // param "state"
+  statuses;
 
   constructor(
     private readonly pleromaService: PleromaService,
@@ -19,9 +20,37 @@ export class PleromaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.code = this.route.snapshot.queryParamMap.get('code');
-    this.apid = this.route.snapshot.queryParamMap.get('state');
-    console.log("Retrieved params: code='", this.code, "', apid='", this.apid, "'.");
+    this.retrieveParams();
+    if (this.code && this.apid) {
+
+      this.pleromaService.fetchUser(this.apid).subscribe(
+        user => {
+          console.log('Fetched user: ', user);
+
+          this.pleromaService.getOAuthToken(this.code, this.apid, user.endpoints).subscribe(
+            tokenInfo => {
+              console.log('Retrieved token info: ', tokenInfo);
+              history.replaceState(null, "", location.pathname); // remove code from URL
+              const token = tokenInfo.access_token;
+
+              this.pleromaService.getInbox(user.inbox, token).subscribe(
+                inbox => {
+                  console.log('Retrieved inbox: ', inbox);
+
+                  this.pleromaService.getInboxPage(inbox.first, token).subscribe(
+                    page => {
+                      console.log('Retrieved page: ', page);
+                      this.statuses = page.orderedItems;
+                    }
+                  )
+                }
+              )
+            }
+          );
+        }
+      )
+    }
+
   }
 
   submit() {
@@ -37,5 +66,11 @@ export class PleromaComponent implements OnInit {
         );
       }
     )
+  }
+
+  private retrieveParams(): void {
+    this.code = this.route.snapshot.queryParamMap.get('code');
+    this.apid = this.route.snapshot.queryParamMap.get('state');
+    console.log('Retrieved params: code=\'', this.code, '\', apid=\'', this.apid, '\'.');
   }
 }

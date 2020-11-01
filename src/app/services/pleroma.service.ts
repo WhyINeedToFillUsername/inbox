@@ -53,12 +53,40 @@ export class PleromaService {
     location.assign(redirectUrl);
   }
 
+  getOAuthToken(code: string, apid: string, userEndpoints): Observable<any> {
+    const storageKey = PleromaService.STORAGE_PREFIX + btoa(userEndpoints.oauthRegistrationEndpoint);
+    const app = PleromaService.loadFromLocalStorage(storageKey);
+
+    const params = {
+      grant_type: 'authorization_code',
+      code: code,
+      client_id: app.client_id,
+      client_secret: app.client_secret,
+      redirect_uri: PleromaService.CALLBACK_URI,
+      scope: 'read write follow',
+    };
+
+    return this.http.post(userEndpoints.oauthTokenEndpoint, params, {headers: {'Content-Type': 'application/json'}});
+  }
+
+  getInbox(inboxUrl: string, token: string): Observable<any> {
+    return this.getWithToken(inboxUrl, token);
+  }
+
+  getInboxPage(inboxPageUrl: string, token: string): Observable<any> {
+    return this.getWithToken(inboxPageUrl, token);
+  }
+
+
+  private getWithToken(inboxUrl: string, token: string) {
+    return this.http.get(inboxUrl, {headers: {Accept: 'application/activity+json', Authorization: 'Bearer ' + token}});
+  }
+
   private static saveToLocalStorage(storageKey: string, object: object): void {
     localStorage.setItem(storageKey, JSON.stringify(object));
   }
 
-
-  private static loadFromLocalStorage(storageKey: string): object {
+  private static loadFromLocalStorage(storageKey: string) {
     return JSON.parse(localStorage.getItem(storageKey));
   }
 }
