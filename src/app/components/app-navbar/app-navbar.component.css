@@ -1,0 +1,11 @@
+#home {
+  font-size: 1.2em;
+}
+
+nav {
+  margin-left: 10px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

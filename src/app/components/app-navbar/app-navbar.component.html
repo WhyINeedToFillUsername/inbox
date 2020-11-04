@@ -1,12 +1,12 @@
 <mat-toolbar>
-  <button mat-icon-button class="example-icon" [matMenuTriggerFor]="menu" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
+  <a id="home" mat-button href="/">inbox</a>
 
-  <mat-menu #menu="matMenu">
-    <a mat-menu-item routerLink="/pleroma" routerLinkActive="active">Connect Pleroma</a>
-  </mat-menu>
+  <nav>
+    <a mat-button routerLink="/pleroma">Connect Pleroma</a>
+    <a mat-button disabled [routerLink]="'/create-account'"> Create Account </a>
+  </nav>
 
-  <span>inbox</span>
-  <span class="example-spacer"></span>
+  <span class="spacer"></span>
+
+  <a mat-stroked-button disabled routerLink="/logout">Logout</a>
 </mat-toolbar>
