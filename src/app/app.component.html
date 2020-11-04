@@ -1,11 +1,17 @@
 <div id="mainContainer">
 
-  <nav>
-    <ul>
-      <li><a routerLink="/pleroma" routerLinkActive="active">Connect Pleroma</a></li>
-      <li><a routerLink="/second-component" routerLinkActive="active">Second Component</a></li>
-    </ul>
-  </nav>
+  <mat-toolbar>
+    <button mat-icon-button class="example-icon" [matMenuTriggerFor]="menu" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <a mat-menu-item routerLink="/pleroma" routerLinkActive="active">Connect Pleroma</a>
+    </mat-menu>
+
+    <span>inbox</span>
+    <span class="example-spacer"></span>
+  </mat-toolbar>
 
   <router-outlet></router-outlet>
 </div>
