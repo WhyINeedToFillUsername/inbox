@@ -19,6 +19,7 @@ import { AppNavbarComponent } from './components/app-navbar/app-navbar.component
   declarations: [
     AppComponent,
     PleromaComponent,
+    AppNavbarComponent,
   ],
   imports: [
     BrowserModule,
