@@ -1,14 +1,15 @@
+<h1>Connect pleroma account</h1>
 <mat-form-field>
-  <mat-label>Input ID</mat-label>
-  <input matInput placeholder="https://greenish.red/users/nokton" [(ngModel)]="idInput">
+  <mat-label>Insert your Pleroma ID</mat-label>
+  <input matInput placeholder="Format: 'https://greenish.red/users/nokton'" [(ngModel)]="idInput">
 </mat-form-field>
 <br>
 <button mat-raised-button color="primary" type="submit" (click)="submit()">Connect</button>
 
 <ul>
   <li *ngFor="let status of statuses">
-    Cite: {{status.actor}}
+    <cite>{{status.actor}}:</cite>
 
-    Content: {{status.object.content}};
+    <blockquote>{{status.object.content}}</blockquote>
   </li>
 </ul>
