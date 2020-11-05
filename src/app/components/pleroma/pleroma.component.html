@@ -1,7 +1,14 @@
 <h1>Connect pleroma account</h1>
+
+<p>Here you can connect this application to your <a href="https://pleroma.social/" target="_blank">Pleroma</a> account.<br>
+  Insert your the Pleroma instance and your ID (like 'https://pleroma.instance/users/&lt;yourNick&gt;') and submit.<br>
+  Please note that you'll be <strong>automatically redirected</strong> to the Pleroma site to login and authorize this
+  application.
+</p>
+
 <mat-form-field>
   <mat-label>Insert your Pleroma ID</mat-label>
-  <input matInput placeholder="Format: 'https://greenish.red/users/nokton'" [(ngModel)]="idInput">
+  <input matInput placeholder="Format: 'https://greenish.red/users/nokton'" [(ngModel)]="idInput" [disabled]="submitted">
 </mat-form-field>
 <br>
 <button mat-raised-button color="primary" type="submit" (click)="submit()">Connect</button>
