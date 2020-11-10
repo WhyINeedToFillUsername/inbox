@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {LocalStorageService} from './local-storage.service';
+import {BrowserStorageService} from './browser-storage.service';
 
 
 @Injectable({
@@ -10,6 +10,7 @@ import {LocalStorageService} from './local-storage.service';
 })
 export class PleromaService {
   public static readonly STORAGE_KEY_USERS = 'pleroma_users';
+  private static readonly STORAGE_TOKEN_KEY = 'token';
   private static readonly STORAGE_PREFIX_APP = 'inbox_app_data_';
   private static readonly CALLBACK_URI = location.origin + '/pleroma';
 
@@ -26,7 +27,7 @@ export class PleromaService {
 
     if (storageKey in localStorage) {
       console.log("App is already in local storage, loading.");
-      return of(LocalStorageService.loadFromLocalStorage(storageKey));
+      return of(BrowserStorageService.loadFromLocalStorage(storageKey));
 
     } else {
       console.log("App is not in local storage, retrieving...");
@@ -40,7 +41,7 @@ export class PleromaService {
       return this.http.post(oauthRegistrationEndpoint, body, options).pipe(
         map(app => {
           console.log('Registered app, saving to local storage: ', app);
-          LocalStorageService.saveToLocalStorage(storageKey, app);
+          BrowserStorageService.saveToLocalStorage(storageKey, app);
           return app;
         })
       );
@@ -58,7 +59,7 @@ export class PleromaService {
 
   getOAuthToken(code: string, apid: string, userEndpoints): Observable<any> {
     const storageKey = PleromaService.STORAGE_PREFIX_APP + btoa(userEndpoints.oauthRegistrationEndpoint);
-    const app = LocalStorageService.loadFromLocalStorage(storageKey);
+    const app = BrowserStorageService.loadFromLocalStorage(storageKey);
 
     const params = {
       grant_type: 'authorization_code',
@@ -72,16 +73,18 @@ export class PleromaService {
     return this.http.post(userEndpoints.oauthTokenEndpoint, params, {headers: {'Content-Type': 'application/json'}});
   }
 
-  getInbox(inboxUrl: string, token: string): Observable<any> {
-    return this.getWithToken(inboxUrl, token);
+  getWithToken(url: string): Observable<any> {
+    const token = BrowserStorageService.loadFromSession(PleromaService.STORAGE_TOKEN_KEY);
+    if (token) {
+      console.log("Getting ", url, " with token ", token);
+      return this.http.get(url, {headers: {Accept: 'application/activity+json', Authorization: 'Bearer ' + token}});
+    } else {
+      console.error("no token");
+      return throwError("no token");
+    }
   }
 
-  getInboxPage(inboxPageUrl: string, token: string): Observable<any> {
-    return this.getWithToken(inboxPageUrl, token);
-  }
-
-
-  private getWithToken(inboxUrl: string, token: string) {
-    return this.http.get(inboxUrl, {headers: {Accept: 'application/activity+json', Authorization: 'Bearer ' + token}});
+  saveToken(token) {
+    BrowserStorageService.saveToSession(PleromaService.STORAGE_TOKEN_KEY, token);
   }
 }
