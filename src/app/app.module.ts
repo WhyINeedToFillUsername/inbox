@@ -14,12 +14,14 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import { AppNavbarComponent } from './components/app-navbar/app-navbar.component';
+import { InruptComponent } from './components/inrupt/inrupt.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PleromaComponent,
     AppNavbarComponent,
+    InruptComponent,
   ],
   imports: [
     BrowserModule,
