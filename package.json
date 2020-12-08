@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --extra-webpack-config webpack.partial.js --verbose=true",
+    "start": "ng serve --extra-webpack-config webpack.partial.js",
     "build": "ng build --extra-webpack-config webpack.partial.js",
     "test": "ng test",
     "lint": "ng lint",

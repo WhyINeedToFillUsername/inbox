@@ -13,8 +13,8 @@
 <div id="read" class="panel">
   <div class="row">
     <label id="readlabel" for="webID">2. Enter a WebID: </label>
-    <input type="url" id="webID" size="50" pattern="https://.*" [value]="webID"
-           value="https://docs-example.inrupt.net/profile/card#me">
+    <input type="url" id="webID" size="50" pattern="https://.*" [(ngModel)]="webID" #webIdInput="ngModel"
+           placeholder="https://docs-example.inrupt.net/profile/card#me">
     <button name="btnRead" id="btnRead" (click)="readProfile()">Read Profile</button>
   </div>
   <dl class="display">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Session} from '@inrupt/solid-client-authn-browser';
 import {getSolidDataset, getStringNoLocale, getThing} from '@inrupt/solid-client';
 import {VCARD} from '@inrupt/vocab-common-rdf';
@@ -9,8 +9,8 @@ import {VCARD} from '@inrupt/vocab-common-rdf';
   styleUrls: ['./inrupt.component.css']
 })
 export class InruptComponent implements OnInit {
+  webID: string = 'https://docs-example.inrupt.net/profile/card#me';
 
-  webID: string;
   readonly session = new Session();
 
   constructor() {
@@ -49,6 +49,7 @@ export class InruptComponent implements OnInit {
 
   // 2. Read profile
   async readProfile() {
+    console.log('webid : ', this.webID);
     // Profile is public data; i.e., you do not need to be logged in to read the data.
     // For illustrative purposes, shows both an authenticated and non-authenticated reads.
 
@@ -73,6 +74,7 @@ export class InruptComponent implements OnInit {
     const role = getStringNoLocale(profile, VCARD.role);
 
     // Update the page with the retrieved values.
+    console.log(fn, role);
     document.getElementById('labelFN').textContent = fn;
     document.getElementById('labelRole').textContent = role;
   }
