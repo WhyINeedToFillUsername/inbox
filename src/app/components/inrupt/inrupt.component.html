@@ -1,1 +1,26 @@
-<p>inrupt works!</p>
+<header>
+  <h2>Getting Started</h2>
+  <h3>with Inrupt JavaScript Client Libraries</h3>
+</header>
+<section id="login" class="panel">
+  <div class="row">
+    <label id="labelLogin" for="btnLogin">1. Click the button to log in: </label>
+    <button name="btnLogin" id="btnLogin" (click)="login()">Login</button>
+    <p id="labelStatus"></p>
+  </div>
+</section>
+
+<div id="read" class="panel">
+  <div class="row">
+    <label id="readlabel" for="webID">2. Enter a WebID: </label>
+    <input type="url" id="webID" size="50" pattern="https://.*" [value]="webID"
+           value="https://docs-example.inrupt.net/profile/card#me">
+    <button name="btnRead" id="btnRead" (click)="readProfile()">Read Profile</button>
+  </div>
+  <dl class="display">
+    <dt>Formatted Name (FN):</dt>
+    <dd id="labelFN"></dd>
+    <dt>Role:</dt>
+    <dd id="labelRole"></dd>
+  </dl>
+</div>
