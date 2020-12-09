@@ -10,17 +10,6 @@
   </div>
 </section>
 
-<div id="read" class="panel">
-  <div class="row">
-    <label id="readlabel" for="webID">2. Enter a WebID: </label>
-    <input type="url" id="webID" size="50" pattern="https://.*" [(ngModel)]="webID" #webIdInput="ngModel"
-           placeholder="https://docs-example.inrupt.net/profile/card#me">
-    <button name="btnRead" id="btnRead" (click)="readProfile()">Read Profile</button>
-  </div>
-  <dl class="display">
-    <dt>Formatted Name (FN):</dt>
-    <dd>{{fn}}</dd>
-    <dt>Role:</dt>
-    <dd>{{role}}</dd>
-  </dl>
-</div>
+<button *ngIf="session.info.isLoggedIn" mat-raised-button color="primary" (click)="readInbox()">Read inbox</button>
+
+<button mat-raised-button color="accent" (click)="showSession()">showSession()</button>

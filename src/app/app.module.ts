@@ -15,6 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import { AppNavbarComponent } from './components/app-navbar/app-navbar.component';
 import { InruptComponent } from './components/inrupt/inrupt.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { InruptComponent } from './components/inrupt/inrupt.component';
     BrowserAnimationsModule,
     // material
     MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, MatIconModule, MatToolbarModule, MatMenuModule,
+    MatSnackBarModule,
 
     HttpClientModule,
   ],

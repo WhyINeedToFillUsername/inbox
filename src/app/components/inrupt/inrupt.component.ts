@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Session} from '@inrupt/solid-client-authn-browser';
-import {getSolidDataset, getStringNoLocale, getThing, SolidDataset} from '@inrupt/solid-client';
-import {VCARD} from '@inrupt/vocab-common-rdf';
+import {Session, SessionManager} from '@inrupt/solid-client-authn-browser';
+import {getFile, getSolidDataset, getThing, getUrlAll, SolidDataset} from '@inrupt/solid-client';
 import {InboxDiscoveryService} from "../../services/pleroma/discovery/inbox-discovery.service";
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {LDP} from "@inrupt/vocab-common-rdf";
 
 @Component({
   selector: 'app-inrupt',
@@ -15,9 +16,11 @@ export class InruptComponent implements OnInit {
   role: string;
 
   readonly session = new Session();
+  readonly sessionManager = new SessionManager();
 
   constructor(
-    private readonly inboxDiscoveryService: InboxDiscoveryService
+    private readonly inboxDiscoveryService: InboxDiscoveryService,
+    private _snackBar: MatSnackBar
   ) {
   }
 
@@ -44,44 +47,34 @@ export class InruptComponent implements OnInit {
     if (this.session.info.isLoggedIn) {
       // Update the page with the status.
       document.getElementById('labelStatus').textContent = 'Your session is logged in.';
-      document.getElementById('labelStatus').setAttribute('role', 'alert');
+      this._snackBar.open('Successfully logged in.', 'Dismiss', {duration: 5000});
     }
   }
 
-  // The example has the login redirect back to the index.html.
-  // This calls the function to process login information.
-  // If the function is called when not part of the login redirect, the function is a no-op.
+  readInbox() {
+    this.inboxDiscoveryService.retrieveInboxUrlFromWebId(this.session.info.webId)
+      .then(async inboxUrl => {
+          const inboxDataSet: SolidDataset = await getSolidDataset(inboxUrl, {fetch: this.session.fetch});
+          const inbox = getThing(inboxDataSet, inboxUrl);
 
-  // 2. Read profile
-  async readProfile() {
-    console.log('webid : ', this.webID);
-    // Profile is public data; i.e., you do not need to be logged in to read the data.
-    // For illustrative purposes, shows both an authenticated and non-authenticated reads.
+          const messages: string[] = getUrlAll(inbox, LDP.contains);
+          for (const messageURL of messages) {
+            console.log(messageURL);
+            const messageFile: Blob = await getFile(messageURL, {fetch: this.session.fetch});
+            messageFile.text().then(text => console.log(text))
+            // const messageDataSet: SolidDataset = await getSolidDataset(messageURL, {fetch: this.session.fetch});
+            // const messageThing = getThing(messageDataSet, messageURL);
+            // console.log(messageThing)
+          }
+        }
+      );
+  }
 
-    let myDataset: SolidDataset;
-    if (this.session.info.isLoggedIn) {
-      myDataset = await getSolidDataset(this.webID, {fetch: this.session.fetch});
-    } else {
-      myDataset = await getSolidDataset(this.webID);
-    }
-
-    const profile = getThing(myDataset, this.webID);
-
-    // Get the formatted name (fn) using the property identifier "http://www.w3.org/2006/vcard/ns#fn".
-    // VCARD.fn object is a convenience object that includes the identifier string "http://www.w3.org/2006/vcard/ns#fn".
-    // As an alternative, you can pass in the "http://www.w3.org/2006/vcard/ns#fn" string instead of VCARD.fn.
-
-    const fn = getStringNoLocale(profile, VCARD.fn);
-
-    // VCARD.role object is a convenience object that includes the identifier string "http://www.w3.org/2006/vcard/ns#role"
-    // As an alternative, you can pass in the "http://www.w3.org/2006/vcard/ns#role" string instead of VCARD.role.
-
-    const role = getStringNoLocale(profile, VCARD.role);
-
-    // Update the page with the retrieved values.
-    this.fn = fn;
-    this.role = role;
-
-    this.inboxDiscoveryService.retrieveInboxUrlFromWebId(this.webID).then(inboxUrl => console.log(inboxUrl));
+  showSession() {
+    this.sessionManager.getSession(this.session.info.sessionId).then(value =>
+      this._snackBar.open(JSON.stringify(value.info.isLoggedIn), 'Dismiss'),
+      error => this._snackBar.open(JSON.stringify(error), 'Dismiss'),
+    )
+    // this._snackBar.open(JSON.stringify(this.session.info), 'Dismiss');
   }
 }
