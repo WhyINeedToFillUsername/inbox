@@ -7,10 +7,7 @@ import {LDP} from "@inrupt/vocab-common-rdf";
 })
 export class InboxDiscoveryService {
 
-  constructor() {
-  }
-
-  async retrieveInboxUrlFromWebId(webID: string): Promise<string> {
+  static async retrieveInboxUrlFromWebId(webID: string): Promise<string> {
     const myDataset: SolidDataset = await getSolidDataset(webID);
     const profile = getThing(myDataset, webID);
     return getUrl(profile, LDP.inbox);

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Session, SessionManager} from '@inrupt/solid-client-authn-browser';
 import {getFile, getSolidDataset, getThing, getUrlAll, SolidDataset} from '@inrupt/solid-client';
-import {InboxDiscoveryService} from "../../services/pleroma/discovery/inbox-discovery.service";
+import {InboxDiscoveryService} from "../../services/discovery/inbox-discovery.service";
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {LDP} from "@inrupt/vocab-common-rdf";
 
@@ -19,7 +19,6 @@ export class InruptComponent implements OnInit {
   readonly sessionManager = new SessionManager();
 
   constructor(
-    private readonly inboxDiscoveryService: InboxDiscoveryService,
     private _snackBar: MatSnackBar
   ) {
   }
@@ -52,7 +51,7 @@ export class InruptComponent implements OnInit {
   }
 
   readInbox() {
-    this.inboxDiscoveryService.retrieveInboxUrlFromWebId(this.session.info.webId)
+    InboxDiscoveryService.retrieveInboxUrlFromWebId(this.session.info.webId)
       .then(async inboxUrl => {
           const inboxDataSet: SolidDataset = await getSolidDataset(inboxUrl, {fetch: this.session.fetch});
           const inbox = getThing(inboxDataSet, inboxUrl);

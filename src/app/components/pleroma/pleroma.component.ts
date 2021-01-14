@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PleromaService} from '../../services/pleroma.service';
+import {PleromaService} from '../../services/pleroma/pleroma.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BrowserStorageService} from '../../services/browser-storage.service';
 import {of, Subject} from 'rxjs';
