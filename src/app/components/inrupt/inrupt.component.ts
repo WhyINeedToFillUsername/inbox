@@ -5,16 +5,27 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {LDP} from "@inrupt/vocab-common-rdf";
 import {InruptService} from "../../services/inrupt/inrupt.service";
 import {InboxMessage} from "./model/inbox.message";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-inrupt',
   templateUrl: './inrupt.component.html',
-  styleUrls: ['./inrupt.component.css']
+  styleUrls: ['./inrupt.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class InruptComponent implements OnInit {
   working: boolean = false;
   inboxUrl: string;
+
   messages: InboxMessage[];
+  columnsToDisplay = ['url', 'type'];
+  expandedElement: InboxMessage | null;
 
   constructor(
     readonly inruptService: InruptService,
@@ -55,16 +66,16 @@ export class InruptComponent implements OnInit {
           const inbox = getThing(inboxDataSet, inboxUrl);
 
           this.inboxUrl = inboxUrl;
-          this.messages = new Array<InboxMessage>();
+          let messagesForTable = new Array<InboxMessage>();
 
           const messages: string[] = getUrlAll(inbox, LDP.contains);
           for (const messageURL of messages) {
-            console.log(messageURL);
             const messageFile: Blob = await getFile(messageURL, {fetch: this.inruptService.session.fetch});
             messageFile.text().then(text => {
-              this.messages.push({url: messageURL, content: text})
+              messagesForTable.push({url: messageURL, content: text, type: messageFile.type})
             })
           }
+          this.messages = messagesForTable;
         },
         error =>
           this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss')

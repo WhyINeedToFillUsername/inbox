@@ -16,6 +16,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {AppNavbarComponent} from './components/app-navbar/app-navbar.component';
 import {InruptComponent} from './components/inrupt/inrupt.component';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatTableModule} from "@angular/material/table";
+import {TestComponent} from "./test/test.component";
 
 @NgModule({
   declarations: [
@@ -30,7 +32,7 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/materia
     BrowserAnimationsModule,
     // material
     MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, MatIconModule, MatToolbarModule, MatMenuModule,
-    MatSnackBarModule,
+    MatSnackBarModule, MatTableModule,
 
     HttpClientModule,
   ],
