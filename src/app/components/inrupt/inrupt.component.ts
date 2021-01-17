@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {getFile, getSolidDataset, getThing, getUrlAll, SolidDataset} from '@inrupt/solid-client';
 import {InboxDiscoveryService} from "../../services/discovery/inbox-discovery.service";
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {LDP} from "@inrupt/vocab-common-rdf";
 import {InruptService} from "../../services/inrupt/inrupt.service";
 import {InboxMessage} from "./model/inbox.message";
 import {animate, state, style, transition, trigger} from "@angular/animations";
@@ -22,6 +20,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 export class InruptComponent implements OnInit {
   working: boolean = false;
   inboxUrl: string;
+  webId: string;
 
   messages: InboxMessage[];
   columnsToDisplay = ['url', 'type'];
@@ -56,33 +55,25 @@ export class InruptComponent implements OnInit {
       this._snackBar.open('Successfully logged in.', 'Dismiss');
     });
     await this.inruptService.session.handleIncomingRedirect(window.location.href);
+    this.webId = this.inruptService.getWebId();
   }
 
   readInbox() {
+    if (!this.webId) this.login();
     this.working = true;
-    InboxDiscoveryService.retrieveInboxUrlFromWebId(this.inruptService.session.info.webId)
-      .then(async inboxUrl => {
-          const inboxDataSet: SolidDataset = await getSolidDataset(inboxUrl, {fetch: this.inruptService.session.fetch});
-          const inbox = getThing(inboxDataSet, inboxUrl);
+    InboxDiscoveryService.retrieveInboxUrlFromWebId(this.webId)
+      .then(inboxUrl => {
 
-          this.inboxUrl = inboxUrl;
-          let messagesForTable = new Array<InboxMessage>();
+        this.inruptService.getMessagesFromInbox(inboxUrl)
+          .then(messages => this.messages = messages)
+          .catch(error => {this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss');})
+          .finally(() => this.working = false);
 
-          const messages: string[] = getUrlAll(inbox, LDP.contains);
-          for (const messageURL of messages) {
-            const messageFile: Blob = await getFile(messageURL, {fetch: this.inruptService.session.fetch});
-            messageFile.text().then(text => {
-              messagesForTable.push({url: messageURL, content: text, type: messageFile.type})
-            })
-          }
-          this.messages = messagesForTable;
-        },
-        error =>
-          this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss')
+      })
+      .catch(error => {
+          this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss');
+          this.working = false
+        }
       )
-      .catch(error =>
-        this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss')
-      )
-      .finally(() => this.working = false)
   }
 }

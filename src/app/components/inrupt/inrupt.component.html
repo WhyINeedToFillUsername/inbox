@@ -2,11 +2,11 @@
 <section id="login" class="panel">
   <div class="row" *ngIf="inruptService.session.info.isLoggedIn; then thenBlock else elseBlock"></div>
   <ng-template #thenBlock>
-    You are logged in!
+    User logged in: <em>{{webId}}</em>
     <button mat-raised-button color="accent" (click)="logout()">Logout</button>
   </ng-template>
   <ng-template #elseBlock>
-    <label id="labelLogin" for="btnLogin">Start by logging in:</label><br>
+    <h2>Start by logging in:</h2>
     <button mat-raised-button color="primary" id="btnLogin" (click)="login()">Login</button>
   </ng-template>
 </section>
@@ -14,6 +14,8 @@
 <button *ngIf="inruptService.session.info.isLoggedIn" mat-raised-button color="primary" (click)="readInbox()"
         [disabled]="working" [class.spinner]="working">Read inbox
 </button>
+
+<br>
 
 <div *ngIf="messages">
   <h2>inbox messages: <em>{{inboxUrl}}</em></h2>
