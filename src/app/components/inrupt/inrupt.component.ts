@@ -11,6 +11,7 @@ import {InruptService} from "../../services/inrupt/inrupt.service";
   styleUrls: ['./inrupt.component.css']
 })
 export class InruptComponent implements OnInit {
+  working: boolean = false;
 
   constructor(
     readonly inruptService: InruptService,
@@ -22,7 +23,6 @@ export class InruptComponent implements OnInit {
     this.handleRedirectAfterLogin();
   }
 
-  // 1a. Start Login Process. Call session.login() function.
   async login() {
     if (!this.inruptService.session.info.isLoggedIn) {
       await this.inruptService.session.login({
@@ -32,24 +32,24 @@ export class InruptComponent implements OnInit {
     }
   }
 
-  // 1b. Login Redirect. Call session.handleIncomingRedirect() function.
-  // When redirected after login, finish the process by retrieving session information.
+  logout() {
+    this.inruptService.logout();
+    window.location.reload();
+  }
+
   async handleRedirectAfterLogin() {
-
+    this.inruptService.session.onLogin(() => this._snackBar.open('Successfully logged in.', 'Dismiss'));
     await this.inruptService.session.handleIncomingRedirect(window.location.href);
-
-    if (this.inruptService.session.info.isLoggedIn) {
-      // Update the page with the status.
-      document.getElementById('labelStatus').textContent = 'Your session is logged in.';
-      this._snackBar.open('Successfully logged in.', 'Dismiss', {duration: 5000});
-    }
   }
 
   readInbox() {
+    this.working = true;
     InboxDiscoveryService.retrieveInboxUrlFromWebId(this.inruptService.session.info.webId)
       .then(async inboxUrl => {
-        const inboxDataSet: SolidDataset = await getSolidDataset(inboxUrl, {fetch: this.inruptService.session.fetch});
-        const inbox = getThing(inboxDataSet, inboxUrl);
+          const inboxDataSet: SolidDataset = await getSolidDataset(inboxUrl, {fetch: this.inruptService.session.fetch});
+          const inbox = getThing(inboxDataSet, inboxUrl);
+
+          console.log(inbox);
 
           const messages: string[] = getUrlAll(inbox, LDP.contains);
           for (const messageURL of messages) {
@@ -60,15 +60,14 @@ export class InruptComponent implements OnInit {
             // const messageThing = getThing(messageDataSet, messageURL);
             // console.log(messageThing)
           }
-        }
-      );
-  }
-
-  showSession() {
-    this.inruptService.sessionManager.getSession(this.inruptService.session.info.sessionId).then(value =>
-        this._snackBar.open(JSON.stringify(value.info.isLoggedIn), 'Dismiss'),
-      error => this._snackBar.open(JSON.stringify(error), 'Dismiss'),
-    )
-    // this._snackBar.open(JSON.stringify(this.session.info), 'Dismiss');
+          // this.working = false;
+        },
+        error =>
+          this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss')
+      )
+      .catch(error =>
+        this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss')
+      )
+      .finally(() => this.working = false)
   }
 }

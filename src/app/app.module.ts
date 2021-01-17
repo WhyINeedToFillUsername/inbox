@@ -13,9 +13,9 @@ import {HttpClientModule} from '@angular/common/http';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
-import { AppNavbarComponent } from './components/app-navbar/app-navbar.component';
-import { InruptComponent } from './components/inrupt/inrupt.component';
-import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {AppNavbarComponent} from './components/app-navbar/app-navbar.component';
+import {InruptComponent} from './components/inrupt/inrupt.component';
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 
     HttpClientModule,
   ],
-  providers: [],
+  providers: [{provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 10000}}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
