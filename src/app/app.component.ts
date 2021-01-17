@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {MonitorInboxesService} from "./services/monitor-inboxes/monitor-inboxes.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'inbox';
+
+  constructor(private readonly _monitorInboxesService: MonitorInboxesService) {
+    _monitorInboxesService.startMonitoring();
+  }
 }
