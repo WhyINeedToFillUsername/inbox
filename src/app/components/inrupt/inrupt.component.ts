@@ -4,6 +4,7 @@ import {InboxDiscoveryService} from "../../services/discovery/inbox-discovery.se
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {LDP} from "@inrupt/vocab-common-rdf";
 import {InruptService} from "../../services/inrupt/inrupt.service";
+import {InboxMessage} from "./model/inbox.message";
 
 @Component({
   selector: 'app-inrupt',
@@ -12,6 +13,8 @@ import {InruptService} from "../../services/inrupt/inrupt.service";
 })
 export class InruptComponent implements OnInit {
   working: boolean = false;
+  inboxUrl: string;
+  messages: InboxMessage[];
 
   constructor(
     readonly inruptService: InruptService,
@@ -38,7 +41,9 @@ export class InruptComponent implements OnInit {
   }
 
   async handleRedirectAfterLogin() {
-    this.inruptService.session.onLogin(() => this._snackBar.open('Successfully logged in.', 'Dismiss'));
+    this.inruptService.session.onLogin(() => {
+      this._snackBar.open('Successfully logged in.', 'Dismiss');
+    });
     await this.inruptService.session.handleIncomingRedirect(window.location.href);
   }
 
@@ -49,18 +54,17 @@ export class InruptComponent implements OnInit {
           const inboxDataSet: SolidDataset = await getSolidDataset(inboxUrl, {fetch: this.inruptService.session.fetch});
           const inbox = getThing(inboxDataSet, inboxUrl);
 
-          console.log(inbox);
+          this.inboxUrl = inboxUrl;
+          this.messages = new Array<InboxMessage>();
 
           const messages: string[] = getUrlAll(inbox, LDP.contains);
           for (const messageURL of messages) {
             console.log(messageURL);
             const messageFile: Blob = await getFile(messageURL, {fetch: this.inruptService.session.fetch});
-            messageFile.text().then(text => console.log(text))
-            // const messageDataSet: SolidDataset = await getSolidDataset(messageURL, {fetch: this.session.fetch});
-            // const messageThing = getThing(messageDataSet, messageURL);
-            // console.log(messageThing)
+            messageFile.text().then(text => {
+              this.messages.push({url: messageURL, content: text})
+            })
           }
-          // this.working = false;
         },
         error =>
           this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss')

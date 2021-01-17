@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Session, SessionManager} from "@inrupt/solid-client-authn-browser";
+import {Session} from "@inrupt/solid-client-authn-browser";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({

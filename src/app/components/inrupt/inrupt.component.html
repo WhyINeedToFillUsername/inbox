@@ -14,3 +14,10 @@
 <button *ngIf="inruptService.session.info.isLoggedIn" mat-raised-button color="primary" (click)="readInbox()"
         [disabled]="working" [class.spinner]="working">Read inbox
 </button>
+
+<div *ngIf="messages">
+  <h2>inbox detail: <em>{{inboxUrl}}</em></h2>
+  <ul>
+    <li *ngFor="let message of messages">{{message.url}}</li>
+  </ul>
+</div>
