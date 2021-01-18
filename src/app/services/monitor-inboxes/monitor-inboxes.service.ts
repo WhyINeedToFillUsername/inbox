@@ -53,9 +53,14 @@ export class MonitorInboxesService {
     socket.onmessage = this.onmessageCallback(inboxUrl, this._snackBar);
   }
 
-  private static getWsUrlFromInboxUrl(inboxUrl: string) {
-    //TODO implement
-    return "wss://solidcommunity.net/";
+  static getWsUrlFromInboxUrl(inboxUrl: string) {
+    const urlParts = new URL(inboxUrl).hostname.split('.')
+
+    const urlWithoutSubdomain = urlParts
+      .slice(0)
+      .slice(-(urlParts.length === 4 ? 3 : 2))
+      .join('.');
+    return "wss://" + urlWithoutSubdomain + "/";
   }
 
   private onmessageCallback = function (inboxUrl: string, _snackBar: MatSnackBar) {
