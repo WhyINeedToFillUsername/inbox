@@ -17,7 +17,7 @@ export class InruptService {
 
   logout() {
     this.session.logout()
-      .then(() => this._snackBar.open("Logged out!", "Dismiss"));
+      .then(() => {this._snackBar.open("Logged out!", "Dismiss")});
   }
 
   getWebId(): string {

@@ -1,6 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { InruptComponent } from './inrupt.component';
+import {InruptComponent} from './inrupt.component';
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Overlay} from "@angular/cdk/overlay";
 
 describe('InruptComponent', () => {
   let component: InruptComponent;
@@ -8,7 +10,8 @@ describe('InruptComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InruptComponent ]
+      declarations: [InruptComponent],
+      providers: [MatSnackBar, Overlay]
     })
     .compileComponents();
   });

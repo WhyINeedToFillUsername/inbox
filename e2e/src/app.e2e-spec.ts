@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('inbox app is running!');
+    expect(page.getNavbarHomeLinkText()).toEqual('inbox');
   });
 
   afterEach(async () => {

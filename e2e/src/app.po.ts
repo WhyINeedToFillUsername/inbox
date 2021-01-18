@@ -5,7 +5,7 @@ export class AppPage {
     return browser.get(browser.baseUrl) as Promise<unknown>;
   }
 
-  getTitleText(): Promise<string> {
-    return element(by.css('app-root .content span')).getText() as Promise<string>;
+  getNavbarHomeLinkText(): Promise<string> {
+    return element(by.css('app-root app-navbar a#home')).getText() as Promise<string>;
   }
 }
