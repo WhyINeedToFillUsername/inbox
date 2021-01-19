@@ -1142,10 +1142,10 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@inrupt/oidc-client-ext@^1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@inrupt/oidc-client-ext/-/oidc-client-ext-1.4.1.tgz#410e361a8951ffefc65ef072addb7031687b977a"
-  integrity sha512-C0+j888qexF3JWLq9UpvW0Ao3XEPiaVdIsl92T7aXRBRj0Nao54SXsq2Cy496dAtkWgJiZ3bH/V7rtjWbgWDYg==
+"@inrupt/oidc-client-ext@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@inrupt/oidc-client-ext/-/oidc-client-ext-1.4.2.tgz#80ada0688c227620be9a35d81b9dd0f0fbd380db"
+  integrity sha512-nCEG14SPp4eZiulG6Yw6UjVqJxs0PPYnJfMfzs5rUHhvXQwOVP34hqEdPbg/MJeKVDZkqI596kPS6A6kxpT4XQ==
   dependencies:
     "@types/form-urlencoded" "^2.0.1"
     "@types/jsonwebtoken" "^8.5.0"
@@ -1158,13 +1158,13 @@
     oidc-client "^1.10.1"
     uuid "^8.3.1"
 
-"@inrupt/solid-client-authn-browser@^1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-browser/-/solid-client-authn-browser-1.4.1.tgz#19ba0834a47b1f3fe99b8e1ff5754333df592efb"
-  integrity sha512-yGU4jUIZ9BRyZQh7KpCpNGJzLCs5C7GpCT6RA1XMg7ilF4SXlvJWtft+6zBp5eip/VDerd9fTMlMxF/m516xmg==
+"@inrupt/solid-client-authn-browser@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-browser/-/solid-client-authn-browser-1.4.2.tgz#9b78554b6e01ff6ca44350a39bda258aaa70eebd"
+  integrity sha512-Lq5ZKr8maNfdRDeZSYAyjd51MR7Sf8zq/30126x80yddFFNmIAXjUU/7WsJiQxforQGy7z2khSzAujRoE3CnfQ==
   dependencies:
-    "@inrupt/oidc-client-ext" "^1.4.1"
-    "@inrupt/solid-client-authn-core" "^1.4.1"
+    "@inrupt/oidc-client-ext" "^1.4.2"
+    "@inrupt/solid-client-authn-core" "^1.4.2"
     "@types/form-urlencoded" "^2.0.1"
     "@types/lodash.clonedeep" "^4.5.6"
     "@types/node" "^14.14.14"
@@ -1180,10 +1180,10 @@
     util "^0.12.3"
     uuid "^8.3.1"
 
-"@inrupt/solid-client-authn-core@^1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-core/-/solid-client-authn-core-1.4.1.tgz#d7ace79298727f258239279db2b378b05737c58a"
-  integrity sha512-/OF1MEiv+gFjqbLeXwJTjDQD0tm2TcVt1H3s29NyL31JLsrl1JjPtgDIHuwpkP3EaATRouF62DvSY7kSMjxI2Q==
+"@inrupt/solid-client-authn-core@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-core/-/solid-client-authn-core-1.4.2.tgz#ecb78d39402caa0acf786759da8d4673b83df9db"
+  integrity sha512-KA704AbvLEjCosyGOSbIW8pPqhERIKhjzTyXCVLE3/94vaCR1ICheYVwaAgAL4BnzO/rlqqjQhkriAbqlny+/g==
   dependencies:
     "@inrupt/solid-common-vocab" "^0.5.3"
     "@types/lodash.clonedeep" "^4.5.6"
