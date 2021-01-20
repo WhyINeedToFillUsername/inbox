@@ -1,14 +1,14 @@
-<mat-form-field>
+<mat-form-field appearance="fill">
   <mat-label>Add inbox url to monitor</mat-label>
   <input matInput placeholder="Format: 'https://tonda.solidcommunity.net/inbox/'" [(ngModel)]="inboxUrl">
 </mat-form-field>
-<br>
 <button mat-raised-button color="primary" type="submit" (click)="startMonitoring()">Start monitoring</button>
 
 <h2>Monitored inboxes:</h2>
-<ul *ngIf="monitoredInboxes?.length > 0; else elseBlock">
-  <li *ngFor="let inboxUrl of monitoredInboxes">{{inboxUrl}}
+<mat-list *ngIf="monitoredInboxes?.length > 0; else elseBlock">
+  <mat-list-item *ngFor="let inboxUrl of monitoredInboxes">
+    {{inboxUrl}}
     <button mat-icon-button color="warn" aria-label="Stop monitoring" (click)="stopMonitoring(inboxUrl)"><mat-icon>delete</mat-icon></button>
-  </li>
-</ul>
+  </mat-list-item>
+</mat-list>
 <ng-template #elseBlock>(no monitored inboxes)</ng-template>

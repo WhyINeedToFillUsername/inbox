@@ -33,7 +33,7 @@ import { MonitorInboxesComponent } from './components/monitor-inboxes/monitor-in
     BrowserAnimationsModule,
     // material
     MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, MatIconModule, MatToolbarModule, MatMenuModule,
-    MatSnackBarModule, MatTableModule,
+    MatSnackBarModule, MatTableModule, MatListModule,
 
     HttpClientModule,
   ],

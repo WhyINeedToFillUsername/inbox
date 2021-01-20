@@ -8,6 +8,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class MonitorInboxesService {
 
   public static readonly MONITORED_INBOXES_STORAGE_KEY: string = "MONITORED_INBOXES_STORAGE_KEY";
+  private static readonly WS_SOLID_PROTOCOL = 'solid.0.1.0-alpha'; // originally 'solid/0.1.0-alpha', now 'solid-0.1'
 
   constructor(private readonly _snackBar: MatSnackBar) {
   }
@@ -48,7 +49,7 @@ export class MonitorInboxesService {
   }
 
   private connect(inboxUrl: string, connectNew: boolean = false) {
-    let socket = new WebSocket(MonitorInboxesService.getWsUrlFromInboxUrl(inboxUrl), 'solid.0.1.0-alpha'); //solid/0.1.0-alpha
+    let socket = new WebSocket(MonitorInboxesService.getWsUrlFromInboxUrl(inboxUrl), MonitorInboxesService.WS_SOLID_PROTOCOL);
     socket.onopen = this.onopenCallback(inboxUrl, this._snackBar, connectNew);
     socket.onmessage = this.onmessageCallback(inboxUrl, this._snackBar);
   }
