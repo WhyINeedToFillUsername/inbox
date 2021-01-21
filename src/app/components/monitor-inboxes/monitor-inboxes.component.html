@@ -27,7 +27,8 @@
     Enable system notification
   </button>
 
-  <button *ngIf="notificationPermission === 'granted'" mat-raised-button color="accent" (click)="testNotification()">
+  <button *ngIf="notificationPermission === 'granted'" mat-raised-button color="accent" (click)="testNotification()"
+          [disabled]="!notificationsSystemSupports || (notificationPermission === 'denied') || (notificationPermission === 'default')">
     Test system notification
   </button>
 </div>
