@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BrowserStorageService} from "../browser-storage.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {SystemNotificationsService} from "../system-notifications/system-notifications.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ export class MonitorInboxesService {
   public static readonly MONITORED_INBOXES_STORAGE_KEY: string = "MONITORED_INBOXES_STORAGE_KEY";
   private static readonly WS_SOLID_PROTOCOL = 'solid.0.1.0-alpha'; // originally 'solid/0.1.0-alpha', now 'solid-0.1'
 
-  constructor(private readonly _snackBar: MatSnackBar) {
+  constructor(private readonly _snackBar: MatSnackBar,
+              private readonly _systemNotificationsService: SystemNotificationsService) {
   }
 
   startMonitoring() {
@@ -51,7 +53,7 @@ export class MonitorInboxesService {
   private connect(inboxUrl: string, connectNew: boolean = false) {
     let socket = new WebSocket(MonitorInboxesService.getWsUrlFromInboxUrl(inboxUrl), MonitorInboxesService.WS_SOLID_PROTOCOL);
     socket.onopen = this.onopenCallback(inboxUrl, this._snackBar, connectNew);
-    socket.onmessage = this.onmessageCallback(inboxUrl, this._snackBar);
+    socket.onmessage = this.onmessageCallback(inboxUrl, this._snackBar, this._systemNotificationsService);
   }
 
   static getWsUrlFromInboxUrl(inboxUrl: string) {
@@ -64,12 +66,13 @@ export class MonitorInboxesService {
     return "wss://" + urlWithoutSubdomain + "/";
   }
 
-  private onmessageCallback = function (inboxUrl: string, _snackBar: MatSnackBar) {
+  private onmessageCallback = function (inboxUrl: string, _snackBar: MatSnackBar, _systemNotificationsService: SystemNotificationsService) {
     return function (msg) {
       console.log("message:", msg);
       if (msg.data && msg.data.slice(0, 3) === 'pub') {
         // resource updated, refetch resource
         _snackBar.open("You got new message on the inbox " + inboxUrl, "Dismiss");
+        _systemNotificationsService.notify("New inbox message", "You got new message on the inbox " + inboxUrl);
       }
     };
   }

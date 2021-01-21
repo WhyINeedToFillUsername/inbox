@@ -34,7 +34,7 @@
 </div>
 
 <h2>Monitored inboxes:</h2>
-<mat-list *ngIf="monitoredInboxes?.length > 0; else elseBlock">
+<mat-list *ngIf="monitoredInboxes?.length > 0; else elseBlockMonitor">
   <mat-list-item *ngFor="let inboxUrl of monitoredInboxes">
     {{inboxUrl}}
     <button mat-icon-button color="warn" aria-label="Stop monitoring" (click)="stopMonitoring(inboxUrl)">
@@ -42,4 +42,4 @@
     </button>
   </mat-list-item>
 </mat-list>
-<ng-template #elseBlock>(no monitored inboxes)</ng-template>
+<ng-template #elseBlockMonitor>(no monitored inboxes)</ng-template>
