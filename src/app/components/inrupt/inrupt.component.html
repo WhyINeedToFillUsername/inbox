@@ -7,6 +7,10 @@
   </ng-template>
   <ng-template #elseBlock>
     <h2>Start by logging in:</h2>
+    <mat-form-field appearance="fill">
+      <mat-label>1st specify OIDC issuer (where you want to log in, inrupt or solid):</mat-label>
+      <input matInput type="url" [(ngModel)]="oidcIssuer">
+    </mat-form-field>
     <button mat-raised-button color="primary" id="btnLogin" (click)="login()">Login</button>
   </ng-template>
 </section>
