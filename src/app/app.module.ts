@@ -17,8 +17,9 @@ import {AppNavbarComponent} from './components/app-navbar/app-navbar.component';
 import {InruptComponent} from './components/inrupt/inrupt.component';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatTableModule} from "@angular/material/table";
-import { MonitorInboxesComponent } from './components/monitor-inboxes/monitor-inboxes.component';
+import {MonitorInboxesComponent} from './components/monitor-inboxes/monitor-inboxes.component';
 import {MatListModule} from "@angular/material/list";
+import {SendMessageComponent} from "./components/send-message/send-message.component";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {MatListModule} from "@angular/material/list";
     AppNavbarComponent,
     InruptComponent,
     MonitorInboxesComponent,
+    SendMessageComponent,
   ],
   imports: [
     BrowserModule,
