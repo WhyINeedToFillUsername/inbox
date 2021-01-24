@@ -6,6 +6,7 @@
     "start": "ng serve --extra-webpack-config webpack.partial.js",
     "build": "ng build --extra-webpack-config webpack.partial.js",
     "test": "ng test --extra-webpack-config webpack.partial.js",
+    "test-headless": "ng test --watch=false --browsers=ChromeHeadless --extra-webpack-config webpack.partial.js",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
