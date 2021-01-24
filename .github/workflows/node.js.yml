@@ -30,6 +30,5 @@ jobs:
     - name: build
       run: yarn run build
     - name: test
-      run: yarn run test
-    - run: npm test
+      run: yarn run test-headless
       
