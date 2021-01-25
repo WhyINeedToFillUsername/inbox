@@ -24,7 +24,7 @@ export class InruptComponent implements OnInit {
   oidcIssuer: string = 'https://inrupt.net'; // 'https://solidcommunity.net' or 'https://inrupt.net'
 
   messages: InboxMessage[];
-  columnsToDisplay = ['url', 'type'];
+  columnsToDisplay = ['created', 'url', 'type'];
   expandedElement: InboxMessage | null;
 
   constructor(
@@ -58,10 +58,7 @@ export class InruptComponent implements OnInit {
     this.inruptService.session.handleIncomingRedirect(window.location.href)
       .then(sessionInfo => {
         this.webId = sessionInfo.webId;
-        console.log(sessionInfo)
-      }).finally(() => console.log("finally handle"));
-
-    this.webId = this.inruptService.getWebId();
+      });
   }
 
   readInbox() {
@@ -71,7 +68,7 @@ export class InruptComponent implements OnInit {
       .then(inboxUrl => {
 
         this.inruptService.getMessagesFromInbox(inboxUrl)
-          .then(messages => this.messages = messages)
+          .then(messages => {this.messages = InruptService.sortMessagesByDateDesc(messages);})
           .catch(error => {this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss');})
           .finally(() => this.working = false);
 
