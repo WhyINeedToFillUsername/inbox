@@ -7,13 +7,11 @@ import {
   getFile,
   getSolidDataset,
   getThing,
-  SolidDataset,
   Thing,
   UrlString
 } from "@inrupt/solid-client";
 import {InboxMessage} from "../../components/inrupt/model/inbox.message";
 import {DCTERMS} from "@inrupt/vocab-common-rdf";
-import {WithServerResourceInfo} from "@inrupt/solid-client/src/interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +35,7 @@ export class InruptService {
   getMessagesFromInbox(inboxUrl: string): Promise<InboxMessage[]> {
     return new Promise(async (resolve, reject) => {
       try {
-        const inboxDataSet: SolidDataset & WithServerResourceInfo = await getSolidDataset(inboxUrl, {fetch: this.session.fetch});
+        const inboxDataSet = await getSolidDataset(inboxUrl, {fetch: this.session.fetch});
         const inboxMessagesUrls: UrlString[] = getContainedResourceUrlAll(inboxDataSet);
 
         let messagesForTable = new Array<InboxMessage>();
