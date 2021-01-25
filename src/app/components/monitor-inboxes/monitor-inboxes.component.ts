@@ -37,7 +37,6 @@ export class MonitorInboxesComponent implements OnInit {
   setEnableButtonState() {
     this.notificationsSystemSupports = 'Notification' in window;
     this.notificationPermission = Notification.permission;
-    console.log(this.notificationPermission);
   }
 
   enableSystemNotification() {

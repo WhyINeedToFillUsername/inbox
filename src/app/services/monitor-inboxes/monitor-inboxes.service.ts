@@ -81,7 +81,7 @@ export class MonitorInboxesService {
     return function () {
       this.send('sub ' + inboxUrl);
       console.log("subscribed to ", inboxUrl);
-      if (connectNew) _snackBar.open("Successfully added inbox url to monitor: " + inboxUrl, "Dismiss");
+      if (connectNew) _snackBar.open("Successfully added inbox to monitor: " + inboxUrl, "Dismiss");
     }
   }
 }
