@@ -1,6 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SendMessageComponent } from './send-message.component';
+import {SendMessageComponent} from './send-message.component';
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Overlay} from "@angular/cdk/overlay";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('SendMessageComponent', () => {
   let component: SendMessageComponent;
@@ -8,7 +11,9 @@ describe('SendMessageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SendMessageComponent ]
+      declarations: [SendMessageComponent],
+      imports: [HttpClientTestingModule],
+      providers: [MatSnackBar, Overlay]
     })
     .compileComponents();
   });
