@@ -1,9 +1,19 @@
 import {Injectable} from '@angular/core';
 import {Session} from "@inrupt/solid-client-authn-browser";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {getFile, getSolidDataset, getThing, getUrlAll, SolidDataset} from "@inrupt/solid-client";
+import {
+  getContainedResourceUrlAll,
+  getDatetime,
+  getFile,
+  getSolidDataset,
+  getThing,
+  SolidDataset,
+  Thing,
+  UrlString
+} from "@inrupt/solid-client";
 import {InboxMessage} from "../../components/inrupt/model/inbox.message";
-import {LDP} from "@inrupt/vocab-common-rdf";
+import {DCTERMS} from "@inrupt/vocab-common-rdf";
+import {WithServerResourceInfo} from "@inrupt/solid-client/src/interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -27,23 +37,32 @@ export class InruptService {
   getMessagesFromInbox(inboxUrl: string): Promise<InboxMessage[]> {
     return new Promise(async (resolve, reject) => {
       try {
-        const inboxDataSet: SolidDataset = await getSolidDataset(inboxUrl, {fetch: this.session.fetch});
-        const inbox = getThing(inboxDataSet, inboxUrl);
+        const inboxDataSet: SolidDataset & WithServerResourceInfo = await getSolidDataset(inboxUrl, {fetch: this.session.fetch});
+        const inboxMessagesUrls: UrlString[] = getContainedResourceUrlAll(inboxDataSet);
 
         let messagesForTable = new Array<InboxMessage>();
 
-        const messages: string[] = getUrlAll(inbox, LDP.contains);
-        for (const messageURL of messages) {
-          const messageFile: Blob = await getFile(messageURL, {fetch: this.session.fetch});
+        for (const inboxMessageUrl of inboxMessagesUrls) {
+          const inboxMessage: Thing = getThing(inboxDataSet, inboxMessageUrl)
+          const created: Date = getDatetime(inboxMessage, DCTERMS.modified);
+          const messageFile: Blob = await getFile(inboxMessageUrl, {fetch: this.session.fetch});
+
           messageFile.text().then(text => {
-            messagesForTable.push({url: messageURL, content: text, type: messageFile.type})
-          })
+            messagesForTable.push({
+              url: inboxMessageUrl, content: text, type: messageFile.type, created: created
+            })
+          });
         }
         resolve(messagesForTable);
       } catch (err) {
         reject(err)
       }
     });
+  }
 
+  static sortMessagesByDateDesc(messages: InboxMessage[]): InboxMessage[] {
+    return messages.sort((a, b) => {
+      return b.created.getTime() - a.created.getTime()
+    });
   }
 }
