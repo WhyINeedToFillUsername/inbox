@@ -1158,7 +1158,7 @@
     oidc-client "^1.10.1"
     uuid "^8.3.1"
 
-"@inrupt/solid-client-authn-browser@^1.4.2":
+"@inrupt/solid-client-authn-browser@1.4.2":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-browser/-/solid-client-authn-browser-1.4.2.tgz#9b78554b6e01ff6ca44350a39bda258aaa70eebd"
   integrity sha512-Lq5ZKr8maNfdRDeZSYAyjd51MR7Sf8zq/30126x80yddFFNmIAXjUU/7WsJiQxforQGy7z2khSzAujRoE3CnfQ==
@@ -1193,7 +1193,7 @@
     lodash.clonedeep "^4.5.0"
     uuid "^8.3.1"
 
-"@inrupt/solid-client@^1.3.0":
+"@inrupt/solid-client@1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@inrupt/solid-client/-/solid-client-1.3.0.tgz#777f1fe34a89e78a123399da8c035d72f10ff77d"
   integrity sha512-ykWSdNrggngpTToiMSiLteqCMgZcCjJ5wMmOQvt/Lf607ir4L9+2BmOERMcDrCtigtzfjXiuW9wg17VSiENYAQ==
@@ -1213,7 +1213,7 @@
   dependencies:
     "@types/rdf-js" "4.0.0"
 
-"@inrupt/vocab-common-rdf@^0.7.2":
+"@inrupt/vocab-common-rdf@0.7.2":
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/@inrupt/vocab-common-rdf/-/vocab-common-rdf-0.7.2.tgz#d4a1ad3428b145b5b897116117c7665ee69e6a84"
   integrity sha512-IcljsXkdvBI8bj8pqN749ZMZwoMM8BODDCuZ0gd2qBksDVp+zxLPjhYuRnim/U0CCjB7jcvEmVDgM0J876yHYw==
@@ -2978,7 +2978,7 @@ cross-spawn@^6.0.0, cross-spawn@^6.0.5:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-crypto-browserify@^3.12.0:
+crypto-browserify@3.12.0, crypto-browserify@^3.12.0:
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/crypto-browserify/-/crypto-browserify-3.12.0.tgz#396cf9f3137f03e4b8e532c58f698254e00f80ec"
   integrity sha512-fz4spIh+znjO2VjL+IdhEpRJ3YN6sMzITSBijk6FK2UvTqruSQW+/cCZTSNsMiZNvUeq0CqurF+dAbyiGOY6Wg==
