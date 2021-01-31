@@ -21,6 +21,7 @@ export class InruptComponent implements OnInit {
   working: boolean = false;
   inboxUrl: string;
   webId: string;
+  name: string;
   oidcIssuer: string = 'https://inrupt.net'; // 'https://solidcommunity.net' or 'https://inrupt.net'
 
   messages: InboxMessage[];
@@ -58,6 +59,7 @@ export class InruptComponent implements OnInit {
     this.inruptService.session.handleIncomingRedirect(window.location.href)
       .then(sessionInfo => {
         this.webId = sessionInfo.webId;
+        this.inruptService.getLoggedInUserName().then(name => {this.name = name});
       });
   }
 

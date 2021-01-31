@@ -21,6 +21,14 @@
   animation: spinner .8s linear infinite;
 }
 
+#login button {
+  margin: 0 0 0 2em;
+}
+
+mat-form-field {
+  width: 30em;
+  margin: 0 0 2em 0;
+}
 
 /* table */
 table {
@@ -56,9 +64,4 @@ tr.element-row:not(.expanded-row):active {
 
 .element-content {
   padding: 16px;
-}
-
-mat-form-field {
-  width: 30em;
-  margin: 0 2em 2em 0;
 }

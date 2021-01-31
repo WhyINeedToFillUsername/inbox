@@ -6,12 +6,13 @@ import {
   getDatetime,
   getFile,
   getSolidDataset,
+  getStringNoLocale,
   getThing,
   Thing,
   UrlString
 } from "@inrupt/solid-client";
 import {InboxMessage} from "../../components/inrupt/model/inbox.message";
-import {DCTERMS} from "@inrupt/vocab-common-rdf";
+import {DCTERMS, FOAF, VCARD} from "@inrupt/vocab-common-rdf";
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +57,15 @@ export class InruptService {
         reject(err)
       }
     });
+  }
+
+  async getLoggedInUserName() {
+    const webId = this.getWebId();
+    const profileDataSet = await getSolidDataset(webId, {fetch: this.session.fetch});
+    const profile = getThing(profileDataSet, webId);
+    const name = getStringNoLocale(profile, FOAF.name);
+
+    return name;
   }
 
   static sortMessagesByDateDesc(messages: InboxMessage[]): InboxMessage[] {

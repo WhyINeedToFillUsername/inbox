@@ -25,31 +25,14 @@ export class SendMessageComponent implements OnInit {
   async send() {
     let destinationInbox = await InboxDiscoveryService.retrieveInboxUrlFromWebId(this.to);
     if (destinationInbox) {
-
-      // 2) construct message
-      // const message = createMessage(webID, destinationResourceIRI, this.messageContent);
-      const message = this.messageContent;
-
-      // 3) ajax post to IRI
-      // this.http.post(destinationInbox, message, {responseType: 'text'}).subscribe({
-      //   next: data => {
-      //     sent = true;
-      //     console.log(data)
-      //   },
-      //   error: err => {
-      //     error = err
-      //     console.log(err)
-      //   }
-      // });
-      this.http.post(destinationInbox, message, {responseType: 'text'}).subscribe(
+      this.http.post(destinationInbox, this.messageContent, {responseType: 'text'}).subscribe(
         data => {
           this._snackBar.open("Message sent!", "Dismiss");
           this.messageContent = "";
           this.to = "";
           console.log(data)
         },
-        error1 => {this._snackBar.open("Error sending message. " + error1);},
-        () => {console.log("compleled")}
+        error => {this._snackBar.open("Error sending message. " + error);}
       );
 
     } else {
