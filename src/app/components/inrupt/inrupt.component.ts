@@ -28,6 +28,8 @@ export class InruptComponent implements OnInit {
   columnsToDisplay = ['created', 'url', 'type'];
   expandedElement: InboxMessage | null;
 
+  friends: String[];
+
   constructor(
     readonly inruptService: InruptService,
     private _snackBar: MatSnackBar
@@ -80,5 +82,24 @@ export class InruptComponent implements OnInit {
           this.working = false
         }
       )
+  }
+
+  async readFriends() {
+    if (!this.webId) this.login();
+    this.working = true;
+
+    this.inruptService.getFriendsFromWebId(this.webId).then(
+      friends => {
+        this.friends = [];
+        friends.forEach(friend => {
+          this.friends.push(friend);
+        })
+
+        if (this.friends.length === 0)
+          this.friends.push("(no friends in your profile)");
+
+        this.working = false;
+      }
+    )
   }
 }

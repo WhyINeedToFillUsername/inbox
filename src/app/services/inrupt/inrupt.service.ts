@@ -8,11 +8,12 @@ import {
   getSolidDataset,
   getStringNoLocale,
   getThing,
+  getUrlAll,
   Thing,
   UrlString
 } from "@inrupt/solid-client";
 import {InboxMessage} from "../../components/inrupt/model/inbox.message";
-import {DCTERMS, FOAF, VCARD} from "@inrupt/vocab-common-rdf";
+import {DCTERMS, FOAF} from "@inrupt/vocab-common-rdf";
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,15 @@ export class InruptService {
         reject(err)
       }
     });
+  }
+
+  async getFriendsFromWebId(webId: string) {
+    const profileDataSet = await getSolidDataset(webId, {fetch: this.session.fetch});
+    const profile = getThing(profileDataSet, webId);
+
+    const friends = getUrlAll(profile, FOAF.knows);
+
+    return friends;
   }
 
   async getLoggedInUserName() {

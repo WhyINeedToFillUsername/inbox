@@ -19,6 +19,10 @@
         [disabled]="working" [class.spinner]="working">Read inbox
 </button>
 
+<button *ngIf="inruptService.session.info.isLoggedIn" mat-raised-button color="accent" (click)="readFriends()"
+        [disabled]="working" [class.spinner]="working">Read friends
+</button>
+
 <br>
 
 <div *ngIf="messages">
@@ -60,4 +64,10 @@
     </tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
   </table>
+</div>
+
+<div *ngIf="friends">
+  <ul *ngFor="let friend of friends">
+    <li>{{friend}}</li>
+  </ul>
 </div>
