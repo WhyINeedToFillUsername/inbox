@@ -19,7 +19,8 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 })
 export class InruptComponent implements OnInit {
   spinner: boolean = false;
-  working: boolean = false;
+  workingInbox: boolean = false;
+  workingFriends: boolean = false;
   inboxUrl: string;
   webId: string;
   name: string;
@@ -59,9 +60,9 @@ export class InruptComponent implements OnInit {
     this.webId = this.inruptService.getSessionWebId()
     this.inruptService.getLoggedInUserName().then(name => {this.name = name});
 
-    this._snackBar.open('Successfully logged in.', 'Dismiss');
     this.spinner = false;
     this.readInbox();
+    this.readFriends();
   }
 
   async handleRedirectAfterLogin() {
@@ -76,19 +77,21 @@ export class InruptComponent implements OnInit {
 
   readInbox() {
     if (this.webId) {
-      this.working = true;
+      this.workingInbox = true;
       InboxDiscoveryService.retrieveInboxUrlFromWebId(this.webId)
         .then(inboxUrl => {
+
+          this.inboxUrl = inboxUrl;
 
           this.inruptService.getMessagesFromInbox(inboxUrl)
             .then(messages => {this.messages = InruptService.sortMessagesByDateDesc(messages);})
             .catch(error => {this._snackBar.open('Error retrieving messages from from inbox "' + inboxUrl + '":' + error, 'Dismiss');})
-            .finally(() => this.working = false);
+            .finally(() => this.workingInbox = false);
 
         })
         .catch(error => {
             this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss');
-            this.working = false;
+            this.workingInbox = false;
           })
     } else {
       this.login();
@@ -96,8 +99,7 @@ export class InruptComponent implements OnInit {
   }
 
   async readFriends() {
-    if (!this.webId) this.login();
-    this.working = true;
+    this.workingFriends = true;
 
     this.inruptService.getFriendsFromWebId(this.webId).then(
       friends => {
@@ -109,7 +111,7 @@ export class InruptComponent implements OnInit {
         if (this.friends.length === 0)
           this.friends.push("(no friends in your profile)");
 
-        this.working = false;
+        this.workingFriends = false;
       }
     )
   }

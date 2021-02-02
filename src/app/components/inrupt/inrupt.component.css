@@ -30,10 +30,10 @@ mat-form-field {
   margin: 0 0 2em 0;
 }
 
-.messages {
+.box {
   margin-top: 2em;
 }
-.messages button {
+.box button {
   margin-bottom: 1em;
 }
 

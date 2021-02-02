@@ -5,7 +5,6 @@
   <ng-template #thenBlock>
     User logged in: <strong>{{name}}</strong> (<a href="{{webId}}" title="Go to user card">{{webId}}</a>)
 
-    <button mat-raised-button color="accent" (click)="readFriends()" [disabled]="working" [class.spinner]="working">Read friends</button>
     <button mat-raised-button (click)="logout()">Logout</button>
   </ng-template>
   <ng-template #elseBlock>
@@ -18,10 +17,10 @@
   </ng-template>
 </section>
 
-<div *ngIf="messages" class="messages">
+<div *ngIf="messages" class="box">
   <h2>inbox messages: <em>{{inboxUrl}}</em></h2>
 
-  <button mat-stroked-button (click)="readInbox()" [disabled]="working" [class.spinner]="working">
+  <button mat-stroked-button (click)="readInbox()" [disabled]="workingInbox" [class.spinner]="workingInbox">
     Reload <mat-icon>refresh</mat-icon>
   </button>
 
@@ -63,7 +62,13 @@
   </table>
 </div>
 
-<div *ngIf="friends">
+<div *ngIf="friends" class="box">
+  <h2>profile friends</h2>
+
+  <button mat-stroked-button (click)="readFriends()" [disabled]="workingFriends" [class.spinner]="workingFriends">
+    Reload <mat-icon>refresh</mat-icon>
+  </button>
+
   <ul *ngFor="let friend of friends">
     <li>{{friend}}</li>
   </ul>
