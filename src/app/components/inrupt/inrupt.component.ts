@@ -60,8 +60,10 @@ export class InruptComponent implements OnInit {
     });
     this.inruptService.session.handleIncomingRedirect(window.location.href)
       .then(sessionInfo => {
-        this.webId = sessionInfo.webId;
-        this.inruptService.getLoggedInUserName().then(name => {this.name = name});
+        if (sessionInfo.isLoggedIn) {
+          this.webId = sessionInfo.webId;
+          this.inruptService.getLoggedInUserName().then(name => {this.name = name});
+        }
       });
   }
 
