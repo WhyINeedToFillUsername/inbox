@@ -6,6 +6,8 @@
     "start": "ng serve --extra-webpack-config webpack.partial.js",
     "build": "ng build --extra-webpack-config webpack.partial.js",
     "build-prod": "ng build --extra-webpack-config webpack.partial.js --prod",
+    "build-prod-github": "ng build --extra-webpack-config webpack.partial.js --base-href /inbox/ --prod",
+    "deploy-github": "ng deploy --no-build",
     "test": "ng test --extra-webpack-config webpack.partial.js",
     "test-headless": "ng test --watch=false --browsers=ChromeHeadless --extra-webpack-config webpack.partial.js",
     "lint": "ng lint",
