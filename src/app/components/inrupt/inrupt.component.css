@@ -30,6 +30,13 @@ mat-form-field {
   margin: 0 0 2em 0;
 }
 
+.messages {
+  margin-top: 2em;
+}
+.messages button {
+  margin-bottom: 1em;
+}
+
 /* table */
 table {
   width: 100%;
@@ -37,6 +44,10 @@ table {
 
 tr.detail-row {
   height: 0;
+}
+
+tr.element-row:hover {
+  cursor: pointer;
 }
 
 tr.element-row:not(.expanded-row):hover {

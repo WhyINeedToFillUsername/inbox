@@ -1,9 +1,12 @@
 <h1>Inrupt/Solid</h1>
-<section id="login" class="panel">
+<mat-spinner *ngIf="spinner"></mat-spinner>
+<section id="login" class="panel" *ngIf="!spinner">
   <div class="row" *ngIf="inruptService.session.info.isLoggedIn; then thenBlock else elseBlock"></div>
   <ng-template #thenBlock>
     User logged in: <strong>{{name}}</strong> (<a href="{{webId}}" title="Go to user card">{{webId}}</a>)
-    <button mat-raised-button color="accent" (click)="logout()">Logout</button>
+
+    <button mat-raised-button color="accent" (click)="readFriends()" [disabled]="working" [class.spinner]="working">Read friends</button>
+    <button mat-raised-button (click)="logout()">Logout</button>
   </ng-template>
   <ng-template #elseBlock>
     <h2>Start by logging in:</h2>
@@ -15,18 +18,12 @@
   </ng-template>
 </section>
 
-<button *ngIf="inruptService.session.info.isLoggedIn" mat-raised-button color="primary" (click)="readInbox()"
-        [disabled]="working" [class.spinner]="working">Read inbox
-</button>
-
-<button *ngIf="inruptService.session.info.isLoggedIn" mat-raised-button color="accent" (click)="readFriends()"
-        [disabled]="working" [class.spinner]="working">Read friends
-</button>
-
-<br>
-
-<div *ngIf="messages">
+<div *ngIf="messages" class="messages">
   <h2>inbox messages: <em>{{inboxUrl}}</em></h2>
+
+  <button mat-stroked-button (click)="readInbox()" [disabled]="working" [class.spinner]="working">
+    Reload <mat-icon>refresh</mat-icon>
+  </button>
 
   <table mat-table
          [dataSource]="messages" multiTemplateDataRows

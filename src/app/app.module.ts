@@ -20,6 +20,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MonitorInboxesComponent} from './components/monitor-inboxes/monitor-inboxes.component';
 import {MatListModule} from "@angular/material/list";
 import {SendMessageComponent} from "./components/send-message/send-message.component";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import {SendMessageComponent} from "./components/send-message/send-message.compo
     BrowserAnimationsModule,
     // material
     MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, MatIconModule, MatToolbarModule, MatMenuModule,
-    MatSnackBarModule, MatTableModule, MatListModule,
+    MatSnackBarModule, MatTableModule, MatListModule, MatProgressSpinnerModule,
 
     HttpClientModule,
   ],

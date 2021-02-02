@@ -18,6 +18,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
   ],
 })
 export class InruptComponent implements OnInit {
+  spinner: boolean = false;
   working: boolean = false;
   inboxUrl: string;
   webId: string;
@@ -28,7 +29,7 @@ export class InruptComponent implements OnInit {
   columnsToDisplay = ['created', 'url', 'type'];
   expandedElement: InboxMessage | null;
 
-  friends: String[];
+  friends: string[];
 
   constructor(
     readonly inruptService: InruptService,
@@ -54,36 +55,44 @@ export class InruptComponent implements OnInit {
     window.location.reload();
   }
 
+  onLogin() {
+    this.webId = this.inruptService.getSessionWebId()
+    this.inruptService.getLoggedInUserName().then(name => {this.name = name});
+
+    this._snackBar.open('Successfully logged in.', 'Dismiss');
+    this.spinner = false;
+    this.readInbox();
+  }
+
   async handleRedirectAfterLogin() {
-    this.inruptService.session.onLogin(() => {
-      this._snackBar.open('Successfully logged in.', 'Dismiss');
-    });
+    this.spinner = true;
     this.inruptService.session.handleIncomingRedirect(window.location.href)
       .then(sessionInfo => {
         if (sessionInfo.isLoggedIn) {
-          this.webId = sessionInfo.webId;
-          this.inruptService.getLoggedInUserName().then(name => {this.name = name});
-        }
+          this.onLogin();
+        } else this.spinner = false;
       });
   }
 
   readInbox() {
-    if (!this.webId) this.login();
-    this.working = true;
-    InboxDiscoveryService.retrieveInboxUrlFromWebId(this.webId)
-      .then(inboxUrl => {
+    if (this.webId) {
+      this.working = true;
+      InboxDiscoveryService.retrieveInboxUrlFromWebId(this.webId)
+        .then(inboxUrl => {
 
-        this.inruptService.getMessagesFromInbox(inboxUrl)
-          .then(messages => {this.messages = InruptService.sortMessagesByDateDesc(messages);})
-          .catch(error => {this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss');})
-          .finally(() => this.working = false);
+          this.inruptService.getMessagesFromInbox(inboxUrl)
+            .then(messages => {this.messages = InruptService.sortMessagesByDateDesc(messages);})
+            .catch(error => {this._snackBar.open('Error retrieving messages from from inbox "' + inboxUrl + '":' + error, 'Dismiss');})
+            .finally(() => this.working = false);
 
-      })
-      .catch(error => {
-          this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss');
-          this.working = false
-        }
-      )
+        })
+        .catch(error => {
+            this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss');
+            this.working = false;
+          })
+    } else {
+      this.login();
+    }
   }
 
   async readFriends() {

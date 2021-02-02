@@ -30,7 +30,7 @@ export class InruptService {
       .then(() => {this._snackBar.open("Logged out!", "Dismiss")});
   }
 
-  getWebId(): string {
+  getSessionWebId(): string {
     return this.session.info.webId;
   }
 
@@ -70,7 +70,7 @@ export class InruptService {
   }
 
   async getLoggedInUserName() {
-    const webId = this.getWebId();
+    const webId = this.getSessionWebId();
     const profileDataSet = await getSolidDataset(webId, {fetch: this.session.fetch});
     const profile = getThing(profileDataSet, webId);
     const name = getStringNoLocale(profile, FOAF.name);
