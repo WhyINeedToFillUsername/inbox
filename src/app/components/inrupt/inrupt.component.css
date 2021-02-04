@@ -31,6 +31,9 @@
 .box button {
   margin-bottom: 1em;
 }
+.box h2 button {
+  margin-left: 1em;
+}
 
 /* table */
 table {

@@ -4,6 +4,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {InruptService} from "../../services/inrupt/inrupt.service";
 import {InboxMessage} from "./model/inbox.message";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {MonitorInboxesService} from "../../services/monitor-inboxes/monitor-inboxes.service";
 
 @Component({
   selector: 'app-inrupt',
@@ -39,7 +40,8 @@ export class InruptComponent implements OnInit {
 
   constructor(
     readonly inruptService: InruptService,
-    private _snackBar: MatSnackBar
+    private readonly _monitorInboxesService: MonitorInboxesService,
+    private readonly _snackBar: MatSnackBar
   ) {
   }
 
@@ -119,5 +121,9 @@ export class InruptComponent implements OnInit {
         this.workingFriends = false;
       }
     )
+  }
+
+  monitor(inboxUrl: string) {
+    this._monitorInboxesService.addInboxToMonitor(this.inboxUrl);
   }
 }

@@ -20,7 +20,11 @@
 </section>
 
 <div *ngIf="inruptService.session.info.isLoggedIn" class="box">
-  <h2>inbox messages: <em>{{inboxUrl}}</em></h2>
+  <h2>inbox messages: <em>{{inboxUrl}}</em>
+    <button mat-stroked-button (click)="monitor(inboxUrl)">
+      enable notifications
+    </button>
+  </h2>
 
   <button mat-stroked-button (click)="readInbox()" [disabled]="workingInbox" [class.spinner]="workingInbox">
     Reload <mat-icon>refresh</mat-icon>
