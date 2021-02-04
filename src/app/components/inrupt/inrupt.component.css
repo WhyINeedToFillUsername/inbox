@@ -21,13 +21,8 @@
   animation: spinner .8s linear infinite;
 }
 
-#login button {
+.logout {
   margin: 0 0 0 2em;
-}
-
-mat-form-field {
-  width: 30em;
-  margin: 0 0 2em 0;
 }
 
 .box {
@@ -75,4 +70,15 @@ tr.element-row:not(.expanded-row):active {
 
 .element-content {
   padding: 16px;
+}
+
+/* radio button */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.radio-button {
+  margin: 5px;
 }

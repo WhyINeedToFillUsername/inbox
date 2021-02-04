@@ -21,6 +21,7 @@ import {MonitorInboxesComponent} from './components/monitor-inboxes/monitor-inbo
 import {MatListModule} from "@angular/material/list";
 import {SendMessageComponent} from "./components/send-message/send-message.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatRadioModule} from "@angular/material/radio";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     BrowserAnimationsModule,
     // material
     MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, MatIconModule, MatToolbarModule, MatMenuModule,
-    MatSnackBarModule, MatTableModule, MatListModule, MatProgressSpinnerModule,
+    MatSnackBarModule, MatTableModule, MatListModule, MatProgressSpinnerModule, MatRadioModule,
 
     HttpClientModule,
   ],

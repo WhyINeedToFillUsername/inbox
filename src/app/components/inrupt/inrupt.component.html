@@ -5,28 +5,30 @@
   <ng-template #thenBlock>
     User logged in: <strong>{{name}}</strong> (<a href="{{webId}}" title="Go to user card">{{webId}}</a>)
 
-    <button mat-raised-button (click)="logout()">Logout</button>
+    <button mat-raised-button (click)="logout()" class="logout">Logout</button>
   </ng-template>
   <ng-template #elseBlock>
-    <h2>Start by logging in:</h2>
-    <mat-form-field appearance="fill">
-      <mat-label>1st specify OIDC issuer (where you want to log in, inrupt or solid):</mat-label>
-      <input matInput type="url" [(ngModel)]="oidcIssuer">
-    </mat-form-field>
+    Start by logging in.
+    <label id="radio-group-label">Specify OIDC issuer (where you want to log in):</label>
+    <mat-radio-group aria-labelledby="radio-group-label" class="radio-group" [(ngModel)]="selectedOidcIssuer">
+      <mat-radio-button class="radio-button" *ngFor="let oidcIssuer of oidcIssuers" [value]="oidcIssuer.url">
+        {{oidcIssuer.name}}
+      </mat-radio-button>
+    </mat-radio-group>
     <button mat-raised-button color="primary" id="btnLogin" (click)="login()">Login</button>
   </ng-template>
 </section>
 
-<div *ngIf="messages" class="box">
+<div *ngIf="inruptService.session.info.isLoggedIn" class="box">
   <h2>inbox messages: <em>{{inboxUrl}}</em></h2>
 
   <button mat-stroked-button (click)="readInbox()" [disabled]="workingInbox" [class.spinner]="workingInbox">
     Reload <mat-icon>refresh</mat-icon>
   </button>
 
-  <table mat-table
-         [dataSource]="messages" multiTemplateDataRows
-         class="mat-elevation-z8">
+  <p *ngIf="(!messages || messages?.length === 0) && !workingInbox">(no messages available)</p>
+
+  <table mat-table *ngIf="messages?.length > 0" [dataSource]="messages" multiTemplateDataRows class="mat-elevation-z8">
     <ng-container matColumnDef="created">
       <th mat-header-cell *matHeaderCellDef>Date</th>
       <td mat-cell *matCellDef="let message"> {{message.created | date:'short'}} </td>

@@ -24,7 +24,12 @@ export class InruptComponent implements OnInit {
   inboxUrl: string;
   webId: string;
   name: string;
-  oidcIssuer: string = 'https://inrupt.net'; // 'https://solidcommunity.net' or 'https://inrupt.net'
+
+  oidcIssuers = [
+    {"name": "Inrupt", url: 'https://inrupt.net'},
+    {"name": "Solid", url: 'https://solidcommunity.net'}
+  ];
+  selectedOidcIssuer = this.oidcIssuers[0].url;
 
   messages: InboxMessage[];
   columnsToDisplay = ['created', 'url', 'type'];
@@ -45,7 +50,7 @@ export class InruptComponent implements OnInit {
   async login() {
     if (!this.inruptService.session.info.isLoggedIn) {
       await this.inruptService.session.login({
-        oidcIssuer: this.oidcIssuer,
+        oidcIssuer: this.selectedOidcIssuer,
         redirectUrl: window.location.href,
       });
     }
