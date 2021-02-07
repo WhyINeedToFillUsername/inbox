@@ -3,7 +3,7 @@
 <section id="login" class="panel" *ngIf="!spinner">
   <div class="row" *ngIf="inruptService.session.info.isLoggedIn; then thenBlock else elseBlock"></div>
   <ng-template #thenBlock>
-    User logged in: <strong>{{name}}</strong> (<a href="{{webId}}" title="Go to user card">{{webId}}</a>)
+    User logged in: <strong>{{name}}</strong> (<a href="{{webId}}" title="Go to user card" target="_blank">{{webId}}</a>)
 
     <button mat-raised-button (click)="logout()" class="logout">Logout</button>
   </ng-template>

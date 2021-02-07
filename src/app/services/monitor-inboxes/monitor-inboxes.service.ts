@@ -26,24 +26,22 @@ export class MonitorInboxesService {
   }
 
   getMonitoredInboxes(): string[] {
-    return BrowserStorageService.loadFromLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY);
+    const monitoredInboxes = BrowserStorageService.loadFromLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY);
+    if (!monitoredInboxes) return [];
+    else return monitoredInboxes;
   }
 
   addInboxToMonitor(inboxUrl: string) {
-    let inboxesToMonitor: string[];
-    const monitoredInboxes: string[] = BrowserStorageService.loadFromLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY);
+    let inboxesToMonitor: string[] = this.getMonitoredInboxes();
 
-    if (monitoredInboxes) inboxesToMonitor = monitoredInboxes;
-    else inboxesToMonitor = [];
-
-    if (!monitoredInboxes.includes(inboxUrl)) inboxesToMonitor.push(inboxUrl);
+    if (!inboxesToMonitor.includes(inboxUrl)) inboxesToMonitor.push(inboxUrl);
 
     BrowserStorageService.saveToLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY, inboxesToMonitor);
     this.connect(inboxUrl, true);
   }
 
   removeInboxFromMonitored(inboxUrl: string) {
-    const monitoredInboxes: string[] = BrowserStorageService.loadFromLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY);
+    const monitoredInboxes: string[] = this.getMonitoredInboxes();
     const inboxesToMonitor: string[] = monitoredInboxes.filter(url => url !== inboxUrl);
 
     BrowserStorageService.saveToLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY, inboxesToMonitor);

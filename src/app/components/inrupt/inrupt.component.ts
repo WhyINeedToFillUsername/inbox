@@ -89,19 +89,20 @@ export class InruptComponent implements OnInit {
       InboxDiscoveryService.retrieveInboxUrlFromWebId(this.webId)
         .then(inboxUrl => {
 
-          this.inboxUrl = inboxUrl;
-          this.isInboxMonitored = this._monitorInboxesService.isInboxMonitored(this.inboxUrl);
+            this.inboxUrl = inboxUrl;
+            this.isInboxMonitored = this._monitorInboxesService.isInboxMonitored(this.inboxUrl);
 
-          this.inruptService.getMessagesFromInbox(inboxUrl)
-            .then(messages => {this.messages = InruptService.sortMessagesByDateDesc(messages);})
-            .catch(error => {this._snackBar.open('Error retrieving messages from from inbox "' + inboxUrl + '":' + error, 'Dismiss');})
-            .finally(() => this.workingInbox = false);
+            this.inruptService.getMessagesFromInbox(inboxUrl)
+              .then(messages => {this.messages = InruptService.sortMessagesByDateDesc(messages);})
+              .catch(error => {this._snackBar.open('Error retrieving messages from inbox "' + inboxUrl + '":' + error, 'Dismiss');})
+              .finally(() => this.workingInbox = false);
 
-        })
-        .catch(error => {
+          },
+          error => {
             this._snackBar.open('Error retrieving inbox from webId: ' + error, 'Dismiss');
             this.workingInbox = false;
-          })
+          }
+        )
     } else {
       this.login();
     }
