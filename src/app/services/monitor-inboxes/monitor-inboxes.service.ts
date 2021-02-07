@@ -84,4 +84,8 @@ export class MonitorInboxesService {
       if (connectNew) _snackBar.open("Successfully added inbox to monitor: " + inboxUrl, "Dismiss");
     }
   }
+
+  isInboxMonitored(inboxUrl: string): boolean {
+    return this.getMonitoredInboxes().includes(inboxUrl);
+  }
 }

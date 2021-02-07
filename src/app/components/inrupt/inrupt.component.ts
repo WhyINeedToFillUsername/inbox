@@ -23,6 +23,7 @@ export class InruptComponent implements OnInit {
   workingInbox: boolean = false;
   workingFriends: boolean = false;
   inboxUrl: string;
+  isInboxMonitored: boolean = true;
   webId: string;
   name: string;
 
@@ -89,6 +90,7 @@ export class InruptComponent implements OnInit {
         .then(inboxUrl => {
 
           this.inboxUrl = inboxUrl;
+          this.isInboxMonitored = this._monitorInboxesService.isInboxMonitored(this.inboxUrl);
 
           this.inruptService.getMessagesFromInbox(inboxUrl)
             .then(messages => {this.messages = InruptService.sortMessagesByDateDesc(messages);})
@@ -125,5 +127,6 @@ export class InruptComponent implements OnInit {
 
   monitor(inboxUrl: string) {
     this._monitorInboxesService.addInboxToMonitor(this.inboxUrl);
+    this.isInboxMonitored = this._monitorInboxesService.isInboxMonitored(this.inboxUrl);
   }
 }

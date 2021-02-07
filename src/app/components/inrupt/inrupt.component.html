@@ -21,7 +21,7 @@
 
 <div *ngIf="inruptService.session.info.isLoggedIn" class="box">
   <h2>inbox messages: <em>{{inboxUrl}}</em>
-    <button mat-stroked-button (click)="monitor(inboxUrl)">
+    <button mat-stroked-button (click)="monitor(inboxUrl)" [disabled]="isInboxMonitored">
       enable notifications
     </button>
   </h2>
