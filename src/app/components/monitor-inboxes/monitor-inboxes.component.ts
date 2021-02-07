@@ -26,18 +26,26 @@ export class MonitorInboxesComponent implements OnInit {
     this.setEnableButtonState();
   }
 
-  startMonitoring(inboxUrl: string) {
-    this._monitorInboxesService.addInboxToMonitor(inboxUrl);
-    this.monitoredInboxes = this._monitorInboxesService.getMonitoredInboxes();
+  startMonitoringClick() {
+    this._startMonitoringInbox(this.inboxUrl);
+    this.inboxUrl = "";
   }
 
   discoverAndStartMonitoring() {
     InboxDiscoveryService.discoverInboxUrlFromTarget(this.targetUrl).then(
-      inboxUrl => {this.startMonitoring(inboxUrl);},
+      inboxUrl => {
+        this._startMonitoringInbox(inboxUrl);
+        this.targetUrl = "";
+      },
       error => {
         this._snackBar.open("Couldn't find inbox on the entered target.", "Dismiss");
       }
     );
+  }
+
+  private _startMonitoringInbox(inboxUrl: string) {
+    this._monitorInboxesService.addInboxToMonitor(inboxUrl);
+    this.monitoredInboxes = this._monitorInboxesService.getMonitoredInboxes();
   }
 
   stopMonitoring(inboxUrl: string) {

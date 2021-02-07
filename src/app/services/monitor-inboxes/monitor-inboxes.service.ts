@@ -36,7 +36,7 @@ export class MonitorInboxesService {
     if (monitoredInboxes) inboxesToMonitor = monitoredInboxes;
     else inboxesToMonitor = [];
 
-    inboxesToMonitor.push(inboxUrl)
+    if (!monitoredInboxes.includes(inboxUrl)) inboxesToMonitor.push(inboxUrl);
 
     BrowserStorageService.saveToLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY, inboxesToMonitor);
     this.connect(inboxUrl, true);
