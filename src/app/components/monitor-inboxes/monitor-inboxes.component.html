@@ -1,9 +1,17 @@
 <div>
   <mat-form-field appearance="fill">
-    <mat-label>Add inbox url to monitor</mat-label>
+    <mat-label>Add target url to discover inbox and start monitoring it</mat-label>
+    <input matInput type="url" placeholder="Format: 'https://tonda.solid.community/profile/card#me'" [(ngModel)]="targetUrl">
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit" (click)="discoverAndStartMonitoring()">Discover inbox and monitor it</button>
+</div>
+
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>Add directly inbox url to monitor</mat-label>
     <input matInput type="url" placeholder="Format: 'https://tonda.solidcommunity.net/inbox/'" [(ngModel)]="inboxUrl">
   </mat-form-field>
-  <button mat-raised-button color="primary" type="submit" (click)="startMonitoring()">Start monitoring</button>
+  <button mat-raised-button color="primary" type="submit" (click)="startMonitoring(inboxUrl)">Start monitoring inbox</button>
 </div>
 
 <div>

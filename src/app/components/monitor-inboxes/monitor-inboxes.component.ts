@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MonitorInboxesService} from "../../services/monitor-inboxes/monitor-inboxes.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SystemNotificationsService} from "../../services/system-notifications/system-notifications.service";
+import {InboxDiscoveryService} from "../../services/discovery/inbox-discovery.service";
 
 @Component({
   selector: 'app-monitor-inboxes',
@@ -10,6 +11,7 @@ import {SystemNotificationsService} from "../../services/system-notifications/sy
 })
 export class MonitorInboxesComponent implements OnInit {
   inboxUrl: string = "";
+  targetUrl: string = "";
   monitoredInboxes: string[];
   notificationsSystemSupports: boolean;
   notificationPermission: string;
@@ -24,9 +26,18 @@ export class MonitorInboxesComponent implements OnInit {
     this.setEnableButtonState();
   }
 
-  startMonitoring() {
-    this._monitorInboxesService.addInboxToMonitor(this.inboxUrl);
+  startMonitoring(inboxUrl: string) {
+    this._monitorInboxesService.addInboxToMonitor(inboxUrl);
     this.monitoredInboxes = this._monitorInboxesService.getMonitoredInboxes();
+  }
+
+  discoverAndStartMonitoring() {
+    InboxDiscoveryService.discoverInboxUrlFromTarget(this.targetUrl).then(
+      inboxUrl => {this.startMonitoring(inboxUrl);},
+      error => {
+        this._snackBar.open("Couldn't find inbox on the entered target.", "Dismiss");
+      }
+    );
   }
 
   stopMonitoring(inboxUrl: string) {

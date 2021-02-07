@@ -7,6 +7,11 @@ import {LDP} from "@inrupt/vocab-common-rdf";
 })
 export class InboxDiscoveryService {
 
+  static async discoverInboxUrlFromTarget(webID: string): Promise<string> {
+    // TODO implement other ways of discovering inbox
+    return InboxDiscoveryService.retrieveInboxUrlFromWebId(webID);
+  }
+
   static async retrieveInboxUrlFromWebId(webID: string): Promise<string> {
     const myDataset: SolidDataset = await getSolidDataset(webID);
     const profile = getThing(myDataset, webID);
