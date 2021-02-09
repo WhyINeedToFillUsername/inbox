@@ -14,6 +14,9 @@ import {
 } from "@inrupt/solid-client";
 import {InboxMessage} from "../../components/inrupt/model/inbox.message";
 import {DCTERMS, FOAF} from "@inrupt/vocab-common-rdf";
+import {Inbox} from "../../components/inrupt/model/inbox";
+import {MonitorInboxesService} from "../monitor-inboxes/monitor-inboxes.service";
+import {CommonHelper} from "../../helpers/common.helper";
 
 @Injectable({
   providedIn: 'root'
@@ -21,13 +24,30 @@ import {DCTERMS, FOAF} from "@inrupt/vocab-common-rdf";
 export class InruptService {
 
   readonly session = new Session();
+  inboxes: Inbox[];
 
-  constructor(private _snackBar: MatSnackBar) {
+  constructor(private readonly _snackBar: MatSnackBar,
+              private readonly _monitorService: MonitorInboxesService) {
+  }
+
+  login(selectedOidcIssuer: string) {
+    if (!this.session.info.isLoggedIn) {
+      this.session.login({
+        oidcIssuer: selectedOidcIssuer,
+        redirectUrl: window.location.href,
+      });
+    }
   }
 
   logout() {
     this.session.logout()
-      .then(() => {this._snackBar.open("Logged out!", "Dismiss")});
+      .then(() => {
+        this._snackBar.open("Logged out!", "Dismiss")
+      });
+  }
+
+  isLoggedIn(): boolean {
+    return this.session.info.isLoggedIn;
   }
 
   getSessionWebId(): string {
@@ -49,7 +69,7 @@ export class InruptService {
 
           messageFile.text().then(text => {
             messagesForTable.push({
-              url: inboxMessageUrl, content: text, type: messageFile.type, created: created
+              url: inboxMessageUrl, inboxId: inboxUrl, content: text, type: messageFile.type, created: created
             })
           });
         }
@@ -69,13 +89,39 @@ export class InruptService {
     return friends;
   }
 
-  async getLoggedInUserName() {
+  getLoggedInUserName(): Promise<string> {
     const webId = this.getSessionWebId();
-    const profileDataSet = await getSolidDataset(webId, {fetch: this.session.fetch});
-    const profile = getThing(profileDataSet, webId);
-    const name = getStringNoLocale(profile, FOAF.name);
+    return getSolidDataset(webId, {fetch: this.session.fetch}).then(
+      profileDataSet => {
 
-    return name;
+        const profile = getThing(profileDataSet, webId);
+        const name = getStringNoLocale(profile, FOAF.name);
+
+        return name;
+      }
+    );
+  }
+
+  prepareInboxes(inboxUrls: string[]): Inbox[] {
+    this.inboxes = [];
+    for (const inboxUrl of inboxUrls) {
+      let inbox = this.prepareInbox(inboxUrl);
+      this.inboxes.push(inbox);
+    }
+    return this.inboxes;
+  }
+
+  prepareInbox(inboxUrl) {
+    let inbox = new Inbox();
+    inbox.url = inboxUrl;
+    inbox.id = CommonHelper.hash(inboxUrl);
+    inbox.isMonitored = this._monitorService.isInboxMonitored(inboxUrl);
+    console.log("inbox", inbox);
+    return inbox;
+  }
+
+  loadMessagesOfInbox(inbox: Inbox): Promise<InboxMessage[]> {
+    return this.getMessagesFromInbox(inbox.url);
   }
 
   static sortMessagesByDateDesc(messages: InboxMessage[]): InboxMessage[] {

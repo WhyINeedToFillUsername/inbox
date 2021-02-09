@@ -1,7 +1,7 @@
 import {InboxMessage} from "./inbox.message";
 
 export class Inbox {
-  id: number;
+  id: string;
   url: string;
   messages: InboxMessage[];
   isMonitored: boolean;

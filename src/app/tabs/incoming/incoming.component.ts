@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {InboxDiscoveryService} from "../../services/discovery/inbox-discovery.service";
+import {InruptService} from "../../services/inrupt/inrupt.service";
+import {Inbox} from "../../components/inrupt/model/inbox";
 
 @Component({
   selector: 'app-incoming',
@@ -6,10 +9,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./incoming.component.css']
 })
 export class IncomingComponent implements OnInit {
+  inboxes: Inbox[];
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private readonly _inruptService: InruptService) {
   }
 
+  ngOnInit(): void {
+    this.readInboxes();
+  }
+
+  readInboxes() {
+    InboxDiscoveryService.retrieveInboxUrlsFromWebId(this._inruptService.session.info.webId).then(
+      inboxUrls => {
+        this.inboxes = this._inruptService.prepareInboxes(inboxUrls);
+      }
+    );
+
+  }
 }
