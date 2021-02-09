@@ -17,6 +17,7 @@ import {DCTERMS, FOAF} from "@inrupt/vocab-common-rdf";
 import {Inbox} from "../../components/inrupt/model/inbox";
 import {MonitorInboxesService} from "../monitor-inboxes/monitor-inboxes.service";
 import {CommonHelper} from "../../helpers/common.helper";
+import {InboxDiscoveryService} from "../discovery/inbox-discovery.service";
 
 @Injectable({
   providedIn: 'root'
@@ -78,6 +79,14 @@ export class InruptService {
         reject(err)
       }
     });
+  }
+
+  getInboxById(inboxId: string): Promise<Inbox> {
+    return InboxDiscoveryService.retrieveInboxUrlsFromWebId(this.session.info.webId)
+      .then(inboxUrls => {
+        this.inboxes = this.prepareInboxes(inboxUrls);
+        return this.inboxes.find(inbox => inbox.id === inboxId);
+      });
   }
 
   async getFriendsFromWebId(webId: string) {

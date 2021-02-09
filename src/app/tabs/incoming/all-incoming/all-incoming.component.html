@@ -1,10 +1,19 @@
-<h2>messages from all your inboxes
+<h2 *ngIf="!inbox">messages from all your inboxes
 
   <button mat-stroked-button (click)="readInboxes()" [disabled]="workingInbox" [class.spinner]="workingInbox">
     Reload
     <mat-icon>refresh</mat-icon>
   </button>
 </h2>
+
+<h2 *ngIf="inbox">messages from inbox <a href="{{inbox.url}}" target="_blank">{{inbox.url}}</a>
+
+  <button mat-stroked-button (click)="readInbox(inbox.url)" [disabled]="workingInbox" [class.spinner]="workingInbox">
+    Reload
+    <mat-icon>refresh</mat-icon>
+  </button>
+</h2>
+
 
 <p *ngIf="(!messages || messages?.length === 0) && !workingInbox">(no messages available)</p>
 

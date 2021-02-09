@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {InruptService} from "../../../services/inrupt/inrupt.service";
 import {InboxMessage} from "../../../components/inrupt/model/inbox.message";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Inbox} from "../../../components/inrupt/model/inbox";
 import {InboxDiscoveryService} from "../../../services/discovery/inbox-discovery.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-all-incoming',
@@ -17,18 +18,48 @@ import {InboxDiscoveryService} from "../../../services/discovery/inbox-discovery
     ]),
   ],
 })
-export class AllIncomingComponent implements OnInit {
+export class AllIncomingComponent implements OnInit, OnDestroy {
   workingInbox: boolean = false;
   inboxes: Inbox[];
+  inbox: Inbox;
   messages: InboxMessage[];
-  columnsToDisplay = ['created', 'inboxId', 'url', 'type'];
+  columnsToDisplay;
   expandedElement: InboxMessage | null;
+  private sub: any;
 
-  constructor(private readonly _inruptService: InruptService) {
+  constructor(private readonly _inruptService: InruptService,
+              private readonly route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.readInboxes();
+    this.sub = this.route.params.subscribe(params => {
+      const inboxId = params['inboxId'];
+
+      if (inboxId) {
+        this.columnsToDisplay = ['created', 'url', 'type'];
+        this.readInbox(inboxId);
+      } else {
+        this.columnsToDisplay = ['created', 'inboxId', 'url', 'type'];
+        this.readInboxes();
+      }
+    });
+  }
+
+  readInbox(inboxId: string) {
+    this.workingInbox = true;
+    this.messages = [];
+
+    this._inruptService.getInboxById(inboxId).then(inbox => {
+      this.inbox = inbox;
+      this._inruptService.loadMessagesOfInbox(this.inbox).then(
+        messages => {
+          this.inbox.messages = messages;
+          this.messages = this.messages.concat(messages);
+          this.workingInbox = false;
+        }
+      );
+    })
+
   }
 
   readInboxes() {
@@ -62,6 +93,10 @@ export class AllIncomingComponent implements OnInit {
     const g = inboxId.slice(2, 4);
     const b = inboxId.slice(6, 8);
     return "background-color: rgb(" + r + ", " + g + ", " + b + "); text-shadow: 1px 1px 2px white; mix-blend-mode: difference;"
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }
 

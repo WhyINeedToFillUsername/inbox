@@ -1,9 +1,11 @@
 <mat-sidenav-container autosize>
   <mat-sidenav opened disableClose mode="side">
     <mat-nav-list>
-      <a mat-list-item routerLink='/incoming' routerLinkActive='active'>All</a>
-      <a *ngFor="let inbox of inboxes" mat-list-item routerLink="/incoming/{{inbox.id}}"
-         routerLinkActive='active'>inbox {{inbox.id}}
+      <a mat-list-item routerLink='/incoming' routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}">
+        Messages from all inboxes
+      </a>
+      <a *ngFor="let inbox of inboxes" mat-list-item [routerLink]="['/incoming/', inbox.id]" routerLinkActive='active'>
+        inbox {{inbox.id}}
       </a>
     </mat-nav-list>
   </mat-sidenav>
