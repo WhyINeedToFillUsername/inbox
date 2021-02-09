@@ -1,0 +1,48 @@
+<h2>messages from all your inboxes
+
+  <button mat-stroked-button (click)="readInboxes()" [disabled]="workingInbox" [class.spinner]="workingInbox">
+    Reload
+    <mat-icon>refresh</mat-icon>
+  </button>
+</h2>
+
+<p *ngIf="(!messages || messages?.length === 0) && !workingInbox">(no messages available)</p>
+
+<table mat-table *ngIf="messages?.length > 0" [dataSource]="messages" multiTemplateDataRows class="mat-elevation-z8">
+  <ng-container matColumnDef="created">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let message"> {{message.created | date:'short'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="inboxId">
+    <th mat-header-cell *matHeaderCellDef>inboxId</th>
+    <td mat-cell *matCellDef="let message">{{message.inboxId}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="url">
+    <th mat-header-cell *matHeaderCellDef>URL</th>
+    <td mat-cell *matCellDef="let message">{{message.url}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="type">
+    <th mat-header-cell *matHeaderCellDef>Message Type</th>
+    <td mat-cell *matCellDef="let message">{{message.type}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+      <div class="element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+        <pre class="element-content">{{element.content}}</pre>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+      class="element-row"
+      [class.expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+</table>
