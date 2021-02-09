@@ -13,3 +13,19 @@ nav {
 .active {
   background-color: #d6d6d6;
 }
+
+/* user info */
+.userInfo {
+  font-size: 0.7em;
+}
+.userInfo button {
+  margin-left: 1em;
+}
+img.rounded {
+  margin-right: 1em;
+  object-fit: cover;
+  border-radius: 50%;
+  height: 3em;
+  width: 3em;
+  vertical-align: bottom;
+}
