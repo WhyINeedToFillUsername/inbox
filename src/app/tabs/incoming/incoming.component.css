@@ -1,0 +1,16 @@
+mat-sidenav-container {
+  min-height: 100%;
+}
+
+mat-sidenav-content {
+  padding: 2em;
+}
+
+mat-sidenav {
+  padding: 2em;
+  min-width: 12em;
+}
+
+.active {
+  background: rgba(0,0,0,.04);
+}

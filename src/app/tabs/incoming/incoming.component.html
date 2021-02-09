@@ -1,0 +1,12 @@
+<mat-sidenav-container>
+  <mat-sidenav opened disableClose mode="side">
+    <mat-nav-list>
+      <a mat-list-item routerLink='/incoming' routerLinkActive='active'>All</a>
+      <a mat-list-item [routerLink]="'/send'">Send</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
