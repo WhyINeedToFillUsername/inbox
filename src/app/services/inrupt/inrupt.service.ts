@@ -54,10 +54,10 @@ export class InruptService {
     return this.session.info.webId;
   }
 
-  getMessagesFromInbox(inboxUrl: string): Promise<InboxMessage[]> {
+  loadMessagesOfInbox(inbox: Inbox): Promise<InboxMessage[]> {
     return new Promise(async (resolve, reject) => {
       try {
-        const inboxDataSet = await getSolidDataset(inboxUrl, {fetch: this.session.fetch});
+        const inboxDataSet = await getSolidDataset(inbox.url, {fetch: this.session.fetch});
         const inboxMessagesUrls: UrlString[] = getContainedResourceUrlAll(inboxDataSet);
 
         let messagesForTable = new Array<InboxMessage>();
@@ -69,7 +69,7 @@ export class InruptService {
 
           messageFile.text().then(text => {
             messagesForTable.push({
-              url: inboxMessageUrl, inboxId: inboxUrl, content: text, type: messageFile.type, created: created
+              url: inboxMessageUrl, inboxId: inbox.id, content: text, type: messageFile.type, created: created
             })
           });
         }
@@ -116,12 +116,7 @@ export class InruptService {
     inbox.url = inboxUrl;
     inbox.id = CommonHelper.hash(inboxUrl);
     inbox.isMonitored = this._monitorService.isInboxMonitored(inboxUrl);
-    console.log("inbox", inbox);
     return inbox;
-  }
-
-  loadMessagesOfInbox(inbox: Inbox): Promise<InboxMessage[]> {
-    return this.getMessagesFromInbox(inbox.url);
   }
 
   static sortMessagesByDateDesc(messages: InboxMessage[]): InboxMessage[] {

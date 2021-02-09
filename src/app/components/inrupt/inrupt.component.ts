@@ -92,7 +92,7 @@ export class InruptComponent implements OnInit {
             this.inboxUrl = inboxUrl;
             this.isInboxMonitored = this._monitorInboxesService.isInboxMonitored(this.inboxUrl);
 
-            this.inruptService.getMessagesFromInbox(inboxUrl)
+            this.inruptService.loadMessagesOfInbox(this.inruptService.prepareInbox(inboxUrl))
               .then(messages => {this.messages = InruptService.sortMessagesByDateDesc(messages);})
               .catch(error => {this._snackBar.open('Error retrieving messages from inbox "' + inboxUrl + '":' + error, 'Dismiss');})
               .finally(() => this.workingInbox = false);
