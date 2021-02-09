@@ -22,6 +22,13 @@ import {MatListModule} from "@angular/material/list";
 import {SendMessageComponent} from "./components/send-message/send-message.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatRadioModule} from "@angular/material/radio";
+import { IncomingComponent } from './tabs/incoming/incoming.component';
+import { SendComponent } from './tabs/send/send.component';
+import { VariousComponent } from './tabs/various/various.component';
+import { AboutComponent } from './tabs/about/about.component';
+import { LoginComponent } from './tabs/login/login.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import { AllIncomingComponent } from './tabs/incoming/all-incoming/all-incoming.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +38,12 @@ import {MatRadioModule} from "@angular/material/radio";
     InruptComponent,
     MonitorInboxesComponent,
     SendMessageComponent,
+    IncomingComponent,
+    SendComponent,
+    VariousComponent,
+    AboutComponent,
+    LoginComponent,
+    AllIncomingComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +51,7 @@ import {MatRadioModule} from "@angular/material/radio";
     BrowserAnimationsModule,
     // material
     MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, MatIconModule, MatToolbarModule, MatMenuModule,
-    MatSnackBarModule, MatTableModule, MatListModule, MatProgressSpinnerModule, MatRadioModule,
+    MatSnackBarModule, MatTableModule, MatListModule, MatProgressSpinnerModule, MatRadioModule, MatSidenavModule,
 
     HttpClientModule,
   ],
