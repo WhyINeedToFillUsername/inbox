@@ -17,7 +17,6 @@ export class MonitorInboxesService {
 
   startMonitoring() {
     const monitoredInboxes: string[] = this.getMonitoredInboxes();
-    console.log("monitoring", monitoredInboxes);
     if (!monitoredInboxes) return;
 
     for (const monitoredInbox of monitoredInboxes) {
