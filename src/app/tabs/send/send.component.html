@@ -1,1 +1,17 @@
-<p>send works!</p>
+<div class="content">
+  <app-recipients-picker></app-recipients-picker>
+
+  <mat-form-field appearance="fill">
+    <mat-label>To:</mat-label>
+    <input matInput required type="url" [(ngModel)]="to"
+           placeholder="Resource IRI, e.g. 'https://tonda.solid.community/profile/card#me'">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Message content</mat-label>
+    <textarea matInput [(ngModel)]="messageContent"
+              placeholder="Hello, you have to try this awesome app!..."></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" (click)="send()">Send</button>
+</div>
