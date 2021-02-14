@@ -75,7 +75,7 @@ export class InruptService {
             })
           }));
         }
-        Promise.all(promises).then(() => resolve(messagesForTable));
+        Promise.all(promises).then(() => resolve(InruptService.sortMessagesByDateDesc(messagesForTable)));
       } catch (err) {
         reject(err)
       }
