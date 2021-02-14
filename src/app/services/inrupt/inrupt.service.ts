@@ -12,9 +12,9 @@ import {
   Thing,
   UrlString
 } from "@inrupt/solid-client";
-import {InboxMessage} from "../../components/inrupt/model/inbox.message";
+import {InboxMessage} from "../../model/inbox.message";
 import {DCTERMS, FOAF} from "@inrupt/vocab-common-rdf";
-import {Inbox} from "../../components/inrupt/model/inbox";
+import {Inbox} from "../../model/inbox";
 import {MonitorInboxesService} from "../monitor-inboxes/monitor-inboxes.service";
 import {CommonHelper} from "../../helpers/common.helper";
 import {InboxDiscoveryService} from "../discovery/inbox-discovery.service";

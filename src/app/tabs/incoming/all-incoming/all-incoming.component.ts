@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {InruptService} from "../../../services/inrupt/inrupt.service";
-import {InboxMessage} from "../../../components/inrupt/model/inbox.message";
+import {InboxMessage} from "../../../model/inbox.message";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {Inbox} from "../../../components/inrupt/model/inbox";
+import {Inbox} from "../../../model/inbox";
 import {InboxDiscoveryService} from "../../../services/discovery/inbox-discovery.service";
 import {ActivatedRoute} from "@angular/router";
 import {MonitorInboxesService} from "../../../services/monitor-inboxes/monitor-inboxes.service";

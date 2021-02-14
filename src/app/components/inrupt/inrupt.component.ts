@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {InboxDiscoveryService} from "../../services/discovery/inbox-discovery.service";
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {InruptService} from "../../services/inrupt/inrupt.service";
-import {InboxMessage} from "./model/inbox.message";
+import {InboxMessage} from "../../model/inbox.message";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {MonitorInboxesService} from "../../services/monitor-inboxes/monitor-inboxes.service";
 

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BrowserStorageService} from "../browser-storage.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SystemNotificationsService} from "../system-notifications/system-notifications.service";
-import {Inbox} from "../../components/inrupt/model/inbox";
+import {Inbox} from "../../model/inbox";
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {InboxDiscoveryService} from "../../services/discovery/inbox-discovery.service";
 import {InruptService} from "../../services/inrupt/inrupt.service";
-import {Inbox} from "../../components/inrupt/model/inbox";
+import {Inbox} from "../../model/inbox";
 
 @Component({
   selector: 'app-incoming',
