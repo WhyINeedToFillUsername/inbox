@@ -1,4 +1,9 @@
 <div class="content">
+  <h1>Notifications</h1>
+  <p>
+    Here you can setup system notifications. When you add inbox for monitoring, you will get a system notification
+    when you receive a message to that inbox.
+  </p>
   <div>
     <mat-form-field appearance="fill">
       <mat-label>Add target url to discover inbox and start monitoring it</mat-label>
@@ -31,7 +36,7 @@
     </p>
 
 
-    <p *ngIf="notificationsSystemSupports; else elseBlock">Your system does support system notifications. Enable them by
+    <p *ngIf="notificationsSystemSupports; else elseBlock">Your system <strong>does</strong> support system notifications. Enable them by
       clicking on the button:</p>
     <ng-template #elseBlock>Unfortunately, your system does not support system notifications.</ng-template>
 
