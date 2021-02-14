@@ -17,7 +17,7 @@
 
 <p *ngIf="(!messages || messages?.length === 0) && !workingInbox">(no messages available)</p>
 
-<table mat-table *ngIf="messages?.length > 0" [dataSource]="messages" multiTemplateDataRows class="mat-elevation-z8">
+<table mat-table *ngIf="messages?.length > 0" [dataSource]="messages" multiTemplateDataRows>
   <ng-container matColumnDef="created">
     <th mat-header-cell *matHeaderCellDef>Date</th>
     <td mat-cell *matCellDef="let message"> {{message.created | date:'short'}} </td>
