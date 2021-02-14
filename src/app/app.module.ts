@@ -23,7 +23,6 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatRadioModule} from "@angular/material/radio";
 import { IncomingComponent } from './tabs/incoming/incoming.component';
 import { SendComponent } from './tabs/send/send.component';
-import { VariousComponent } from './tabs/various/various.component';
 import { AboutComponent } from './tabs/about/about.component';
 import { LoginComponent } from './tabs/login/login.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -41,7 +40,6 @@ import { RecipientsPickerComponent } from './components/recipients-picker/recipi
     MonitorInboxesComponent,
     IncomingComponent,
     SendComponent,
-    VariousComponent,
     AboutComponent,
     LoginComponent,
     AllIncomingComponent,
