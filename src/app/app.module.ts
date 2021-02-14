@@ -25,7 +25,7 @@ import { SendComponent } from './tabs/send/send.component';
 import { AboutComponent } from './tabs/about/about.component';
 import { LoginComponent } from './tabs/login/login.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
-import { AllIncomingComponent } from './tabs/incoming/all-incoming/all-incoming.component';
+import { MessageListComponent } from './tabs/incoming/message-list/message-list.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { RecipientsPickerComponent } from './components/recipients-picker/recipients-picker.component';
@@ -40,7 +40,7 @@ import { RecipientsPickerComponent } from './components/recipients-picker/recipi
     SendComponent,
     AboutComponent,
     LoginComponent,
-    AllIncomingComponent,
+    MessageListComponent,
     RecipientsPickerComponent
   ],
   imports: [

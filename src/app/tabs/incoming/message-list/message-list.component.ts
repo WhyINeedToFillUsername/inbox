@@ -8,9 +8,9 @@ import {ActivatedRoute} from "@angular/router";
 import {MonitorInboxesService} from "../../../services/monitor-inboxes/monitor-inboxes.service";
 
 @Component({
-  selector: 'app-all-incoming',
-  templateUrl: './all-incoming.component.html',
-  styleUrls: ['./all-incoming.component.css', '/src/assets/styles/table.css', '/src/assets/styles/spinner-button.css'],
+  selector: 'app-message-list',
+  templateUrl: './message-list.component.html',
+  styleUrls: ['./message-list.component.css', '/src/assets/styles/table.css', '/src/assets/styles/spinner-button.css'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -19,7 +19,7 @@ import {MonitorInboxesService} from "../../../services/monitor-inboxes/monitor-i
     ]),
   ],
 })
-export class AllIncomingComponent implements OnInit, OnDestroy {
+export class MessageListComponent implements OnInit, OnDestroy {
   workingInbox: boolean = false;
   inboxes: Inbox[];
   inbox: Inbox;
