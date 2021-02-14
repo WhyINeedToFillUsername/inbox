@@ -5,6 +5,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Inbox} from "../../../components/inrupt/model/inbox";
 import {InboxDiscoveryService} from "../../../services/discovery/inbox-discovery.service";
 import {ActivatedRoute} from "@angular/router";
+import {MonitorInboxesService} from "../../../services/monitor-inboxes/monitor-inboxes.service";
 
 @Component({
   selector: 'app-all-incoming',
@@ -28,7 +29,9 @@ export class AllIncomingComponent implements OnInit, OnDestroy {
   private sub: any;
 
   constructor(private readonly _inruptService: InruptService,
-              private readonly route: ActivatedRoute) {
+              private readonly route: ActivatedRoute,
+              private readonly _monitorInboxesService: MonitorInboxesService,
+  ) {
   }
 
   ngOnInit(): void {
@@ -93,6 +96,10 @@ export class AllIncomingComponent implements OnInit, OnDestroy {
     const g = inboxId.slice(2, 4);
     const b = inboxId.slice(6, 8);
     return "background-color: rgb(" + r + ", " + g + ", " + b + "); text-shadow: 1px 1px 2px white; mix-blend-mode: difference;"
+  }
+
+  monitor(inbox: Inbox) {
+    this._monitorInboxesService.addInboxToMonitor(inbox);
   }
 
   ngOnDestroy() {

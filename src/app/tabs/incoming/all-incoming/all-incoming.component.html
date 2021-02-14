@@ -12,6 +12,10 @@
     Reload
     <mat-icon>refresh</mat-icon>
   </button>
+
+  <button mat-stroked-button (click)="monitor(inbox)" [disabled]="inbox.isMonitored">
+    enable notifications
+  </button>
 </h2>
 
 

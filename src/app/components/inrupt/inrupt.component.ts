@@ -127,7 +127,7 @@ export class InruptComponent implements OnInit {
   }
 
   monitor(inboxUrl: string) {
-    this._monitorInboxesService.addInboxToMonitor(this.inboxUrl);
+    this._monitorInboxesService.addInboxToMonitorByUrl(this.inboxUrl);
     this.isInboxMonitored = this._monitorInboxesService.isInboxMonitored(this.inboxUrl);
   }
 }

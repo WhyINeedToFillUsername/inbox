@@ -1,53 +1,59 @@
-<div>
-  <mat-form-field appearance="fill">
-    <mat-label>Add target url to discover inbox and start monitoring it</mat-label>
-    <input matInput type="url" placeholder="Format: 'https://tonda.solid.community/profile/card#me'" [(ngModel)]="targetUrl">
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="submit" (click)="discoverAndStartMonitoring()">Discover inbox and monitor it</button>
-</div>
-
-<div>
-  <mat-form-field appearance="fill">
-    <mat-label>Add directly inbox url to monitor</mat-label>
-    <input matInput type="url" placeholder="Format: 'https://tonda.solidcommunity.net/inbox/'" [(ngModel)]="inboxUrl">
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="submit" (click)="startMonitoringClick()">Start monitoring inbox</button>
-</div>
-
-<div>
-  <h2>System notifications</h2>
-  <p>Here, you can enable system notifications and receive them for incoming messages to the monitored inboxes.</p>
-
-  <p [ngSwitch]="notificationPermission">
-    <strong *ngSwitchCase="'denied'">You have denied the notifications. Enable them in your browser settings.
-    </strong>
-    <strong *ngSwitchCase="'granted'">You have enabled the notifications.</strong>
-    <strong *ngSwitchCase="'default'">You have not enabled the notifications yet.</strong>
-  </p>
-
-
-  <p *ngIf="notificationsSystemSupports; else elseBlock">Your system does support system notifications. Enable them by
-    clicking on the button:</p>
-  <ng-template #elseBlock>Unfortunately, your system does not support system notifications.</ng-template>
-
-  <button mat-raised-button color="accent" (click)="enableSystemNotification()"
-          [disabled]="!notificationsSystemSupports || (notificationPermission === 'denied') || (notificationPermission === 'granted')">
-    Enable system notification
-  </button>
-
-  <button *ngIf="notificationPermission === 'granted'" mat-raised-button color="accent" (click)="testNotification()"
-          [disabled]="!notificationsSystemSupports || (notificationPermission === 'denied') || (notificationPermission === 'default')">
-    Test system notification
-  </button>
-</div>
-
-<h2>Monitored inboxes:</h2>
-<mat-list *ngIf="monitoredInboxes?.length > 0; else elseBlockMonitor">
-  <mat-list-item *ngFor="let inboxUrl of monitoredInboxes">
-    {{inboxUrl}}
-    <button mat-icon-button color="warn" aria-label="Stop monitoring" (click)="stopMonitoring(inboxUrl)">
-      <mat-icon>delete</mat-icon>
+<div class="content">
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Add target url to discover inbox and start monitoring it</mat-label>
+      <input matInput type="url" placeholder="Format: 'https://tonda.solid.community/profile/card#me'"
+             [(ngModel)]="targetUrl">
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" (click)="discoverAndStartMonitoring()">Discover inbox and
+      monitor it
     </button>
-  </mat-list-item>
-</mat-list>
-<ng-template #elseBlockMonitor>(no monitored inboxes)</ng-template>
+  </div>
+
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Add directly inbox url to monitor</mat-label>
+      <input matInput type="url" placeholder="Format: 'https://tonda.solidcommunity.net/inbox/'" [(ngModel)]="inboxUrl">
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" (click)="startMonitoringClick()">Start monitoring inbox
+    </button>
+  </div>
+
+  <div>
+    <h2>System notifications</h2>
+    <p>Here, you can enable system notifications and receive them for incoming messages to the monitored inboxes.</p>
+
+    <p [ngSwitch]="notificationPermission">
+      <strong *ngSwitchCase="'denied'">You have denied the notifications. Enable them in your browser settings.
+      </strong>
+      <strong *ngSwitchCase="'granted'">You have enabled the notifications.</strong>
+      <strong *ngSwitchCase="'default'">You have not enabled the notifications yet.</strong>
+    </p>
+
+
+    <p *ngIf="notificationsSystemSupports; else elseBlock">Your system does support system notifications. Enable them by
+      clicking on the button:</p>
+    <ng-template #elseBlock>Unfortunately, your system does not support system notifications.</ng-template>
+
+    <button mat-raised-button color="accent" (click)="enableSystemNotification()"
+            [disabled]="!notificationsSystemSupports || (notificationPermission === 'denied') || (notificationPermission === 'granted')">
+      Enable system notification
+    </button>
+
+    <button *ngIf="notificationPermission === 'granted'" mat-raised-button color="accent" (click)="testNotification()"
+            [disabled]="!notificationsSystemSupports || (notificationPermission === 'denied') || (notificationPermission === 'default')">
+      Test system notification
+    </button>
+  </div>
+
+  <h2>Monitored inboxes:</h2>
+  <mat-list *ngIf="monitoredInboxes?.length > 0; else elseBlockMonitor">
+    <mat-list-item *ngFor="let inboxUrl of monitoredInboxes">
+      {{inboxUrl}}
+      <button mat-icon-button color="warn" aria-label="Stop monitoring" (click)="stopMonitoring(inboxUrl)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+  <ng-template #elseBlockMonitor>(no monitored inboxes)</ng-template>
+</div>

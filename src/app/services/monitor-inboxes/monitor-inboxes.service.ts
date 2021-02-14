@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {BrowserStorageService} from "../browser-storage.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SystemNotificationsService} from "../system-notifications/system-notifications.service";
+import {Inbox} from "../../components/inrupt/model/inbox";
 
 @Injectable({
   providedIn: 'root'
@@ -30,13 +31,21 @@ export class MonitorInboxesService {
     else return monitoredInboxes;
   }
 
-  addInboxToMonitor(inboxUrl: string) {
+  addInboxToMonitorByUrl(inboxUrl: string) {
     let inboxesToMonitor: string[] = this.getMonitoredInboxes();
 
-    if (!inboxesToMonitor.includes(inboxUrl)) inboxesToMonitor.push(inboxUrl);
+    if (!inboxesToMonitor.includes(inboxUrl)) {
 
-    BrowserStorageService.saveToLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY, inboxesToMonitor);
-    this.connect(inboxUrl, true);
+      inboxesToMonitor.push(inboxUrl);
+
+      BrowserStorageService.saveToLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY, inboxesToMonitor);
+      this.connect(inboxUrl, true);
+    }
+  }
+
+  addInboxToMonitor(inbox: Inbox) {
+    this.addInboxToMonitorByUrl(inbox.url);
+    inbox.isMonitored = true;
   }
 
   removeInboxFromMonitored(inboxUrl: string) {

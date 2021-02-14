@@ -44,7 +44,7 @@ export class MonitorInboxesComponent implements OnInit {
   }
 
   private _startMonitoringInbox(inboxUrl: string) {
-    this._monitorInboxesService.addInboxToMonitor(inboxUrl);
+    this._monitorInboxesService.addInboxToMonitorByUrl(inboxUrl);
     this.monitoredInboxes = this._monitorInboxesService.getMonitoredInboxes();
   }
 
