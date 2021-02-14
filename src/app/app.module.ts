@@ -14,7 +14,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {AppNavbarComponent} from './components/app-navbar/app-navbar.component';
-import {InruptComponent} from './components/inrupt/inrupt.component';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatTableModule} from "@angular/material/table";
 import {MonitorInboxesComponent} from './components/monitor-inboxes/monitor-inboxes.component';
@@ -36,7 +35,6 @@ import { RecipientsPickerComponent } from './components/recipients-picker/recipi
     AppComponent,
     PleromaComponent,
     AppNavbarComponent,
-    InruptComponent,
     MonitorInboxesComponent,
     IncomingComponent,
     SendComponent,

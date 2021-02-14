@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {PleromaComponent} from './components/pleroma/pleroma.component';
-import {InruptComponent} from './components/inrupt/inrupt.component';
 import {MonitorInboxesComponent} from "./components/monitor-inboxes/monitor-inboxes.component";
 import {AuthGuardService} from "./services/auth-guard/auth-guard.service";
 import {LoginComponent} from "./tabs/login/login.component";
@@ -15,10 +14,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'incoming', component: IncomingComponent, canActivate: [AuthGuardService], children: INCOMING_ROUTES},
   { path: 'send', component: SendComponent, canActivate: [AuthGuardService]},
-  { path: 'about', component: AboutComponent },
 
+  { path: 'about', component: AboutComponent },
   { path: 'pleroma', component: PleromaComponent },
-  { path: 'inrupt', component: InruptComponent },
   { path: 'monitor', component: MonitorInboxesComponent },
 ];
 
