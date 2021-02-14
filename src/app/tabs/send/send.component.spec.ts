@@ -1,6 +1,9 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SendComponent} from './send.component';
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Overlay} from "@angular/cdk/overlay";
+import {HttpClient, HttpHandler} from "@angular/common/http";
 
 describe('SendComponent', () => {
   let component: SendComponent;
@@ -8,7 +11,8 @@ describe('SendComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SendComponent ]
+      declarations: [ SendComponent ],
+      providers: [MatSnackBar, Overlay, HttpClient, HttpHandler]
     })
     .compileComponents();
   });
