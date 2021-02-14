@@ -17,7 +17,6 @@ import {DCTERMS, FOAF} from "@inrupt/vocab-common-rdf";
 import {Inbox} from "../../model/inbox";
 import {MonitorInboxesService} from "../monitor-inboxes/monitor-inboxes.service";
 import {CommonHelper} from "../../helpers/common.helper";
-import {InboxDiscoveryService} from "../discovery/inbox-discovery.service";
 
 @Injectable({
   providedIn: 'root'
@@ -71,7 +70,7 @@ export class InruptService {
 
           promises.push(messageFile.text().then(text => {
             messagesForTable.push({
-              url: inboxMessageUrl, inboxId: inbox.id, content: text, type: messageFile.type, created: created
+              url: inboxMessageUrl, inbox: inbox, content: text, type: messageFile.type, created: created
             })
           }));
         }
@@ -80,14 +79,6 @@ export class InruptService {
         reject(err)
       }
     });
-  }
-
-  getInboxById(inboxId: string): Promise<Inbox> {
-    return InboxDiscoveryService.retrieveInboxUrlsFromWebId(this.session.info.webId)
-      .then(inboxUrls => {
-        this.inboxes = this.prepareInboxes(inboxUrls);
-        return this.inboxes.find(inbox => inbox.id === inboxId);
-      });
   }
 
   async getFriendsFromWebId(webId: string) {
@@ -112,10 +103,9 @@ export class InruptService {
     );
   }
 
-  loadMessage(inboxId: string, messageUrl: string): Promise<InboxMessage> {
+  loadMessage(inbox: Inbox, messageUrl: string): Promise<InboxMessage> {
     return new Promise(async (resolve, reject) => {
       try {
-        const inbox = await this.getInboxById(inboxId);
         const inboxDataSet = await getSolidDataset(inbox.url, {fetch: this.session.fetch});
         const inboxMessage: Thing = getThing(inboxDataSet, messageUrl)
         const created: Date = getDatetime(inboxMessage, DCTERMS.modified);
@@ -123,7 +113,7 @@ export class InruptService {
 
         messageFile.text().then(text => {
           resolve({
-            url: messageUrl, inboxId: inboxId, content: text, type: messageFile.type, created: created
+            url: messageUrl, inbox: inbox, content: text, type: messageFile.type, created: created
           });
         });
       } catch (err) {
@@ -144,7 +134,8 @@ export class InruptService {
   prepareInbox(inboxUrl) {
     let inbox = new Inbox();
     inbox.url = inboxUrl;
-    inbox.id = CommonHelper.hash(inboxUrl);
+    inbox.name = InruptService.getInboxNameFromUrl(inboxUrl);
+    inbox.style = CommonHelper.getStyle(inboxUrl);
     inbox.isMonitored = this._monitorService.isInboxMonitored(inboxUrl);
     return inbox;
   }
@@ -153,5 +144,10 @@ export class InruptService {
     return messages.sort((a, b) => {
       return b.created.getTime() - a.created.getTime()
     });
+  }
+
+  static getInboxNameFromUrl(inboxUrl: string): string {
+    const pathname = new URL(inboxUrl).pathname;
+    return pathname.replace(/^\//, '').replace(/\/$/, '');
   }
 }

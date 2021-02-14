@@ -7,8 +7,8 @@ mat-sidenav-content {
 }
 
 mat-sidenav {
-  padding: 2em;
-  min-width: 12em;
+  padding: 2em 0;
+  min-width: 20em;
 }
 
 .active {

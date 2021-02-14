@@ -1,6 +1,8 @@
+import {Inbox} from "./inbox";
+
 export interface InboxMessage {
   url: string;
-  inboxId: string;
+  inbox: Inbox;
   content: string;
   type: string;
   created: Date;

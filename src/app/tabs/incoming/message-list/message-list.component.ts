@@ -5,7 +5,6 @@ import {Inbox} from "../../../model/inbox";
 import {InboxDiscoveryService} from "../../../services/discovery/inbox-discovery.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MonitorInboxesService} from "../../../services/monitor-inboxes/monitor-inboxes.service";
-import {CommonHelper} from "../../../helpers/common.helper";
 
 @Component({
   selector: 'app-message-list',
@@ -29,32 +28,34 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
-      const inboxId = params['inboxId'];
+      const inboxUrl = params['inboxUrl'];
 
-      if (inboxId) {
+      if (inboxUrl) {
         this.columnsToDisplay = ['created', 'url', 'type'];
-        this.readInbox(inboxId);
+        this._readInbox(inboxUrl);
       } else {
-        this.columnsToDisplay = ['created', 'inboxId', 'url', 'type'];
+        this.columnsToDisplay = ['created', 'inbox', 'url', 'type'];
         this.readInboxes();
       }
     });
   }
 
-  readInbox(inboxId: string) {
+  readInbox(inbox: Inbox) {
+    this._readInbox(inbox.url);
+  }
+
+  _readInbox(inboxUrl: string) {
     this.workingInbox = true;
     this.messages = [];
+    this.inbox = this._inruptService.prepareInbox(inboxUrl);
 
-    this._inruptService.getInboxById(inboxId).then(inbox => {
-      this.inbox = inbox;
-      this._inruptService.loadMessagesOfInbox(this.inbox).then(
-        messages => {
-          this.inbox.messages = messages;
-          this.messages = this.messages.concat(messages);
-          this.workingInbox = false;
-        }
-      );
-    })
+    this._inruptService.loadMessagesOfInbox(this.inbox).then(
+      messages => {
+        this.inbox.messages = messages;
+        this.messages = this.messages.concat(messages);
+        this.workingInbox = false;
+      }
+    );
 
   }
 
@@ -84,12 +85,8 @@ export class MessageListComponent implements OnInit, OnDestroy {
       });
   }
 
-  getStyle(inboxId: string) {
-    return CommonHelper.getStyle(inboxId);
-  }
-
   goToMessageDetail(element) {
-    this.router.navigate(['/incoming/', element.inboxId, element.url]);
+    this.router.navigate(['/incoming/', element.inbox.url, element.url]);
   }
 
   monitor(inbox: Inbox) {

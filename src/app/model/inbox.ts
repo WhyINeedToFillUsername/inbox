@@ -1,8 +1,9 @@
 import {InboxMessage} from "./inbox.message";
 
 export class Inbox {
-  id: string;
-  url: string;
+  url: string; // id
+  name: string;
   messages: InboxMessage[];
   isMonitored: boolean;
+  style: string;
 }

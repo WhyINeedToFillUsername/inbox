@@ -1,11 +1,12 @@
 <mat-sidenav-container autosize>
   <mat-sidenav opened disableClose mode="side">
     <mat-nav-list>
+      <div mat-subheader>Select inbox:</div>
       <a mat-list-item routerLink='/incoming' routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}">
         Messages from all inboxes
       </a>
-      <a *ngFor="let inbox of inboxes" mat-list-item [routerLink]="['/incoming/', inbox.id]" routerLinkActive='active'>
-        inbox {{inbox.id}}
+      <a *ngFor="let inbox of inboxes" mat-list-item [routerLink]="['/incoming/', inbox.url]" routerLinkActive='active'>
+        {{inbox.name}}
       </a>
     </mat-nav-list>
   </mat-sidenav>

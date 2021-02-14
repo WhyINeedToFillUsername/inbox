@@ -8,7 +8,7 @@
 
 <h2 *ngIf="inbox">messages from inbox <a href="{{inbox.url}}" target="_blank">{{inbox.url}}</a>
 
-  <button mat-stroked-button (click)="readInbox(inbox.url)" [disabled]="workingInbox" [class.spinner]="workingInbox">
+  <button mat-stroked-button (click)="readInbox(inbox)" [disabled]="workingInbox" [class.spinner]="workingInbox">
     Reload
     <mat-icon>refresh</mat-icon>
   </button>
@@ -27,11 +27,11 @@
     <td mat-cell *matCellDef="let message"> {{message.created | date:'yyyy-MM-dd, HH:mm'}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="inboxId">
+  <ng-container matColumnDef="inbox">
     <th mat-header-cell *matHeaderCellDef>Inbox</th>
     <td mat-cell *matCellDef="let message">
-      <a mat-raised-button [routerLink]="['/incoming/', message.inboxId]" [style]="getStyle(message.inboxId)">
-        {{message.inboxId}}
+      <a mat-raised-button [routerLink]="['/incoming/', message.inbox.url]" [style]="message.inbox.style">
+        {{message.inbox.name}}
       </a>
     </td>
   </ng-container>
