@@ -17,6 +17,7 @@
       [matChipInputFor]="chipList"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       (matChipInputTokenEnd)="add($event)">
+    <mat-error *ngFor="let error of errors">{{error}}</mat-error>
   </mat-chip-list>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
     <mat-option *ngFor="let friend of filteredFriends | async" [value]="friend">

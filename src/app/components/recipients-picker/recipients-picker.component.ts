@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {FormControl} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
 import {MatAutocomplete, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Observable} from 'rxjs';
@@ -15,10 +15,11 @@ import {InruptService} from "../../services/inrupt/inrupt.service";
 export class RecipientsPickerComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  formControl = new FormControl();
+  formControl = new FormControl('', [Validators.required]);
   filteredFriends: Observable<string[]>;
   selectedFriends: string[] = [];
   allFriends: string[] = [];
+  errors: string[] = [];
 
   @ViewChild('friendInput') friendInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -40,6 +41,7 @@ export class RecipientsPickerComponent implements OnInit {
   }
 
   add(event: MatChipInputEvent): void {
+    this._resetErrors();
     const input = event.input;
     const value = event.value;
 
@@ -57,6 +59,7 @@ export class RecipientsPickerComponent implements OnInit {
   }
 
   remove(friend: string): void {
+    this._resetErrors();
     const index = this.selectedFriends.indexOf(friend);
 
     if (index >= 0) {
@@ -65,6 +68,7 @@ export class RecipientsPickerComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
+    this._resetErrors();
     this.selectedFriends.push(event.option.viewValue);
     this.friendInput.nativeElement.value = '';
     this.formControl.setValue(null);
@@ -84,5 +88,9 @@ export class RecipientsPickerComponent implements OnInit {
         })
       }
     )
+  }
+
+  private _resetErrors() {
+    this.errors = [];
   }
 }

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SendComponent } from './send.component';
+import {SendComponent} from './send.component';
 
 describe('SendComponent', () => {
   let component: SendComponent;
@@ -22,4 +22,11 @@ describe('SendComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  /* TCs:
+  - send message to 1 recipient
+  - send message to multiple recipients
+  - error sending message
+  - error with form - no inbox discovered
+  */
 });
