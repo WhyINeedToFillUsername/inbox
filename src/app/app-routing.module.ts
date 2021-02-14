@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import {PleromaComponent} from './components/pleroma/pleroma.component';
 import {InruptComponent} from './components/inrupt/inrupt.component';
 import {MonitorInboxesComponent} from "./components/monitor-inboxes/monitor-inboxes.component";
-import {SendMessageComponent} from "./components/send-message/send-message.component";
 import {AuthGuardService} from "./services/auth-guard/auth-guard.service";
 import {LoginComponent} from "./tabs/login/login.component";
 import {IncomingComponent} from "./tabs/incoming/incoming.component";
@@ -22,7 +21,6 @@ const routes: Routes = [
 
   { path: 'pleroma', component: PleromaComponent },
   { path: 'inrupt', component: InruptComponent },
-  { path: 'send', component: SendMessageComponent },
   { path: 'monitor', component: MonitorInboxesComponent },
 ];
 

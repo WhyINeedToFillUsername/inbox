@@ -19,7 +19,6 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/materia
 import {MatTableModule} from "@angular/material/table";
 import {MonitorInboxesComponent} from './components/monitor-inboxes/monitor-inboxes.component';
 import {MatListModule} from "@angular/material/list";
-import {SendMessageComponent} from "./components/send-message/send-message.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatRadioModule} from "@angular/material/radio";
 import { IncomingComponent } from './tabs/incoming/incoming.component';
@@ -40,7 +39,6 @@ import { RecipientsPickerComponent } from './components/recipients-picker/recipi
     AppNavbarComponent,
     InruptComponent,
     MonitorInboxesComponent,
-    SendMessageComponent,
     IncomingComponent,
     SendComponent,
     VariousComponent,
