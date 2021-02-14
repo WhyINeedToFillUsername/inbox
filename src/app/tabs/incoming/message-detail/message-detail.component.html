@@ -5,4 +5,16 @@
   message detail
 </h2>
 <mat-spinner *ngIf="spinner"></mat-spinner>
-<pre class="element-content">{{message?.content}}</pre>
+
+<div class="message" *ngIf="!spinner">
+  <div class="header">
+    <span>
+      Type: {{message?.type}}
+      <a mat-raised-button [routerLink]="['/incoming/', message.inboxId]" [style]="getStyle(message.inboxId)">
+        {{message.inboxId}}
+      </a>
+    </span>
+    <span class="date">{{message?.created | date:'yyyy-MM-dd, HH:mm'}}</span>
+  </div>
+<pre class="content">{{message?.content}}</pre>
+</div>

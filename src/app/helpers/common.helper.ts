@@ -12,4 +12,11 @@ export class CommonHelper {
     h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
     return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString();
   }
+
+  public static getStyle(inboxId: string) {
+    const r = inboxId.slice(0, 2);
+    const g = inboxId.slice(2, 4);
+    const b = inboxId.slice(6, 8);
+    return "background-color: rgb(" + r + ", " + g + ", " + b + "); text-shadow: 1px 1px 2px white; mix-blend-mode: difference;"
+  }
 }

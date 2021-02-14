@@ -5,6 +5,7 @@ import {Inbox} from "../../../model/inbox";
 import {InboxDiscoveryService} from "../../../services/discovery/inbox-discovery.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MonitorInboxesService} from "../../../services/monitor-inboxes/monitor-inboxes.service";
+import {CommonHelper} from "../../../helpers/common.helper";
 
 @Component({
   selector: 'app-message-list',
@@ -84,10 +85,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
   }
 
   getStyle(inboxId: string) {
-    const r = inboxId.slice(0, 2);
-    const g = inboxId.slice(2, 4);
-    const b = inboxId.slice(6, 8);
-    return "background-color: rgb(" + r + ", " + g + ", " + b + "); text-shadow: 1px 1px 2px white; mix-blend-mode: difference;"
+    return CommonHelper.getStyle(inboxId);
   }
 
   goToMessageDetail(element) {

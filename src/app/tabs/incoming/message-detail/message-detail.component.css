@@ -1,0 +1,22 @@
+.message {
+  border: 1px solid #d6d6d6;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #efefef;
+  border-bottom: 1px solid #d6d6d6;
+  padding: 0.5em 2em;
+  height: 3em;
+}
+
+.content {
+  padding: 2em;
+  background-color: white;
+  margin: 0;
+}
+
+.date {
+  padding-top: 0.7em;
+}

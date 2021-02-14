@@ -112,17 +112,18 @@ export class InruptService {
     );
   }
 
-  loadMessage(messageUrl: string): Promise<InboxMessage> {
+  loadMessage(inboxId: string, messageUrl: string): Promise<InboxMessage> {
     return new Promise(async (resolve, reject) => {
       try {
-        const messageDataSet = await getSolidDataset(messageUrl, {fetch: this.session.fetch});
-        const inboxMessage: Thing = getThing(messageDataSet, messageUrl)
+        const inbox = await this.getInboxById(inboxId);
+        const inboxDataSet = await getSolidDataset(inbox.url, {fetch: this.session.fetch});
+        const inboxMessage: Thing = getThing(inboxDataSet, messageUrl)
         const created: Date = getDatetime(inboxMessage, DCTERMS.modified);
         const messageFile = await getFile(messageUrl, {fetch: this.session.fetch});
 
         messageFile.text().then(text => {
           resolve({
-            url: messageUrl, inboxId: "inbox.id", content: text, type: messageFile.type, created: created
+            url: messageUrl, inboxId: inboxId, content: text, type: messageFile.type, created: created
           });
         });
       } catch (err) {
