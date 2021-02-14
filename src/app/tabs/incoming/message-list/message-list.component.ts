@@ -1,23 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {InruptService} from "../../../services/inrupt/inrupt.service";
 import {InboxMessage} from "../../../model/inbox.message";
-import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Inbox} from "../../../model/inbox";
 import {InboxDiscoveryService} from "../../../services/discovery/inbox-discovery.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MonitorInboxesService} from "../../../services/monitor-inboxes/monitor-inboxes.service";
 
 @Component({
   selector: 'app-message-list',
   templateUrl: './message-list.component.html',
-  styleUrls: ['./message-list.component.css', '/src/assets/styles/table.css', '/src/assets/styles/spinner-button.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  styleUrls: ['./message-list.component.css', '/src/assets/styles/table.css', '/src/assets/styles/spinner-button.css']
 })
 export class MessageListComponent implements OnInit, OnDestroy {
   workingInbox: boolean = false;
@@ -25,12 +17,12 @@ export class MessageListComponent implements OnInit, OnDestroy {
   inbox: Inbox;
   messages: InboxMessage[];
   columnsToDisplay;
-  expandedElement: InboxMessage | null;
   private sub: any;
 
   constructor(private readonly _inruptService: InruptService,
               private readonly route: ActivatedRoute,
               private readonly _monitorInboxesService: MonitorInboxesService,
+              private router: Router,
   ) {
   }
 
@@ -96,6 +88,10 @@ export class MessageListComponent implements OnInit, OnDestroy {
     const g = inboxId.slice(2, 4);
     const b = inboxId.slice(6, 8);
     return "background-color: rgb(" + r + ", " + g + ", " + b + "); text-shadow: 1px 1px 2px white; mix-blend-mode: difference;"
+  }
+
+  goToMessageDetail(element) {
+    this.router.navigate(['/incoming/', element.inboxId, element.url]);
   }
 
   monitor(inbox: Inbox) {

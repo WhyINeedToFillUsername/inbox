@@ -112,6 +112,25 @@ export class InruptService {
     );
   }
 
+  loadMessage(messageUrl: string): Promise<InboxMessage> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const messageDataSet = await getSolidDataset(messageUrl, {fetch: this.session.fetch});
+        const inboxMessage: Thing = getThing(messageDataSet, messageUrl)
+        const created: Date = getDatetime(inboxMessage, DCTERMS.modified);
+        const messageFile = await getFile(messageUrl, {fetch: this.session.fetch});
+
+        messageFile.text().then(text => {
+          resolve({
+            url: messageUrl, inboxId: "inbox.id", content: text, type: messageFile.type, created: created
+          });
+        });
+      } catch (err) {
+        reject(err)
+      }
+    });
+  }
+
   prepareInboxes(inboxUrls: string[]): Inbox[] {
     this.inboxes = [];
     for (const inboxUrl of inboxUrls) {

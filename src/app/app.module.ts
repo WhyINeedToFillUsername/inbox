@@ -29,6 +29,7 @@ import { MessageListComponent } from './tabs/incoming/message-list/message-list.
 import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { RecipientsPickerComponent } from './components/recipients-picker/recipients-picker.component';
+import { MessageDetailComponent } from './tabs/incoming/message-detail/message-detail.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { RecipientsPickerComponent } from './components/recipients-picker/recipi
     AboutComponent,
     LoginComponent,
     MessageListComponent,
-    RecipientsPickerComponent
+    RecipientsPickerComponent,
+    MessageDetailComponent
   ],
   imports: [
     BrowserModule,

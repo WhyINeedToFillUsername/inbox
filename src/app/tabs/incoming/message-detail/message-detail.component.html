@@ -1,0 +1,8 @@
+<h2>
+  <button mat-icon-button aria-label="Go back" (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  message detail
+</h2>
+<mat-spinner *ngIf="spinner"></mat-spinner>
+<pre class="element-content">{{message?.content}}</pre>
