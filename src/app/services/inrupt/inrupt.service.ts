@@ -61,20 +61,21 @@ export class InruptService {
         const inboxDataSet = await getSolidDataset(inbox.url, {fetch: this.session.fetch});
         const inboxMessagesUrls: UrlString[] = getContainedResourceUrlAll(inboxDataSet);
 
-        let messagesForTable = new Array<InboxMessage>();
+        let messagesForTable: InboxMessage[] = [];
+        let promises = [];
 
         for (const inboxMessageUrl of inboxMessagesUrls) {
           const inboxMessage: Thing = getThing(inboxDataSet, inboxMessageUrl)
           const created: Date = getDatetime(inboxMessage, DCTERMS.modified);
-          const messageFile: Blob = await getFile(inboxMessageUrl, {fetch: this.session.fetch});
+          const messageFile = await getFile(inboxMessageUrl, {fetch: this.session.fetch});
 
-          messageFile.text().then(text => {
+          promises.push(messageFile.text().then(text => {
             messagesForTable.push({
               url: inboxMessageUrl, inboxId: inbox.id, content: text, type: messageFile.type, created: created
             })
-          });
+          }));
         }
-        resolve(messagesForTable);
+        Promise.all(promises).then(() => resolve(messagesForTable));
       } catch (err) {
         reject(err)
       }
