@@ -19,11 +19,8 @@ export class IncomingComponent implements OnInit {
   }
 
   readInboxes() {
-    InboxDiscoveryService.retrieveInboxUrlsFromWebId(this._inruptService.session.info.webId).then(
-      inboxUrls => {
-        this.inboxes = this._inruptService.prepareInboxes(inboxUrls);
-      }
+    this._inruptService.inboxes$.subscribe(
+      inboxes => {this.inboxes = inboxes;}
     );
-
   }
 }

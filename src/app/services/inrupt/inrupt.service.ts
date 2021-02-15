@@ -6,7 +6,10 @@ import {
   getDatetime,
   getFile,
   getSolidDataset,
+  getStringByLocaleAll,
   getStringNoLocale,
+  getStringNoLocaleAll,
+  getStringWithLocale,
   getThing,
   getUrlAll,
   Thing,
@@ -17,6 +20,9 @@ import {DCTERMS, FOAF} from "@inrupt/vocab-common-rdf";
 import {Inbox} from "../../model/inbox";
 import {MonitorInboxesService} from "../monitor-inboxes/monitor-inboxes.service";
 import {CommonHelper} from "../../helpers/common.helper";
+import {InboxDiscoveryService} from "../discovery/inbox-discovery.service";
+import {Observable} from "rxjs";
+import {shareReplay} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +30,12 @@ import {CommonHelper} from "../../helpers/common.helper";
 export class InruptService {
 
   readonly session = new Session();
-  inboxes: Inbox[];
+  inboxes$: Observable<Inbox[]>;
 
   constructor(private readonly _snackBar: MatSnackBar,
               private readonly _monitorService: MonitorInboxesService) {
+
+    this.inboxes$ = this.getObservableInboxes$();
   }
 
   login(selectedOidcIssuer: string) {
@@ -122,22 +130,80 @@ export class InruptService {
     });
   }
 
-  prepareInboxes(inboxUrls: string[]): Inbox[] {
-    this.inboxes = [];
+  async prepareInboxes(inboxUrls: string[]): Promise<Inbox[]> {
+    let inboxes = [];
     for (const inboxUrl of inboxUrls) {
-      let inbox = this.prepareInbox(inboxUrl);
-      this.inboxes.push(inbox);
+      let inbox = await this.prepareInbox(inboxUrl);
+      inboxes.push(inbox);
     }
-    return this.inboxes;
+    return inboxes;
   }
 
-  prepareInbox(inboxUrl) {
+  async prepareInbox(inboxUrl) {
     let inbox = new Inbox();
     inbox.url = inboxUrl;
-    inbox.name = InruptService.getInboxNameFromUrl(inboxUrl);
+    inbox.name = await this.getInboxName(inboxUrl);
     inbox.style = CommonHelper.getStyle(inboxUrl);
     inbox.isMonitored = this._monitorService.isInboxMonitored(inboxUrl);
     return inbox;
+  }
+
+  getInboxName(inboxUrl): Promise<string> {
+    return this.findInboxName(inboxUrl).then(
+      name => name,
+      noName => InruptService.getInboxNameFromUrl(inboxUrl)
+    )
+  }
+
+  private findInboxName(inboxUrl): Promise<string> {
+    return new Promise<string>(async (resolve, reject) => {
+      try {
+        await getSolidDataset(inboxUrl, {fetch: this.session.fetch}).then(
+          inboxDataSet => {
+            const inbox = getThing(inboxDataSet, inboxUrl);
+
+            const titleEn = getStringWithLocale(inbox, DCTERMS.title, "en");
+            if (titleEn) {
+              resolve(titleEn);
+              return;
+            }
+
+            const titleSomeLocale = getStringByLocaleAll(inbox, DCTERMS.title);
+            if (titleSomeLocale && titleSomeLocale[0]) {
+              resolve(titleSomeLocale[0]);
+              return;
+            }
+
+            const titleNoLocale = getStringNoLocaleAll(inbox, DCTERMS.title);
+            if (titleNoLocale && titleNoLocale[0]) {
+              resolve(titleNoLocale[0]);
+              return;
+            }
+
+            reject();
+            return;
+          });
+      } catch (error) {
+        console.log("Error when finding inbox name: ", error);
+        reject();
+      }
+    });
+  }
+
+  private getObservableInboxes$() {
+    return new Observable<Inbox[]>((subscriber) => {
+      InboxDiscoveryService.retrieveInboxUrlsFromWebId(this.getSessionWebId()).then(
+        inboxUrls => {
+          this.prepareInboxes(inboxUrls).then(
+            inboxes => {
+
+              subscriber.next(inboxes);
+              subscriber.complete();
+            }
+          )
+        }
+      );
+    }).pipe(shareReplay(1));
   }
 
   static sortMessagesByDateDesc(messages: InboxMessage[]): InboxMessage[] {

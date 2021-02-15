@@ -35,7 +35,6 @@ export class SendComponent implements OnInit {
 
     if (!this.messageContent) {
       this.messageError = "Message cannot be empty!";
-      console.log("empeyy")
       return;
     }
 

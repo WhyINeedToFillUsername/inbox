@@ -9,7 +9,7 @@
 <div class="message" *ngIf="!spinner">
   <div class="header">
     <span>Type: {{message?.type}}</span>
-    <span><a mat-raised-button [routerLink]="['/incoming/', inbox.url]" [style]="inbox.style">{{inbox.name}}</a></span>
+    <span><a mat-raised-button [routerLink]="['/incoming/', inbox?.url]" [style]="inbox?.style">{{inbox?.name}}</a></span>
     <span class="date">Received: {{message?.created | date:'yyyy-MM-dd, HH:mm'}}</span>
   </div>
 <pre class="content">{{message?.content}}</pre>

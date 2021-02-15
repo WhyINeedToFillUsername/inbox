@@ -6,7 +6,7 @@
   </button>
 </h2>
 
-<h2 *ngIf="inbox">messages from inbox <a href="{{inbox.url}}" target="_blank">{{inbox.url}}</a>
+<h2 *ngIf="inbox">messages from inbox "<a href="{{inbox.url}}" target="_blank">{{inbox.name}}</a>"
 
   <button mat-stroked-button (click)="readInbox(inbox)" [disabled]="workingInbox" [class.spinner]="workingInbox">
     Reload

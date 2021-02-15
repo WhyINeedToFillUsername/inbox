@@ -30,8 +30,12 @@ export class MessageDetailComponent implements OnInit, OnDestroy {
       const inboxUrl = params['inboxUrl'];
       const messageId = params['messageId'];
 
-      this.inbox = this._inruptService.prepareInbox(inboxUrl);
-      this.loadMessage(this.inbox, messageId);
+      this._inruptService.prepareInbox(inboxUrl).then(
+        inbox => {
+          this.inbox = inbox;
+          this.loadMessage(this.inbox, messageId);
+        }
+      );
     });
   }
 

@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {InruptService} from "../../../services/inrupt/inrupt.service";
 import {InboxMessage} from "../../../model/inbox.message";
 import {Inbox} from "../../../model/inbox";
-import {InboxDiscoveryService} from "../../../services/discovery/inbox-discovery.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MonitorInboxesService} from "../../../services/monitor-inboxes/monitor-inboxes.service";
 
@@ -44,10 +43,10 @@ export class MessageListComponent implements OnInit, OnDestroy {
     this._readInbox(inbox.url);
   }
 
-  _readInbox(inboxUrl: string) {
+  async _readInbox(inboxUrl: string) {
     this.workingInbox = true;
     this.messages = [];
-    this.inbox = this._inruptService.prepareInbox(inboxUrl);
+    this.inbox = await this._inruptService.prepareInbox(inboxUrl);
 
     this._inruptService.loadMessagesOfInbox(this.inbox).then(
       messages => {
@@ -61,12 +60,11 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   readInboxes() {
     this.workingInbox = true;
-
     this.messages = [];
 
-    InboxDiscoveryService.retrieveInboxUrlsFromWebId(this._inruptService.session.info.webId)
-      .then(inboxUrls => {
-        this.inboxes = this._inruptService.prepareInboxes(inboxUrls);
+    this._inruptService.inboxes$.subscribe(
+      inboxes => {
+        this.inboxes = inboxes;
         let promises = [];
 
         for (const inbox of this.inboxes) {
