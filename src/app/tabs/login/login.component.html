@@ -4,13 +4,21 @@
 
   <div *ngIf="!spinner">
     <p>Welcome to inbox! Start by logging in to your pod.</p>
-
-    <label id="radio-group-label">Specify OIDC issuer (where you want to log in):</label>
-    <mat-radio-group aria-labelledby="radio-group-label" class="radio-group" [(ngModel)]="selectedOidcIssuer">
-      <mat-radio-button class="radio-button" *ngFor="let oidcIssuer of oidcIssuers" [value]="oidcIssuer.url">
-        {{oidcIssuer.name}}
-      </mat-radio-button>
-    </mat-radio-group>
-    <button mat-raised-button color="primary" id="btnLogin" (click)="login()">Login</button>
+    <mat-form-field appearance="fill">
+      <mat-label>Select ID provider (OIDC issuer)</mat-label>
+      <input type="text"
+             placeholder="Pick one or input yours"
+             aria-label="OIDC issuer"
+             matInput
+             [formControl]="myControl"
+             [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" id="btnLogin" (click)="login()" [disabled]="!myControl.value">Login</button>
   </div>
 </div>
