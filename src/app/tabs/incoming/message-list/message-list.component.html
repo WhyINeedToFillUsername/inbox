@@ -48,7 +48,7 @@
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-      class="element-row"
-      (click)="goToMessageDetail(element)">
+      [routerLink]="['/incoming/', element.inbox.url, element.url]"
+      class="element-row">
   </tr>
 </table>

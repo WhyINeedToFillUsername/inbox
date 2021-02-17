@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {InruptService} from "../../../services/inrupt/inrupt.service";
 import {InboxMessage} from "../../../model/inbox.message";
 import {Inbox} from "../../../model/inbox";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {MonitorInboxesService} from "../../../services/monitor-inboxes/monitor-inboxes.service";
 
 @Component({
@@ -20,8 +20,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   constructor(private readonly _inruptService: InruptService,
               private readonly route: ActivatedRoute,
-              private readonly _monitorInboxesService: MonitorInboxesService,
-              private router: Router,
+              private readonly _monitorInboxesService: MonitorInboxesService
   ) {
   }
 
@@ -81,10 +80,6 @@ export class MessageListComponent implements OnInit, OnDestroy {
           this.workingInbox = false;
         });
       });
-  }
-
-  goToMessageDetail(element) {
-    this.router.navigate(['/incoming/', element.inbox.url, element.url]);
   }
 
   monitor(inbox: Inbox) {
