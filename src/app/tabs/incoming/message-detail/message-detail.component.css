@@ -18,3 +18,9 @@
   background-color: white;
   margin: 0;
 }
+
+.key {
+  width: 5em;
+  text-align: right;
+  margin-right: 1em;
+}

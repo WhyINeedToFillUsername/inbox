@@ -14,6 +14,7 @@ import {Inbox} from "../../../model/inbox";
 export class MessageDetailComponent implements OnInit, OnDestroy {
   spinner: boolean = false;
   message: InboxMessage;
+  jsonFields;
   inbox: Inbox;
   private sub: any;
 
@@ -26,6 +27,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.spinner = true;
     this.sub = this.route.params.subscribe(params => {
       const inboxUrl = params['inboxUrl'];
       const messageId = params['messageId'];
@@ -42,7 +44,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy {
   private loadMessage(inbox: Inbox, messageUrl: string) {
     this.spinner = true;
     this._inruptService.loadMessage(inbox, messageUrl)
-      .then(message => this.message = message)
+      .then(message => this._parseMessage(message))
       .catch(error => {this._snackBar.open("Error loading message.", "Dismiss")})
       .finally(() => {this.spinner = false;});
   }
@@ -51,7 +53,23 @@ export class MessageDetailComponent implements OnInit, OnDestroy {
     this._location.back();
   }
 
+  private _parseMessage(message: InboxMessage) {
+    this.message = message;
+    if (MessageDetailComponent.shouldParseJson(message.type)) {
+      try {
+        this.jsonFields = JSON.parse(message.content);
+      } catch (ignore) {}
+    }
+  }
+
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  public static shouldParseJson(type: string): boolean {
+    const typesToParse = ['application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
+      'application/activity+json', 'application/json', 'application/ld+json']
+
+    return typesToParse.includes(type);
   }
 }

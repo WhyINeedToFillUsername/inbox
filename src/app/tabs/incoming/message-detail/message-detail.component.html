@@ -2,15 +2,42 @@
   <button mat-icon-button aria-label="Go back" (click)="goBack()">
     <mat-icon>arrow_back</mat-icon>
   </button>
-  message detail: <a href="{{message?.url}}" target="_blank" title="Message URL"><em>{{message?.url}}</em></a>
+  message detail:
+  <a href="{{message?.url}}" target="_blank" title="Message URL">
+    <ng-template [ngIf]="jsonFields?.name" [ngIfElse]="elseBlock">{{jsonFields.name}}</ng-template>
+    <ng-template #elseBlock>{{message?.url}}</ng-template>
+  </a>
 </h2>
 <mat-spinner *ngIf="spinner"></mat-spinner>
 
 <div class="message" *ngIf="!spinner">
   <div class="header">
-    <span>Type: {{message?.type}}</span>
+    <strong *ngIf="jsonFields?.actor">From: {{jsonFields.actor}}</strong>
     <span><a mat-raised-button [routerLink]="['/incoming/', inbox?.url]" [style]="inbox?.style">{{inbox?.name}}</a></span>
+    <span>Type: {{message?.type}}</span>
     <span class="date">Received: {{message?.created | date:'yyyy-MM-dd, HH:mm'}}</span>
   </div>
-<pre class="content">{{message?.content}}</pre>
+
+  <div class="content">
+<!--  normal content  -->
+<pre *ngIf="!jsonFields">{{message?.content}}</pre>
+
+<!--  json content  -->
+    <ng-template [ngIf]="jsonFields?.object?.content">
+<pre>{{jsonFields.object.content}}</pre>
+      <br>
+      <mat-divider></mat-divider>
+      <br>
+      <h2>Message details:</h2>
+    </ng-template>
+
+<!--  list of json fields  -->
+    <mat-list role="list" *ngIf="jsonFields">
+      <mat-list-item role="listitem" *ngFor="let field of jsonFields | keyvalue; last as last">
+        <span class="key">{{field.key}}:</span><span class="value">{{field.value}}</span>
+        <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+      </mat-list-item>
+
+    </mat-list>
+  </div>
 </div>
