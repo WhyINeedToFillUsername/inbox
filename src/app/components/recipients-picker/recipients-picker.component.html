@@ -2,16 +2,16 @@
   <mat-label>Select recipients</mat-label>
   <mat-chip-list #chipList aria-label="Recipients selection">
     <mat-chip
-      *ngFor="let friend of selectedFriends"
+      *ngFor="let recipient of recipients"
       selectable="true"
       removable="true"
-      (removed)="remove(friend)">
-      {{friend}}
+      (removed)="remove(recipient)">
+      {{recipient}}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
     <input
       placeholder="Type in recipient..."
-      #friendInput
+      #recipientInput
       [formControl]="formControl"
       [matAutocomplete]="auto"
       [matChipInputFor]="chipList"
@@ -20,8 +20,8 @@
     <mat-error *ngFor="let error of errors">{{error}}</mat-error>
   </mat-chip-list>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-    <mat-option *ngFor="let friend of filteredFriends | async" [value]="friend">
-      {{friend}}
+    <mat-option *ngFor="let contact of filteredContacts | async" [value]="contact">
+      {{contact}}
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>

@@ -16,12 +16,12 @@ export class RecipientsPickerComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   formControl = new FormControl('', [Validators.required]);
-  filteredFriends: Observable<string[]>;
-  selectedFriends: string[] = [];
-  allFriends: string[] = [];
+  filteredContacts: Observable<string[]>;
+  recipients: string[] = [];
+  allContacts: string[] = [];
   errors: string[] = [];
 
-  @ViewChild('friendInput') friendInput: ElementRef<HTMLInputElement>;
+  @ViewChild('recipientInput') recipientInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(
@@ -29,15 +29,15 @@ export class RecipientsPickerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.readFriends().then(() => {
+    this.loadContacts().then(() => {
       this.monitorFormInput();
     });
   }
 
   private monitorFormInput() {
-    this.filteredFriends = this.formControl.valueChanges.pipe(
+    this.filteredContacts = this.formControl.valueChanges.pipe(
       startWith(null),
-      map((friend: string | null) => friend ? this._filter(friend) : this.allFriends.slice()));
+      map((contact: string | null) => contact ? this._filter(contact) : this.allContacts.slice()));
   }
 
   add(event: MatChipInputEvent): void {
@@ -45,9 +45,9 @@ export class RecipientsPickerComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our friend
+    // Add our recipient
     if ((value || '').trim()) {
-      this.selectedFriends.push(value.trim());
+      this.recipients.push(value.trim());
     }
 
     // Reset the input value
@@ -58,33 +58,33 @@ export class RecipientsPickerComponent implements OnInit {
     this.formControl.setValue(null);
   }
 
-  remove(friend: string): void {
+  remove(recipient: string): void {
     this._resetErrors();
-    const index = this.selectedFriends.indexOf(friend);
+    const index = this.recipients.indexOf(recipient);
 
     if (index >= 0) {
-      this.selectedFriends.splice(index, 1);
+      this.recipients.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this._resetErrors();
-    this.selectedFriends.push(event.option.viewValue);
-    this.friendInput.nativeElement.value = '';
+    this.recipients.push(event.option.viewValue);
+    this.recipientInput.nativeElement.value = '';
     this.formControl.setValue(null);
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allFriends.filter(friend => friend.toLowerCase().indexOf(filterValue) === 0);
+    return this.allContacts.filter(contact => contact.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  readFriends() {
-    return this._inruptService.getFriendsFromWebId(this._inruptService.getSessionWebId()).then(
-      friends => {
-        friends.forEach(friend => {
-          this.allFriends.push(friend);
+  loadContacts() {
+    return this._inruptService.getProfileContacts().then(
+      contacts => {
+        contacts.forEach(contact => {
+          this.allContacts.push(contact);
         })
       }
     )

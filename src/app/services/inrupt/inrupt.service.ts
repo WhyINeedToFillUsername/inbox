@@ -89,13 +89,12 @@ export class InruptService {
     });
   }
 
-  async getFriendsFromWebId(webId: string) {
+  async getProfileContacts() {
+    const webId = this.getSessionWebId();
     const profileDataSet = await getSolidDataset(webId, {fetch: this.session.fetch});
     const profile = getThing(profileDataSet, webId);
 
-    const friends = getUrlAll(profile, FOAF.knows);
-
-    return friends;
+    return getUrlAll(profile, FOAF.knows);
   }
 
   getLoggedInUserName(): Promise<string> {

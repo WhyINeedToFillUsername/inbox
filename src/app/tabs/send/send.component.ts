@@ -24,11 +24,11 @@ export class SendComponent implements OnInit {
   }
 
   async send() {
-    let friends = this.picker.selectedFriends;
+    let selectedRecipients = this.picker.recipients;
     this.messageContent = this.messageContent.trim();
     this.messageError = null;
 
-    if (friends && friends.length === 0) {
+    if (selectedRecipients && selectedRecipients.length === 0) {
       this.picker.errors.push("No recipients!");
       return;
     }
@@ -42,10 +42,10 @@ export class SendComponent implements OnInit {
     let recipients = [];
     let errors = [];
 
-    for (const friend of friends) {
-      promises.push(InboxDiscoveryService.retrieveInboxUrlFromWebId(friend)
+    for (const selectedRecipient of selectedRecipients) {
+      promises.push(InboxDiscoveryService.retrieveInboxUrlFromWebId(selectedRecipient)
         .then(inboxUrl => {recipients.push(inboxUrl);})
-        .catch(error => {errors.push("Couldn't find inbox for " + friend);})
+        .catch(error => {errors.push("Couldn't find inbox for " + selectedRecipient);})
       )
     }
 
@@ -56,7 +56,7 @@ export class SendComponent implements OnInit {
             data => {
               this._snackBar.open("Message sent!", "Dismiss");
               this.messageContent = "";
-              this.picker.selectedFriends = [];
+              this.picker.recipients = [];
               this.picker.errors = [];
             },
             error => {
