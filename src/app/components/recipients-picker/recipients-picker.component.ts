@@ -6,6 +6,7 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {InruptService} from "../../services/inrupt/inrupt.service";
+import {Contact} from "../../model/contact";
 
 @Component({
   selector: 'app-recipients-picker',
@@ -16,9 +17,9 @@ export class RecipientsPickerComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   formControl = new FormControl('', [Validators.required]);
-  filteredContacts: Observable<string[]>;
-  recipients: string[] = [];
-  allContacts: string[] = [];
+  filteredContacts: Observable<Contact[]>;
+  recipients: Contact[] = [];
+  allContacts: Contact[] = [];
   errors: string[] = [];
 
   @ViewChild('recipientInput') recipientInput: ElementRef<HTMLInputElement>;
@@ -37,7 +38,7 @@ export class RecipientsPickerComponent implements OnInit {
   private monitorFormInput() {
     this.filteredContacts = this.formControl.valueChanges.pipe(
       startWith(null),
-      map((contact: string | null) => contact ? this._filter(contact) : this.allContacts.slice()));
+      map((contact: Contact | null) => contact ? this._filter(contact) : this.allContacts.slice()));
   }
 
   add(event: MatChipInputEvent): void {
@@ -47,7 +48,7 @@ export class RecipientsPickerComponent implements OnInit {
 
     // Add our recipient
     if ((value || '').trim()) {
-      this.recipients.push(value.trim());
+      this.recipients.push(RecipientsPickerComponent._newContactByIRI(value.trim()));
     }
 
     // Reset the input value
@@ -58,7 +59,7 @@ export class RecipientsPickerComponent implements OnInit {
     this.formControl.setValue(null);
   }
 
-  remove(recipient: string): void {
+  remove(recipient: Contact): void {
     this._resetErrors();
     const index = this.recipients.indexOf(recipient);
 
@@ -69,28 +70,30 @@ export class RecipientsPickerComponent implements OnInit {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this._resetErrors();
-    this.recipients.push(event.option.viewValue);
+    this.recipients.push(event.option.value);
     this.recipientInput.nativeElement.value = '';
     this.formControl.setValue(null);
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  private _filter(value: Contact): Contact[] {
+    const filterValue = value.webId.toLowerCase();
 
-    return this.allContacts.filter(contact => contact.toLowerCase().indexOf(filterValue) === 0);
+    return this.allContacts.filter(contact => contact.webId.toLowerCase().indexOf(filterValue) === 0);
   }
 
   loadContacts() {
     return this._inruptService.getProfileContacts().then(
       contacts => {
-        contacts.forEach(contact => {
-          this.allContacts.push(contact);
-        })
+        this.allContacts = contacts;
       }
     )
   }
 
   private _resetErrors() {
     this.errors = [];
+  }
+
+  private static _newContactByIRI(iri: string): Contact {
+    return {webId: iri, name: iri, inboxes: []};
   }
 }

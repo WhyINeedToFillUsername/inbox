@@ -23,6 +23,7 @@ import {CommonHelper} from "../../helpers/common.helper";
 import {InboxDiscoveryService} from "../discovery/inbox-discovery.service";
 import {Observable} from "rxjs";
 import {shareReplay} from "rxjs/operators";
+import {Contact} from "../../model/contact";
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,7 @@ export class InruptService {
   constructor(private readonly _snackBar: MatSnackBar,
               private readonly _monitorService: MonitorInboxesService) {
 
-    this.inboxes$ = this.getObservableInboxes$();
+    this.inboxes$ = this._getObservableInboxes$();
   }
 
   login(selectedOidcIssuer: string) {
@@ -89,25 +90,18 @@ export class InruptService {
     });
   }
 
-  async getProfileContacts() {
+  async getProfileContacts(): Promise<Contact[]> {
     const webId = this.getSessionWebId();
     const profileDataSet = await getSolidDataset(webId, {fetch: this.session.fetch});
     const profile = getThing(profileDataSet, webId);
 
-    return getUrlAll(profile, FOAF.knows);
+    const contactIRIs = getUrlAll(profile, FOAF.knows);
+    return await InruptService._prepareContacts(contactIRIs);
   }
 
   getLoggedInUserName(): Promise<string> {
     const webId = this.getSessionWebId();
-    return getSolidDataset(webId, {fetch: this.session.fetch}).then(
-      profileDataSet => {
-
-        const profile = getThing(profileDataSet, webId);
-        const name = getStringNoLocale(profile, FOAF.name);
-
-        return name;
-      }
-    );
+    return InruptService.getProfileName(webId);
   }
 
   loadMessage(inbox: Inbox, messageUrl: string): Promise<InboxMessage> {
@@ -129,7 +123,7 @@ export class InruptService {
     });
   }
 
-  async prepareInboxes(inboxUrls: string[]): Promise<Inbox[]> {
+  private async _prepareInboxes(inboxUrls: string[]): Promise<Inbox[]> {
     let inboxes = [];
     for (const inboxUrl of inboxUrls) {
       let inbox = await this.prepareInbox(inboxUrl);
@@ -148,13 +142,13 @@ export class InruptService {
   }
 
   getInboxName(inboxUrl): Promise<string> {
-    return this.findInboxName(inboxUrl).then(
+    return this._findInboxName(inboxUrl).then(
       name => name,
       noName => InruptService.getInboxNameFromUrl(inboxUrl)
     )
   }
 
-  private findInboxName(inboxUrl): Promise<string> {
+  private _findInboxName(inboxUrl): Promise<string> {
     return new Promise<string>(async (resolve, reject) => {
       try {
         await getSolidDataset(inboxUrl, {fetch: this.session.fetch}).then(
@@ -189,11 +183,11 @@ export class InruptService {
     });
   }
 
-  private getObservableInboxes$() {
+  private _getObservableInboxes$() {
     return new Observable<Inbox[]>((subscriber) => {
       InboxDiscoveryService.retrieveInboxUrlsFromWebId(this.getSessionWebId()).then(
         inboxUrls => {
-          this.prepareInboxes(inboxUrls).then(
+          this._prepareInboxes(inboxUrls).then(
             inboxes => {
 
               subscriber.next(inboxes);
@@ -214,5 +208,25 @@ export class InruptService {
   static getInboxNameFromUrl(inboxUrl: string): string {
     const pathname = new URL(inboxUrl).pathname;
     return pathname.replace(/^\//, '').replace(/\/$/, '');
+  }
+
+  static async getProfileName(webId): Promise<string> {
+    const profileDataSet = await getSolidDataset(webId);
+    const profile = getThing(profileDataSet, webId);
+    return getStringNoLocale(profile, FOAF.name);
+  }
+
+  private static async _prepareContacts(profileIRIs: string[]): Promise<Contact[]> {
+    let contacts = [];
+    for (const profileIRI of profileIRIs) {
+      let contact = await InruptService._prepareContact(profileIRI);
+      contacts.push(contact);
+    }
+    return contacts;
+  }
+
+  private static async _prepareContact(profileIRI: string): Promise<Contact> {
+    const name = await InruptService.getProfileName(profileIRI);
+    return {webId: profileIRI, name: name, inboxes: []};
   }
 }

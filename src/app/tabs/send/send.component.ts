@@ -43,7 +43,7 @@ export class SendComponent implements OnInit {
     let errors = [];
 
     for (const selectedRecipient of selectedRecipients) {
-      promises.push(InboxDiscoveryService.retrieveInboxUrlFromWebId(selectedRecipient)
+      promises.push(InboxDiscoveryService.retrieveInboxUrlFromWebId(selectedRecipient.webId)
         .then(inboxUrl => {recipients.push(inboxUrl);})
         .catch(error => {errors.push("Couldn't find inbox for " + selectedRecipient);})
       )
