@@ -1,24 +1,40 @@
 <div class="content-spacer">
-  <h1>Inbox</h1>
-  <mat-spinner *ngIf="spinner"></mat-spinner>
+  <div class="login">
+    <h1>Inbox</h1>
+    <mat-spinner *ngIf="spinner"></mat-spinner>
 
-  <div *ngIf="!spinner">
-    <p>Welcome to inbox! Start by logging in to your pod.</p>
-    <mat-form-field appearance="fill">
-      <mat-label>Select ID provider (OIDC issuer)</mat-label>
-      <input type="text"
-             placeholder="Pick one or input yours"
-             aria-label="OIDC issuer"
-             matInput
-             [formControl]="myControl"
-             [matAutocomplete]="auto">
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <br>
-    <button mat-raised-button color="primary" id="btnLogin" (click)="login()" [disabled]="!myControl.value">Login</button>
+    <div *ngIf="!spinner">
+      <p>Welcome to inbox! Start by logging in to your pod.</p>
+      <mat-form-field appearance="fill">
+        <mat-label>Select ID provider (OIDC issuer)</mat-label>
+        <input type="text"
+               placeholder="Pick one or input yours"
+               aria-label="OIDC issuer"
+               matInput
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <br>
+      <button mat-raised-button color="primary" id="btnLogin" (click)="login()" [disabled]="!myControl.value">Login
+      </button>
+    </div>
+  </div>
+
+  <div class="info">
+    <p>
+      Inbox is an application built for a diploma thesis to showcase work with
+      <a href="https://www.w3.org/TR/ldn/" title="Linked Data Notifications specification" target="_blank">
+        Linked Data Notifications</a>
+      and
+      <a href="https://www.w3.org/TR/activitypub/" title="ActivityPub specification" target="_blank">ActivityPub</a>
+      protocols, using
+      <a href="https://solidproject.org/" title="Official Solid website" target="_blank">Solid pod</a>
+      as data provider. You can read more at the <a routerLink="/about">about</a> page.
+    </p>
   </div>
 </div>

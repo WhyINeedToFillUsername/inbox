@@ -1,3 +1,22 @@
 mat-form-field {
   width: 30em;
 }
+
+.content-spacer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: left;
+}
+
+.login {
+  margin: 0 4em 0 0;
+}
+
+.info {
+  font-size: 1.5em;
+  font-weight: lighter;
+  margin: 2em 0 0 0;
+  line-height: 1.5em;
+  width: 20em;
+}
