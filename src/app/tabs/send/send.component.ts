@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {InboxDiscoveryService} from "../../services/discovery/inbox-discovery.service";
 import {RecipientsPickerComponent} from "../../components/recipients-picker/recipients-picker.component";
 import {SendService} from "../../services/send/send.service";
+import {ContactInbox} from "../../model/contact.inbox";
 
 @Component({
   selector: 'app-send',
@@ -24,7 +24,7 @@ export class SendComponent implements OnInit {
   }
 
   async send() {
-    let selectedRecipients = this.picker.recipients;
+    let selectedRecipients: ContactInbox[] = this.picker.recipients;
     this.messageContent = this.messageContent.trim();
     this.messageError = null;
 
@@ -38,34 +38,15 @@ export class SendComponent implements OnInit {
       return;
     }
 
-    let promises = [];
-    let recipients = [];
-    let errors = [];
-
-    for (const selectedRecipient of selectedRecipients) {
-      promises.push(InboxDiscoveryService.retrieveInboxUrlFromWebId(selectedRecipient.webId)
-        .then(inboxUrl => {recipients.push(inboxUrl);})
-        .catch(error => {errors.push("Couldn't find inbox for " + selectedRecipient);})
-      )
-    }
-
-    Promise.all(promises).then(
-      () => {
-        if (errors.length === 0) {
-          this._sendService.send(recipients, this.messageContent).subscribe(
-            data => {
-              this._snackBar.open("Message sent!", "Dismiss");
-              this.messageContent = "";
-              this.picker.recipients = [];
-              this.picker.errors = [];
-            },
-            error => {
-              this._snackBar.open("Error sending message. " + error);
-            }
-          );
-        } else {
-          this.picker.errors = errors;
-        }
+    this._sendService.send(selectedRecipients, this.messageContent).subscribe(
+      data => {
+        this._snackBar.open("Message sent!", "Dismiss");
+        this.messageContent = "";
+        this.picker.recipients = [];
+        this.picker.errors = [];
+      },
+      error => {
+        this._snackBar.open("Error sending message. " + error);
       }
     );
   }

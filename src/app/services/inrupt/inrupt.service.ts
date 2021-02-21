@@ -24,6 +24,7 @@ import {InboxDiscoveryService} from "../discovery/inbox-discovery.service";
 import {Observable} from "rxjs";
 import {shareReplay} from "rxjs/operators";
 import {Contact} from "../../model/contact";
+import {ContactInbox} from "../../model/contact.inbox";
 
 @Injectable({
   providedIn: 'root'
@@ -90,13 +91,13 @@ export class InruptService {
     });
   }
 
-  async getProfileContacts(): Promise<Contact[]> {
+  async getProfileContactInboxes(): Promise<ContactInbox[]> {
     const webId = this.getSessionWebId();
     const profileDataSet = await getSolidDataset(webId, {fetch: this.session.fetch});
     const profile = getThing(profileDataSet, webId);
 
-    const contactIRIs = getUrlAll(profile, FOAF.knows);
-    return await InruptService._prepareContacts(contactIRIs);
+    const webIds = getUrlAll(profile, FOAF.knows);
+    return await InruptService._prepareContacts(webIds);
   }
 
   getLoggedInUserName(): Promise<string> {
@@ -216,17 +217,18 @@ export class InruptService {
     return getStringNoLocale(profile, FOAF.name);
   }
 
-  private static async _prepareContacts(profileIRIs: string[]): Promise<Contact[]> {
-    let contacts = [];
-    for (const profileIRI of profileIRIs) {
-      let contact = await InruptService._prepareContact(profileIRI);
-      contacts.push(contact);
-    }
-    return contacts;
-  }
+  private static async _prepareContacts(webIds: string[]): Promise<ContactInbox[]> {
+    let inboxesWithContactInfo: ContactInbox[] = [];
 
-  private static async _prepareContact(profileIRI: string): Promise<Contact> {
-    const name = await InruptService.getProfileName(profileIRI);
-    return {webId: profileIRI, name: name, inboxes: []};
+    for (const webId of webIds) {
+      const inboxUrls = await InboxDiscoveryService.retrieveInboxUrlsFromWebId(webId);
+      const contactName = await InruptService.getProfileName(webId);
+      const contact: Contact = {webId: webId, name: contactName};
+
+      for (const inboxUrl of inboxUrls) {
+        inboxesWithContactInfo.push({url: inboxUrl, name: inboxUrl, contact: contact})
+      }
+    }
+    return inboxesWithContactInfo;
   }
 }
