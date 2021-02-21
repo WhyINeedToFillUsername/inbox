@@ -1,3 +1,8 @@
 .chip-list {
   width: 100%;
+  margin-bottom: 1.5em;
+}
+
+mat-hint {
+  font-size: 1.3em;
 }

@@ -4,7 +4,7 @@ import {FormControl, Validators} from '@angular/forms';
 import {MatAutocomplete, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import {map, startWith, tap} from 'rxjs/operators';
 import {InruptService} from "../../services/inrupt/inrupt.service";
 import {ContactInbox} from "../../model/contact.inbox";
 import {SendService} from "../../services/send/send.service";
@@ -24,6 +24,7 @@ export class RecipientsPickerComponent implements OnInit {
   allContacts: ContactInbox[] = [];
   errors: string[] = [];
   spinner: boolean = false;
+  hints: string[] = [];
 
   @ViewChild('recipientInput') recipientInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -79,6 +80,7 @@ export class RecipientsPickerComponent implements OnInit {
 
   remove(recipient: ContactInbox): void {
     this._resetErrors();
+    this.hints = [];
     const index = this.recipients.indexOf(recipient);
 
     if (index >= 0) {
@@ -145,7 +147,13 @@ export class RecipientsPickerComponent implements OnInit {
           return;
         } else {
           if (inboxes?.length > 0) {
-            this.recipients.push({url: inboxes[0], name: inboxes[0], contact: {webId: iri, name: name}});
+            for (const inbox of inboxes) {
+              this.recipients.push({url: inbox, name: inbox, contact: {webId: iri, name: name}});
+            }
+            if (inboxes.length > 1) {
+              console.log("moore")
+              this.hints.push("Discovered multiple inboxes at supplied webId. Choose which you want to keep.");
+            }
             resolve();
             return;
           }

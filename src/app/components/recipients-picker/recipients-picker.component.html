@@ -13,7 +13,8 @@
     </mat-chip>
     <mat-spinner *ngIf="spinner" matPrefix [diameter]="20"></mat-spinner>
     <input
-      placeholder="Type in recipient..."
+      matInput
+      placeholder="Type in recipient and hit ENTER..."
       #recipientInput
       [formControl]="formControl"
       [matAutocomplete]="auto"
@@ -22,6 +23,8 @@
       (matChipInputTokenEnd)="add($event)">
     <mat-error *ngFor="let error of errors"><strong>{{error}}</strong></mat-error>
   </mat-chip-list>
+  <mat-hint *ngFor="let hint of hints" align="start">{{hint}}</mat-hint>
+
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
     <mat-option *ngFor="let contact of filteredContacts | async" [value]="contact">
       {{contact.contact.name}}: {{contact.url}}
