@@ -6,6 +6,7 @@ import {ActivatedRoute} from "@angular/router";
 import {of} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Overlay} from "@angular/cdk/overlay";
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('MessageDetailComponent', () => {
   let component: MessageDetailComponent;
@@ -17,6 +18,7 @@ describe('MessageDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [ MessageDetailComponent ],
       providers: [
         MatSnackBar, Overlay, HttpClient,

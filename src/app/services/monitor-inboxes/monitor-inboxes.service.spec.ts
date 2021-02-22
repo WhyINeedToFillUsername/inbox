@@ -2,6 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {MonitorInboxesService} from './monitor-inboxes.service';
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {Overlay} from "@angular/cdk/overlay";
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('MonitorInboxesService', () => {
   let service: MonitorInboxesService;
@@ -9,7 +10,7 @@ describe('MonitorInboxesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [MatSnackBar, Overlay],
-      imports: [MatSnackBarModule],
+      imports: [MatSnackBarModule, RouterTestingModule],
     }).compileComponents();
 
     service = TestBed.inject(MonitorInboxesService);

@@ -5,6 +5,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Overlay} from "@angular/cdk/overlay";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {HttpClient, HttpHandler} from "@angular/common/http";
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('RecipientsPickerComponent', () => {
   let component: RecipientsPickerComponent;
@@ -12,7 +13,7 @@ describe('RecipientsPickerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatAutocompleteModule],
+      imports: [MatAutocompleteModule, RouterTestingModule],
       declarations: [ RecipientsPickerComponent ],
       providers: [MatSnackBar, Overlay, HttpClient, HttpHandler]
     })
