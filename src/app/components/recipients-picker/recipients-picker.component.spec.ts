@@ -14,7 +14,7 @@ describe('RecipientsPickerComponent', () => {
     await TestBed.configureTestingModule({
       imports: [MatAutocompleteModule],
       declarations: [ RecipientsPickerComponent ],
-      providers: [MatSnackBar, Overlay]
+      providers: [MatSnackBar, Overlay, HttpClient, HttpHandler]
     })
     .compileComponents();
   });
