@@ -3,6 +3,7 @@ import {BrowserStorageService} from "../browser-storage.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SystemNotificationsService} from "../system-notifications/system-notifications.service";
 import {Inbox} from "../../model/inbox";
+import {MessageSnackbarComponent} from "../../components/message-snackbar/message-snackbar.component";
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +60,13 @@ export class MonitorInboxesService {
   private connect(inboxUrl: string, connectNew: boolean = false) {
     let socket = new WebSocket(MonitorInboxesService.getWsUrlFromInboxUrl(inboxUrl), MonitorInboxesService.WS_SOLID_PROTOCOL);
     socket.onopen = this.onopenCallback(inboxUrl, this._snackBar, connectNew);
-    socket.onmessage = this.onmessageCallback(inboxUrl, this._snackBar, this._systemNotificationsService);
+
+    socket.onmessage = (msg) => {
+      if (msg.data && msg.data.slice(0, 3) === 'pub') {
+        this._snackBar.openFromComponent(MessageSnackbarComponent, {data: inboxUrl});
+        this._systemNotificationsService.inboxNotification(inboxUrl);
+      }
+    }
   }
 
   static getWsUrlFromInboxUrl(inboxUrl: string) {
@@ -72,21 +79,9 @@ export class MonitorInboxesService {
     return "wss://" + urlWithoutSubdomain + "/";
   }
 
-  private onmessageCallback = function (inboxUrl: string, _snackBar: MatSnackBar, _systemNotificationsService: SystemNotificationsService) {
-    return function (msg) {
-      console.log("message:", msg);
-      if (msg.data && msg.data.slice(0, 3) === 'pub') {
-        // resource updated, refetch resource
-        _snackBar.open("You got new message on the inbox " + inboxUrl, "Dismiss");
-        _systemNotificationsService.notify("New inbox message", "You got new message on the inbox " + inboxUrl);
-      }
-    };
-  }
-
   private onopenCallback = function (inboxUrl: string, _snackBar: MatSnackBar, connectNew: boolean) {
     return function () {
       this.send('sub ' + inboxUrl);
-      console.log("subscribed to ", inboxUrl);
       if (connectNew) _snackBar.open("Successfully added inbox to monitor: " + inboxUrl, "Dismiss");
     }
   }

@@ -14,7 +14,8 @@
   </button>
 
   <button mat-stroked-button (click)="monitor(inbox)" [disabled]="inbox.isMonitored">
-    enable notifications
+    <ng-template [ngIf]="!inbox.isMonitored">enable notifications</ng-template>
+    <ng-template [ngIf]="inbox.isMonitored">notifications enabled</ng-template>
   </button>
 </h2>
 

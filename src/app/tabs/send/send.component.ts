@@ -46,7 +46,7 @@ export class SendComponent implements OnInit {
         this.picker.errors = [];
       },
       error => {
-        this._snackBar.open("Error sending message. " + error);
+        this._snackBar.open("Error sending message. " + error.toString(), "Dismiss");
       }
     );
   }

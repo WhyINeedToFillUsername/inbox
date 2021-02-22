@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SystemNotificationsService {
 
-  constructor() {
+  constructor(
+    private readonly _router: Router) {
   }
 
   notify(title: string = "New inbox notification", text: string = "", tag: string = "inbox-notification") {
@@ -22,6 +24,21 @@ export class SystemNotificationsService {
 
     notification.addEventListener('click', function () {
       alert(text);
+    });
+  }
+
+  inboxNotification(inboxUrl: string) {
+    const img = '/favicon.ico';
+    const options = {
+      body: "You got new message in your inbox " + inboxUrl,
+      icon: img,
+      tag: "inbox-notification",
+      badge: img
+    };
+    const notification = new Notification("New message in your inbox", options);
+
+    notification.addEventListener('click', () => {
+      this._router.navigate(['/incoming/', inboxUrl])
     });
   }
 }
