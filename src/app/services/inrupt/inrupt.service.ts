@@ -7,7 +7,6 @@ import {
   getFile,
   getSolidDataset,
   getStringByLocaleAll,
-  getStringNoLocale,
   getStringNoLocaleAll,
   getStringWithLocale,
   getThing,
@@ -23,8 +22,8 @@ import {CommonHelper} from "../../helpers/common.helper";
 import {InboxDiscoveryService} from "../discovery/inbox-discovery.service";
 import {Observable} from "rxjs";
 import {shareReplay} from "rxjs/operators";
-import {Contact} from "../../model/contact";
 import {ContactInbox} from "../../model/contact.inbox";
+import {InruptStaticService} from "./inrupt.static.service";
 
 @Injectable({
   providedIn: 'root'
@@ -84,7 +83,7 @@ export class InruptService {
             })
           }));
         }
-        Promise.all(promises).then(() => resolve(InruptService.sortMessagesByDateDesc(messagesForTable)));
+        Promise.all(promises).then(() => resolve(InruptStaticService.sortMessagesByDateDesc(messagesForTable)));
       } catch (err) {
         reject(err)
       }
@@ -97,12 +96,12 @@ export class InruptService {
     const profile = getThing(profileDataSet, webId);
 
     const webIds = getUrlAll(profile, FOAF.knows);
-    return await InruptService._prepareContacts(webIds);
+    return await InruptStaticService.prepareContacts(webIds);
   }
 
   getLoggedInUserName(): Promise<string> {
     const webId = this.getSessionWebId();
-    return InruptService.getProfileName(webId);
+    return InruptStaticService.getProfileName(webId);
   }
 
   loadMessage(inbox: Inbox, messageUrl: string): Promise<InboxMessage> {
@@ -145,7 +144,7 @@ export class InruptService {
   getInboxName(inboxUrl): Promise<string> {
     return this._findInboxName(inboxUrl).then(
       name => name,
-      noName => InruptService.getInboxNameFromUrl(inboxUrl)
+      noName => InruptStaticService.getInboxNameFromUrl(inboxUrl)
     )
   }
 
@@ -198,37 +197,5 @@ export class InruptService {
         }
       );
     }).pipe(shareReplay(1));
-  }
-
-  static sortMessagesByDateDesc(messages: InboxMessage[]): InboxMessage[] {
-    return messages.sort((a, b) => {
-      return b.created.getTime() - a.created.getTime()
-    });
-  }
-
-  static getInboxNameFromUrl(inboxUrl: string): string {
-    const pathname = new URL(inboxUrl).pathname;
-    return pathname.replace(/^\//, '').replace(/\/$/, '');
-  }
-
-  static async getProfileName(webId): Promise<string> {
-    const profileDataSet = await getSolidDataset(webId);
-    const profile = getThing(profileDataSet, webId);
-    return getStringNoLocale(profile, FOAF.name);
-  }
-
-  private static async _prepareContacts(webIds: string[]): Promise<ContactInbox[]> {
-    let inboxesWithContactInfo: ContactInbox[] = [];
-
-    for (const webId of webIds) {
-      const inboxUrls = await InboxDiscoveryService.retrieveInboxUrlsFromWebId(webId);
-      const contactName = await InruptService.getProfileName(webId);
-      const contact: Contact = {webId: webId, name: contactName};
-
-      for (const inboxUrl of inboxUrls) {
-        inboxesWithContactInfo.push({url: inboxUrl, name: inboxUrl, contact: contact})
-      }
-    }
-    return inboxesWithContactInfo;
   }
 }

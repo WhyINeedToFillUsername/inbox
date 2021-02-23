@@ -9,6 +9,7 @@ import {InruptService} from "../../services/inrupt/inrupt.service";
 import {ContactInbox} from "../../model/contact.inbox";
 import {SendService} from "../../services/send/send.service";
 import {InboxDiscoveryService} from "../../services/discovery/inbox-discovery.service";
+import {InruptStaticService} from "../../services/inrupt/inrupt.static.service";
 
 @Component({
   selector: 'app-recipients-picker',
@@ -138,7 +139,7 @@ export class RecipientsPickerComponent implements OnInit {
 
       promises.push(this._sendService.isInboxIri(iri).toPromise().then(value => isInboxIri = value).catch(ignore => {return}));
       promises.push(InboxDiscoveryService.retrieveInboxUrlsFromWebId(iri).then(urls => inboxes = urls).catch(ignore => {return}))
-      promises.push(InruptService.getProfileName(iri).then(profileName => name = profileName).catch(ignore => {return}));
+      promises.push(InruptStaticService.getProfileName(iri).then(profileName => name = profileName).catch(ignore => {return}));
 
       Promise.all(promises).then(() => {
         if (isInboxIri) {
