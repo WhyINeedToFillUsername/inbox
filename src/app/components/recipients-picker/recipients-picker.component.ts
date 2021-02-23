@@ -152,7 +152,6 @@ export class RecipientsPickerComponent implements OnInit {
               this.recipients.push({url: inbox, name: inbox, contact: {webId: iri, name: name}});
             }
             if (inboxes.length > 1) {
-              console.log("moore")
               this.hints.push("Discovered multiple inboxes at supplied webId. Choose which you want to keep.");
             }
             resolve();

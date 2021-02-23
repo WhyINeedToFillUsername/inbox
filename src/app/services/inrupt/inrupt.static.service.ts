@@ -1,6 +1,6 @@
 import {InboxMessage} from "../../model/inbox.message";
-import {getSolidDataset, getStringNoLocale, getThing} from "@inrupt/solid-client";
-import {FOAF} from "@inrupt/vocab-common-rdf";
+import {getSolidDataset, getStringNoLocale, getThing, getUrl} from "@inrupt/solid-client";
+import {FOAF, VCARD} from "@inrupt/vocab-common-rdf";
 import {ContactInbox} from "../../model/contact.inbox";
 import {InboxDiscoveryService} from "../discovery/inbox-discovery.service";
 import {Contact} from "../../model/contact";
@@ -16,6 +16,12 @@ export class InruptStaticService {
   static getInboxNameFromUrl(inboxUrl: string): string {
     const pathname = new URL(inboxUrl).pathname;
     return pathname.replace(/^\//, '').replace(/\/$/, '');
+  }
+
+  static async getProfilePicture(webId): Promise<string> {
+    const profileDataSet = await getSolidDataset(webId);
+    const profile = getThing(profileDataSet, webId);
+    return getUrl(profile, VCARD.hasPhoto);
   }
 
   static async getProfileName(webId): Promise<string> {

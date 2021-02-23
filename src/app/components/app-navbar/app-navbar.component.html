@@ -12,7 +12,7 @@
 
   <span class="spacer"></span>
   <div class="userInfo" *ngIf="userLoggedIn">
-    <img src="assets/images/avatar.png" alt="Profile picture" class="rounded">
+    <img src="{{photoSrc}}" alt="Profile picture" class="rounded">
     <a href="{{webId}}" title="Go to profile" target="_blank">{{username}}</a>
     <button mat-stroked-button (click)="logout()">Logout</button>
   </div>

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {InruptService} from "../../services/inrupt/inrupt.service";
+import {InruptStaticService} from "../../services/inrupt/inrupt.static.service";
 
 @Component({
   selector: 'app-navbar',
@@ -11,6 +12,7 @@ export class AppNavbarComponent implements OnInit {
   username: string;
   webId: string;
   userLoggedIn;
+  photoSrc: string = "assets/images/avatar.png";
 
   constructor(private readonly _inruptService: InruptService) {
   }
@@ -24,9 +26,11 @@ export class AppNavbarComponent implements OnInit {
     this._inruptService.session.addListener('login', () => {
       this.userLoggedIn = true;
       this.webId = this._inruptService.session.info.webId;
-      this._inruptService.getLoggedInUserName().then(username => {
-        this.username = username;
-      })
+      this._inruptService.getLoggedInUserName().then(username => {this.username = username;});
+
+      InruptStaticService.getProfilePicture(this.webId).then(photoPath => {
+        if (photoPath) this.photoSrc = photoPath;
+      });
     });
   }
 
