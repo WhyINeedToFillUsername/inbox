@@ -16,6 +16,7 @@
     <span><a mat-raised-button [routerLink]="['/incoming/', inbox?.url]" [style]="inbox?.style">{{inbox?.name}}</a></span>
     <span>Type: {{message?.type}}</span>
     <span class="date">Received: {{message?.created | date:'yyyy-MM-dd, HH:mm'}}</span>
+    <span *ngIf="jsonFields?.actor"><button mat-icon-button aria-label="Reply" class="back" (click)="reply(jsonFields.actor)"><mat-icon>reply</mat-icon></button></span>
   </div>
 
   <div class="content">
@@ -34,7 +35,7 @@
 <!--  list of json fields  -->
     <mat-list role="list" *ngIf="jsonFields">
       <mat-list-item role="listitem" *ngFor="let field of jsonFields | keyvalue; last as last">
-        <span class="key">{{field.key}}:</span><span class="value">{{field.value}}</span>
+        <span class="key">{{field.key}}:</span><span class="value">{{field.value | json}}</span>
         <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
       </mat-list-item>
 

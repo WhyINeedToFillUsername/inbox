@@ -24,3 +24,7 @@
   text-align: right;
   margin-right: 1em;
 }
+
+button:hover {
+  background-color: rgba(0, 0, 0, .04);
+}

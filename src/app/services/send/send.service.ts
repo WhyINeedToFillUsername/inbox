@@ -8,6 +8,7 @@ import {map} from "rxjs/operators";
   providedIn: 'root'
 })
 export class SendService {
+  public replyTo: string;
 
   constructor(private readonly http: HttpClient) {
   }

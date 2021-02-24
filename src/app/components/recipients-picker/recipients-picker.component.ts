@@ -26,6 +26,7 @@ export class RecipientsPickerComponent implements OnInit {
   errors: string[] = [];
   spinner: boolean = false;
   hints: string[] = [];
+  inputValue: string = "";
 
   @ViewChild('recipientInput') recipientInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -39,6 +40,7 @@ export class RecipientsPickerComponent implements OnInit {
     this.loadContacts().then(() => {
       this.monitorFormInput();
     });
+    this._processReplyMessage();
   }
 
   private monitorFormInput() {
@@ -48,35 +50,9 @@ export class RecipientsPickerComponent implements OnInit {
   }
 
   add(event: MatChipInputEvent): void {
-    this._resetErrors();
     const input = event.input;
     const value = event.value;
-
-    // Add our recipient
-    const trimmedValue = (value || '').trim();
-
-    if (trimmedValue) {
-      this.spinner = true;
-      this.formControl.disable();
-      this._processSubmittedInput(value).finally(() => {
-        this.spinner = false;
-        this.formControl.enable();
-      })
-        .then(() => {
-            // Reset the input value
-            if (input) {
-              input.value = '';
-            }
-
-            this.formControl.setValue(null);
-          },
-          error => {
-            this._setErrors("Couldn't find inbox / profile!");
-          }
-        )
-    } else {
-      this._setErrors("You've inputted only whitespaces!");
-    }
+    this._addRecipient(value, input);
   }
 
   remove(recipient: ContactInbox): void {
@@ -128,6 +104,46 @@ export class RecipientsPickerComponent implements OnInit {
 
   private _resetErrors() {
     this.errors = [];
+  }
+
+  private _processReplyMessage() {
+    const replyTo = this._sendService.replyTo;
+    if (replyTo) {
+      this.formControl.setValue(replyTo);
+      this.inputValue = replyTo;
+
+      this._addRecipient(replyTo)
+    }
+  }
+
+  private _addRecipient(value: string, input: HTMLInputElement = undefined) {
+    this._resetErrors();
+
+    // Add our recipient
+    const trimmedValue = (value || '').trim();
+
+    if (trimmedValue) {
+      this.spinner = true;
+      this.formControl.disable();
+      this._processSubmittedInput(value).finally(() => {
+        this.spinner = false;
+        this.formControl.enable();
+      })
+        .then(() => {
+            // Reset the input value
+            if (input) {
+              input.value = '';
+            }
+
+            this.formControl.setValue(null);
+          },
+          error => {
+            this._setErrors("Couldn't find inbox / profile!");
+          }
+        )
+    } else {
+      this._setErrors("You've inputted only whitespaces!");
+    }
   }
 
   private _processSubmittedInput(iri: string): Promise<any> {

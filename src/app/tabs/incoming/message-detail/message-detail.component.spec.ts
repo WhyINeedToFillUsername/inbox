@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MessageDetailComponent } from './message-detail.component';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHandler} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {of} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -21,7 +21,7 @@ describe('MessageDetailComponent', () => {
       imports: [RouterTestingModule],
       declarations: [ MessageDetailComponent ],
       providers: [
-        MatSnackBar, Overlay, HttpClient,
+        MatSnackBar, Overlay, HttpClient, HttpHandler,
         {provide: ActivatedRoute, useValue: fakeQueryMap}
       ]
     })

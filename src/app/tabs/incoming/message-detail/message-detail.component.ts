@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
 import {InboxMessage} from "../../../model/inbox.message";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {InruptService} from "../../../services/inrupt/inrupt.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Inbox} from "../../../model/inbox";
+import {SendService} from "../../../services/send/send.service";
 
 @Component({
   selector: 'app-message-detail',
@@ -21,8 +22,10 @@ export class MessageDetailComponent implements OnInit, OnDestroy {
   constructor(
     private _location: Location,
     private readonly route: ActivatedRoute,
+    private readonly _router: Router,
     private readonly _inruptService: InruptService,
     private readonly _snackBar: MatSnackBar,
+    private readonly _sendService: SendService
   ) {
   }
 
@@ -71,5 +74,10 @@ export class MessageDetailComponent implements OnInit, OnDestroy {
       'application/activity+json', 'application/json', 'application/ld+json']
 
     return typesToParse.includes(type);
+  }
+
+  reply(actor: string) {
+    this._sendService.replyTo = actor;
+    this._router.navigate(['/send']);
   }
 }
