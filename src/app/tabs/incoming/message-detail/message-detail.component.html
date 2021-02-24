@@ -16,7 +16,7 @@
     <span><a mat-raised-button [routerLink]="['/incoming/', inbox?.url]" [style]="inbox?.style">{{inbox?.name}}</a></span>
     <span>Type: {{message?.type}}</span>
     <span class="date">Received: {{message?.created | date:'yyyy-MM-dd, HH:mm'}}</span>
-    <span *ngIf="jsonFields?.actor"><button mat-icon-button aria-label="Reply" class="back" (click)="reply(jsonFields.actor)"><mat-icon>reply</mat-icon></button></span>
+    <span *ngIf="jsonFields?.actor"><button mat-icon-button aria-label="Reply" title="Reply" (click)="reply()"><mat-icon>reply</mat-icon></button></span>
   </div>
 
   <div class="content">

@@ -6,6 +6,7 @@ import {InruptService} from "../../../services/inrupt/inrupt.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Inbox} from "../../../model/inbox";
 import {SendService} from "../../../services/send/send.service";
+import {ApMessage} from "../../../model/ap.message";
 
 @Component({
   selector: 'app-message-detail',
@@ -76,8 +77,17 @@ export class MessageDetailComponent implements OnInit, OnDestroy {
     return typesToParse.includes(type);
   }
 
-  reply(actor: string) {
-    this._sendService.replyTo = actor;
+  reply() {
+    let replyTo = new ApMessage();
+
+    replyTo.url = this.message.url;
+    replyTo.inboxUrl = this.message.inbox.url;
+
+    replyTo.name = this.jsonFields?.name;
+    replyTo.actor = this.jsonFields?.actor;
+    if (this.jsonFields?.object?.content) replyTo.content = "\n\n> " + this.jsonFields.object.content;
+
+    this._sendService.replyTo = replyTo;
     this._router.navigate(['/send']);
   }
 }

@@ -3,12 +3,13 @@ import {HttpClient} from "@angular/common/http";
 import {forkJoin, Observable} from "rxjs";
 import {ContactInbox} from "../../model/contact.inbox";
 import {map} from "rxjs/operators";
+import {ApMessage} from "../../model/ap.message";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SendService {
-  public replyTo: string;
+  public replyTo: ApMessage;
 
   constructor(private readonly http: HttpClient) {
   }

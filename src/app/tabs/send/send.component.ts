@@ -1,26 +1,30 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RecipientsPickerComponent} from "../../components/recipients-picker/recipients-picker.component";
 import {SendService} from "../../services/send/send.service";
 import {ContactInbox} from "../../model/contact.inbox";
+import {ApMessage} from "../../model/ap.message";
 
 @Component({
   selector: 'app-send',
   templateUrl: './send.component.html',
   styleUrls: ['./send.component.css']
 })
-export class SendComponent implements OnInit {
+export class SendComponent {
   messageContent: string = "";
   messageError: string = null;
+  replyTo: ApMessage;
 
   @ViewChild(RecipientsPickerComponent)
   picker: RecipientsPickerComponent;
 
   constructor(private readonly _snackBar: MatSnackBar,
               private readonly _sendService: SendService) {
-  }
-
-  ngOnInit(): void {
+    if (this._sendService.replyTo) {
+      this.replyTo = this._sendService.replyTo;
+      this.messageContent = this.replyTo.content;
+      this._sendService.replyTo = undefined;
+    }
   }
 
   async send() {

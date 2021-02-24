@@ -1,15 +1,16 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {FormControl, Validators} from '@angular/forms';
 import {MatAutocomplete, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Observable} from 'rxjs';
-import {map, startWith, tap} from 'rxjs/operators';
+import {map, startWith} from 'rxjs/operators';
 import {InruptService} from "../../services/inrupt/inrupt.service";
 import {ContactInbox} from "../../model/contact.inbox";
 import {SendService} from "../../services/send/send.service";
 import {InboxDiscoveryService} from "../../services/discovery/inbox-discovery.service";
 import {InruptStaticService} from "../../services/inrupt/inrupt.static.service";
+import {ApMessage} from "../../model/ap.message";
 
 @Component({
   selector: 'app-recipients-picker',
@@ -30,6 +31,8 @@ export class RecipientsPickerComponent implements OnInit {
 
   @ViewChild('recipientInput') recipientInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
+
+  @Input() replyTo: ApMessage;
 
   constructor(
     private readonly _inruptService: InruptService,
@@ -107,12 +110,10 @@ export class RecipientsPickerComponent implements OnInit {
   }
 
   private _processReplyMessage() {
-    const replyTo = this._sendService.replyTo;
-    if (replyTo) {
-      this.formControl.setValue(replyTo);
-      this.inputValue = replyTo;
-
-      this._addRecipient(replyTo)
+    if (this.replyTo?.actor) {
+      this.formControl.setValue(this.replyTo);
+      this.inputValue = this.replyTo.actor;
+      this._addRecipient(this.replyTo.actor)
     }
   }
 
