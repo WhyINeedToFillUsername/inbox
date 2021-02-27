@@ -5,3 +5,11 @@ mat-form-field {
 textarea {
   height: 20vh;
 }
+
+.tooltip {
+  font-size: 2em !important;
+}
+
+h1 a {
+  color: #4190d6;
+}

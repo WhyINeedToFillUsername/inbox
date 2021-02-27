@@ -34,6 +34,7 @@ import { MessageSnackbarComponent } from './components/message-snackbar/message-
 import { SendActivityPubComponent } from './tabs/send/send-activity-pub/send-activity-pub.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import { SendTabNavComponent } from './tabs/send/send-tab-nav/send-tab-nav.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -59,7 +60,7 @@ import { SendTabNavComponent } from './tabs/send/send-tab-nav/send-tab-nav.compo
     // material
     MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, MatIconModule, MatToolbarModule, MatMenuModule,
     MatSnackBarModule, MatTableModule, MatListModule, MatProgressSpinnerModule, MatRadioModule, MatSidenavModule,
-    MatChipsModule, MatAutocompleteModule, ReactiveFormsModule, MatTabsModule,
+    MatChipsModule, MatAutocompleteModule, ReactiveFormsModule, MatTabsModule, MatTooltipModule,
 
     HttpClientModule,
   ],
