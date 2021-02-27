@@ -44,7 +44,7 @@ export class SendSimpleComponent {
         this.picker.errors = [];
       },
       error => {
-        this._snackBar.open("Error sending message. " + error.toString(), "Dismiss");
+        this._snackBar.open("Error sending message. " + error, "Dismiss");
       }
     );
   }
