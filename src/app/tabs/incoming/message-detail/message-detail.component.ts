@@ -80,8 +80,8 @@ export class MessageDetailComponent implements OnInit, OnDestroy {
   reply() {
     let replyTo = new ApMessage();
 
-    replyTo.url = this.message.url;
-    replyTo.inboxUrl = this.message.inbox.url;
+    replyTo.inReplyTo = this.message.url;
+    replyTo.replyToMessageInboxUrl = this.message.inbox.url;
 
     replyTo.name = this.jsonFields?.name;
     replyTo.actor = this.jsonFields?.actor;

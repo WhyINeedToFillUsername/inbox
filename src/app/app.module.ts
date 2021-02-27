@@ -31,6 +31,9 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { RecipientsPickerComponent } from './components/recipients-picker/recipients-picker.component';
 import { MessageDetailComponent } from './tabs/incoming/message-detail/message-detail.component';
 import { MessageSnackbarComponent } from './components/message-snackbar/message-snackbar.component';
+import { SendActivityPubComponent } from './tabs/send/send-activity-pub/send-activity-pub.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import { SendTabNavComponent } from './tabs/send/send-tab-nav/send-tab-nav.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,9 @@ import { MessageSnackbarComponent } from './components/message-snackbar/message-
     MessageListComponent,
     RecipientsPickerComponent,
     MessageDetailComponent,
-    MessageSnackbarComponent
+    MessageSnackbarComponent,
+    SendActivityPubComponent,
+    SendTabNavComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +59,7 @@ import { MessageSnackbarComponent } from './components/message-snackbar/message-
     // material
     MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, MatIconModule, MatToolbarModule, MatMenuModule,
     MatSnackBarModule, MatTableModule, MatListModule, MatProgressSpinnerModule, MatRadioModule, MatSidenavModule,
-    MatChipsModule, MatAutocompleteModule, ReactiveFormsModule,
+    MatChipsModule, MatAutocompleteModule, ReactiveFormsModule, MatTabsModule,
 
     HttpClientModule,
   ],

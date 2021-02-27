@@ -1,0 +1,16 @@
+<nav mat-tab-nav-bar>
+  <a mat-tab-link
+     routerLink="/send"
+     routerLinkActive #simple="routerLinkActive"
+     [active]="simple.isActive"
+     [routerLinkActiveOptions]="{exact: true}">
+    Simple message
+  </a>
+
+  <a mat-tab-link
+     routerLink="/send/activity-pub"
+     routerLinkActive #ap="routerLinkActive"
+     [active]="ap.isActive">
+    ActivityPub message
+  </a>
+</nav>
