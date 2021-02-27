@@ -88,6 +88,6 @@ export class MessageDetailComponent implements OnInit, OnDestroy {
     if (this.jsonFields?.object?.content) replyTo.content = "\n\n> " + this.jsonFields.object.content;
 
     this._sendService.replyTo = replyTo;
-    this._router.navigate(['/send']);
+    this._router.navigate(['/send/activity-pub']);
   }
 }

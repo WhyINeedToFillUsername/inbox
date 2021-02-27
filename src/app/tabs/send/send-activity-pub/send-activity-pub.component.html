@@ -2,14 +2,21 @@
   <app-send-tab-nav></app-send-tab-nav>
   <h1>Send ActivityPub message
     <a href="https://www.w3.org/TR/activitypub/" target="_blank" mat-icon-button
-            matTooltip="ActivityPub is a protocol for decentralized social networks. It is a W3C recommendation
+       matTooltip="ActivityPub is a protocol for decentralized social networks. It is a W3C recommendation
              which can be extended to create all kinds of federated apps. Click on the icon to learn more."
-            matTooltipClass="info-tooltip"
-            aria-label="Info about ActivityPub"
-            class="info-link">
+       matTooltipClass="info-tooltip"
+       aria-label="Info about ActivityPub"
+       class="info-link">
       <mat-icon>info</mat-icon>
     </a>
   </h1>
+
+  <h2 *ngIf="replyTo?.inReplyTo">
+    Replying to
+    <a [routerLink]="['/incoming/', replyTo.replyToMessageInboxUrl, replyTo.inReplyTo]" title="Show message">
+      {{replyTo.name ? replyTo.name : replyTo.inReplyTo}}
+    </a>
+  </h2>
 
   <app-recipients-picker [replyTo]="replyTo"></app-recipients-picker>
 

@@ -1,13 +1,7 @@
 <div class="content-spacer">
   <app-send-tab-nav></app-send-tab-nav>
-  <h1>Send message
-    <span *ngIf="replyTo?.inReplyTo">- replying to
-      <a [routerLink]="['/incoming/', replyTo.replyToMessageInboxUrl, replyTo.inReplyTo]" title="Back to message">
-        {{replyTo.name? replyTo.name : replyTo.inReplyTo}}
-      </a>
-    </span>
-  </h1>
-  <app-recipients-picker [replyTo]="replyTo"></app-recipients-picker>
+  <h1>Send message</h1>
+  <app-recipients-picker></app-recipients-picker>
 
   <mat-form-field appearance="fill">
     <mat-label>Message content</mat-label>

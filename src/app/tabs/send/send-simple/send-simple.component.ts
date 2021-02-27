@@ -13,18 +13,12 @@ import {ApMessage} from "../../../model/ap.message";
 export class SendSimpleComponent {
   messageContent: string = "";
   messageError: string = null;
-  replyTo: ApMessage;
 
   @ViewChild(RecipientsPickerComponent)
   picker: RecipientsPickerComponent;
 
   constructor(private readonly _snackBar: MatSnackBar,
               private readonly _sendService: SendService) {
-    if (this._sendService.replyTo) {
-      this.replyTo = this._sendService.replyTo;
-      this.messageContent = this.replyTo.content;
-      this._sendService.replyTo = undefined;
-    }
   }
 
   async send() {
