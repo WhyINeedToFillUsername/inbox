@@ -21,7 +21,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatRadioModule} from "@angular/material/radio";
 import { IncomingComponent } from './tabs/incoming/incoming.component';
-import { SendComponent } from './tabs/send/send.component';
+import { SendSimpleComponent } from './tabs/send/send-simple/send-simple.component';
 import { AboutComponent } from './tabs/about/about.component';
 import { LoginComponent } from './tabs/login/login.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -43,7 +43,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     AppNavbarComponent,
     MonitorInboxesComponent,
     IncomingComponent,
-    SendComponent,
+    SendSimpleComponent,
     AboutComponent,
     LoginComponent,
     MessageListComponent,

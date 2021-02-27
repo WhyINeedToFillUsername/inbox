@@ -1,16 +1,16 @@
 import {AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {RecipientsPickerComponent} from "../../components/recipients-picker/recipients-picker.component";
-import {SendService} from "../../services/send/send.service";
-import {ContactInbox} from "../../model/contact.inbox";
-import {ApMessage} from "../../model/ap.message";
+import {RecipientsPickerComponent} from "../../../components/recipients-picker/recipients-picker.component";
+import {SendService} from "../../../services/send/send.service";
+import {ContactInbox} from "../../../model/contact.inbox";
+import {ApMessage} from "../../../model/ap.message";
 
 @Component({
   selector: 'app-send',
-  templateUrl: './send.component.html',
-  styleUrls: ['./send.component.css']
+  templateUrl: './send-simple.component.html',
+  styleUrls: ['./send-simple.component.css']
 })
-export class SendComponent {
+export class SendSimpleComponent {
   messageContent: string = "";
   messageError: string = null;
   replyTo: ApMessage;
