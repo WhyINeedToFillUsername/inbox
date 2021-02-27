@@ -14,7 +14,7 @@ export class SendService {
   constructor(private readonly http: HttpClient) {
   }
 
-  send(destinations: ContactInbox[], messageContent: string) {
+  sendSimpleMessage(destinations: ContactInbox[], messageContent: string) {
     return forkJoin(destinations.map(destinationInbox => this.http.post(destinationInbox.url, messageContent, {responseType: 'text'})));
   }
 

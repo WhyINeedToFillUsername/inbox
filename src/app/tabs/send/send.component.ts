@@ -42,7 +42,7 @@ export class SendComponent {
       return;
     }
 
-    this._sendService.send(selectedRecipients, this.messageContent).subscribe(
+    this._sendService.sendSimpleMessage(selectedRecipients, this.messageContent).subscribe(
       data => {
         this._snackBar.open("Message sent!", "Dismiss");
         this.messageContent = "";
