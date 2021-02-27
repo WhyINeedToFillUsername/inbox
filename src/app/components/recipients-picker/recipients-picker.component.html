@@ -1,8 +1,3 @@
-<p>
-  Search your contacts from your profile
-  (<a href="http://xmlns.com/foaf/spec/#term_knows" title="foaf:knows property specification" target="_blank">foaf:knows</a>),
-  input profile webId for discovery or input known inbox IRI directly:
-</p>
 <mat-form-field class="chip-list" appearance="fill" [class.mat-form-field-invalid]="errors?.length > 0">
   <mat-label>Select recipients</mat-label>
   <mat-chip-list #chipList aria-label="Recipients selection">
@@ -35,3 +30,12 @@
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
+
+<a mat-icon-button href="http://xmlns.com/foaf/spec/#term_knows" target="_blank" class="info-link"
+   matTooltip="Search your contacts from your profile (foaf:knows),
+    input profile webId for discovery or input known inbox IRI directly.
+    Click the icon to learn more (foaf:knows property specification)."
+   matTooltipClass="info-tooltip"
+   aria-label="Info about contacts">
+  <mat-icon>info</mat-icon>
+</a>

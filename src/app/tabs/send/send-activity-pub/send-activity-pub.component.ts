@@ -7,6 +7,7 @@ import {ApMessage} from "../../../model/ap.message";
   styleUrls: ['./send-activity-pub.component.css']
 })
 export class SendActivityPubComponent implements OnInit {
+  subject: string = "";
   messageContent: string = "";
   messageError: string = null;
   replyTo: ApMessage;

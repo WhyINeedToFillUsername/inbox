@@ -1,15 +1,7 @@
 mat-form-field {
-  width: 100%;
+  width: 80%;
 }
 
 textarea {
   height: 20vh;
-}
-
-.tooltip {
-  font-size: 2em !important;
-}
-
-h1 a {
-  color: #4190d6;
 }

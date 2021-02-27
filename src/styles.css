@@ -10,3 +10,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 div.content-spacer {
   padding: 2em;
 }
+
+.info-tooltip {
+  font-size: 1em !important;
+}
+
+.info-link {
+  color: #4190d6;
+}
