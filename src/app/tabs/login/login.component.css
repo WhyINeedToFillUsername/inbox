@@ -4,19 +4,21 @@ mat-form-field {
 
 .content-spacer {
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
-  justify-content: left;
 }
 
 .login {
   margin: 0 4em 0 0;
+  width: 30em;
+  padding: 2em;
 }
 
 .info {
   font-size: 1.5em;
   font-weight: lighter;
-  margin: 2em 0 0 0;
+  margin: 1em 0 0 0;
   line-height: 1.5em;
   width: 20em;
 }

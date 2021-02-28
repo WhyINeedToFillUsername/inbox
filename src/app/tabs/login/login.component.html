@@ -1,5 +1,5 @@
 <div class="content-spacer">
-  <div class="login">
+  <mat-card class="login">
     <h1>Inbox</h1>
     <mat-spinner *ngIf="spinner"></mat-spinner>
 
@@ -23,9 +23,9 @@
       <button mat-raised-button color="primary" id="btnLogin" (click)="login()" [disabled]="!myControl.value">Login
       </button>
     </div>
-  </div>
+  </mat-card>
 
-  <div class="info" *ngIf="!spinner">
+  <div class="info">
     <p>
       Inbox is an application built for a diploma thesis to showcase work with
       <a href="https://www.w3.org/TR/ldn/" title="Linked Data Notifications specification" target="_blank">
