@@ -39,7 +39,9 @@
 
   <ng-container matColumnDef="actor">
     <th mat-header-cell *matHeaderCellDef>From</th>
-    <td mat-cell *matCellDef="let message" [class.muted]="!message.actor">{{message.actor ? message.actor.name : '(uknown)'}}</td>
+    <td mat-cell *matCellDef="let message" [class.muted]="!message.actor || !message?.actor?.name">
+      {{message.actor ? (message.actor.name | async) : '(unknown)'}}
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="content">

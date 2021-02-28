@@ -9,7 +9,7 @@
 
 <div class="message" *ngIf="!spinner">
   <div class="header">
-    <strong *ngIf="this.message?.actor">From: {{this.message.actor.name}}</strong>
+    <strong *ngIf="this.message?.actor">From: {{this.message.actor.name | async}}</strong>
     <span><a mat-raised-button [routerLink]="['/incoming/', inbox?.url]" [style]="inbox?.style">{{inbox?.name}}</a></span>
     <span class="date" title="Received">{{message?.created | date:'yyyy-MM-dd, HH:mm'}}</span>
     <span *ngIf="this.message?.actor">

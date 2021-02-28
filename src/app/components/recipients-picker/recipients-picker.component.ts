@@ -49,7 +49,7 @@ export class RecipientsPickerComponent implements OnInit {
   private monitorFormInput() {
     this.filteredContacts = this.formControl.valueChanges.pipe(
       startWith(null),
-      map((recipient) => recipient && typeof recipient === 'string' ? this._filter(recipient) : this.allContacts.slice()));
+      map(recipient => recipient && typeof recipient === 'string' ? this._filter(recipient) : this.allContacts.slice()));
   }
 
   add(event: MatChipInputEvent): void {
@@ -88,9 +88,16 @@ export class RecipientsPickerComponent implements OnInit {
     const filterValue = value.toLowerCase().replace(':', '');
 
     return this.allContacts.filter(contactInbox => {
-      return contactInbox.url.toLowerCase().indexOf(filterValue) === 0 // filter contacts by inbox url
-        || contactInbox.contact.name.toLocaleLowerCase().indexOf(filterValue) === 0; // or by contact name
-    });
+        return contactInbox.url.toLowerCase().includes(filterValue); // filter contacts by inbox url
+      }
+    );
+
+    // return this.allContacts.filter(contactInbox => {
+    //   return contactInbox.url.toLowerCase().indexOf(filterValue) === 0 // filter contacts by inbox url
+    //     || contactInbox.contact.name.subscribe(name => {
+    //       if (name.toLocaleLowerCase().indexOf(filterValue) === 0) return contactInbox;
+    //     }); // or by contact name
+    // });
   }
 
   loadContacts() {
@@ -152,15 +159,14 @@ export class RecipientsPickerComponent implements OnInit {
       let promises = [];
       let isInboxIri;
       let inboxes;
-      let name = "Unknown";
+      let name = InruptStaticService.getProfileName$(iri);
 
       promises.push(this._sendService.isInboxIri(iri).toPromise().then(value => isInboxIri = value).catch(ignore => {return}));
       promises.push(InboxDiscoveryService.retrieveInboxUrlsFromWebId(iri).then(urls => inboxes = urls).catch(ignore => {return}))
-      promises.push(InruptStaticService.getProfileName(iri).then(profileName => name = profileName).catch(ignore => {return}));
 
       Promise.all(promises).then(() => {
         if (isInboxIri) {
-          this.recipients.push({url: iri, name: iri, contact: {webId: iri, name: "Unknown"}});
+          this.recipients.push({url: iri, name: iri, contact: {webId: iri, name: name}});
           resolve();
           return;
         } else {

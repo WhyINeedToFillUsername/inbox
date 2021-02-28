@@ -4,6 +4,7 @@ import {FOAF, VCARD} from "@inrupt/vocab-common-rdf";
 import {ContactInbox} from "../../model/contact.inbox";
 import {InboxDiscoveryService} from "../discovery/inbox-discovery.service";
 import {Contact} from "../../model/contact";
+import {from, Observable} from "rxjs";
 
 export class InruptStaticService {
 
@@ -30,12 +31,19 @@ export class InruptStaticService {
     return getStringNoLocale(profile, FOAF.name);
   }
 
+  static getProfileName$(webId): Observable<string> {
+    return from(getSolidDataset(webId).then(profileDataSet => {
+      const profile = getThing(profileDataSet, webId);
+      return getStringNoLocale(profile, FOAF.name);
+    }).catch(ignore => webId));
+  }
+
   static async prepareContacts(webIds: string[]): Promise<ContactInbox[]> {
     let inboxesWithContactInfo: ContactInbox[] = [];
 
     for (const webId of webIds) {
       const inboxUrls = await InboxDiscoveryService.retrieveInboxUrlsFromWebId(webId);
-      const contactName = await InruptStaticService.getProfileName(webId);
+      const contactName = InruptStaticService.getProfileName$(webId);
       const contact: Contact = {webId: webId, name: contactName};
 
       for (const inboxUrl of inboxUrls) {
@@ -63,7 +71,7 @@ export class InruptStaticService {
         message.name = message.jsonFields?.name;
 
         if (message.jsonFields?.actor) {
-          let actorName = await InruptStaticService.getProfileName(message.jsonFields.actor);
+          let actorName = InruptStaticService.getProfileName$(message.jsonFields.actor);
           message.actor = {webId: message.jsonFields.actor, name: actorName};
         }
 

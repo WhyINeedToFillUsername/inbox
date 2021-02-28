@@ -6,7 +6,7 @@
       selectable="true"
       removable="true"
       (removed)="remove(recipient)">
-      {{recipient.contact.name}}: {{recipient.url}}
+      {{recipient.contact.name | async}}: {{recipient.url}}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
     <mat-spinner *ngIf="spinner" matPrefix [diameter]="20"></mat-spinner>
@@ -26,7 +26,7 @@
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
     <mat-option *ngFor="let contact of filteredContacts | async" [value]="contact">
-      {{contact.contact.name}}: {{contact.url}}
+      {{contact.contact.name | async}}: {{contact.url}}
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
