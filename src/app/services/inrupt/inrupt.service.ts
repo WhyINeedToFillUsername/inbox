@@ -32,11 +32,17 @@ export class InruptService {
 
   readonly session = new Session();
   inboxes$: Observable<Inbox[]>;
+  allMessages$: Observable<InboxMessage[]>;
 
   constructor(private readonly _snackBar: MatSnackBar,
               private readonly _monitorService: MonitorInboxesService) {
 
     this.inboxes$ = this._getObservableInboxes$();
+    this.reloadAllMessages();
+  }
+
+  reloadAllMessages() {
+    this.allMessages$ = this._getObservableMessages$();
   }
 
   login(selectedOidcIssuer: string) {
@@ -196,6 +202,26 @@ export class InruptService {
           )
         }
       );
+    }).pipe(shareReplay(1));
+  }
+
+  private _getObservableMessages$() {
+    return new Observable<InboxMessage[]>((subscriber) => {
+      this.inboxes$.subscribe(
+        inboxes => {
+          let promises = [];
+          let allMessages = [];
+
+          for (const inbox of inboxes) {
+            promises.push(this.loadMessagesOfInbox(inbox).then(messages => {allMessages = allMessages.concat(messages);}));
+          }
+
+          Promise.all(promises).then(() => {
+            subscriber.next(InruptStaticService.sortMessagesByDateDesc(allMessages));
+            subscriber.complete();
+          });
+
+        });
     }).pipe(shareReplay(1));
   }
 }

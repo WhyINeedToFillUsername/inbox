@@ -1,6 +1,6 @@
 <h2 *ngIf="!inbox">messages from all your inboxes
 
-  <button mat-stroked-button (click)="readInboxes()" [disabled]="workingInbox" [class.spinner]="workingInbox">
+  <button mat-stroked-button (click)="reloadAllMessages()" [disabled]="workingInbox" [class.spinner]="workingInbox">
     Reload
     <mat-icon>refresh</mat-icon>
   </button>

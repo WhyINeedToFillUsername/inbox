@@ -4,7 +4,6 @@ import {InboxMessage} from "../../../model/inbox.message";
 import {Inbox} from "../../../model/inbox";
 import {ActivatedRoute} from "@angular/router";
 import {MonitorInboxesService} from "../../../services/monitor-inboxes/monitor-inboxes.service";
-import {InruptStaticService} from "../../../services/inrupt/inrupt.static.service";
 
 @Component({
   selector: 'app-message-list',
@@ -34,7 +33,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
         this._readInbox(inboxUrl);
       } else {
         this.columnsToDisplay = ['created', 'inbox', 'url', 'type'];
-        this.readInboxes();
+        this.loadAllMessages();
       }
     });
   }
@@ -58,30 +57,19 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   }
 
-  readInboxes() {
+  reloadAllMessages() {
+    this._inruptService.reloadAllMessages();
+    this.loadAllMessages();
+  }
+
+  loadAllMessages() {
     this.workingInbox = true;
     this.messages = [];
 
-    this._inruptService.inboxes$.subscribe(
-      inboxes => {
-        this.inboxes = inboxes;
-        let promises = [];
-
-        for (const inbox of this.inboxes) {
-          promises.push(this._inruptService.loadMessagesOfInbox(inbox)
-            .then(
-              messages => {
-                inbox.messages = messages;
-                this.messages = this.messages.concat(messages);
-              }
-            ));
-        }
-
-        Promise.all(promises).then(() => {
-          this.messages = InruptStaticService.sortMessagesByDateDesc(this.messages);
-          this.workingInbox = false;
-        });
-      });
+    this._inruptService.allMessages$.subscribe(allMessages => {
+      this.messages = allMessages;
+      this.workingInbox = false;
+    });
   }
 
   monitor(inbox: Inbox) {
