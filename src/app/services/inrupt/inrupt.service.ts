@@ -177,7 +177,7 @@ export class InruptService {
             return;
           });
       } catch (error) {
-        console.log("Error when finding inbox name: ", error);
+        console.error("Error when finding inbox name: ", error);
         reject();
       }
     });

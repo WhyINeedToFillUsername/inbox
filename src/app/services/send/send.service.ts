@@ -32,10 +32,11 @@ export class SendService {
   }
 
   private _sendActivityPubMessage(message: ApMessage) {
-    const options = {headers: new HttpHeaders({'Content-Type': 'application/ld+json'}), responseType: 'text'};
+    const options = {headers: new HttpHeaders({'Content-Type': 'application/ld+json'}), responseType: 'text' as 'text'};
 
     return forkJoin(message.to.map(destinationInbox => {
-      return this.http.post<string>(destinationInbox, SendService.ConstructActivityPubObject(message), options);
+      return this.http.post(destinationInbox, SendService.ConstructActivityPubObject(message),
+        {headers: new HttpHeaders({'Content-Type': 'application/ld+json'}), responseType: 'text'});
     }));
   }
 

@@ -4,6 +4,7 @@ import {InboxMessage} from "../../../model/inbox.message";
 import {Inbox} from "../../../model/inbox";
 import {ActivatedRoute} from "@angular/router";
 import {MonitorInboxesService} from "../../../services/monitor-inboxes/monitor-inboxes.service";
+import {InruptStaticService} from "../../../services/inrupt/inrupt.static.service";
 
 @Component({
   selector: 'app-message-list',
@@ -77,6 +78,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
         }
 
         Promise.all(promises).then(() => {
+          this.messages = InruptStaticService.sortMessagesByDateDesc(this.messages);
           this.workingInbox = false;
         });
       });
