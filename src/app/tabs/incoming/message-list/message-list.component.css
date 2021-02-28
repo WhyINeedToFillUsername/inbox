@@ -1,3 +1,7 @@
 h2 button {
   margin-left: 2em;
 }
+
+.muted {
+  color: #d6d6d6;
+}

@@ -79,18 +79,7 @@ export class InruptService {
         let promises = [];
 
         for (const inboxMessageUrl of inboxMessagesUrls) {
-          const inboxMessage: Thing = getThing(inboxDataSet, inboxMessageUrl)
-          const created: Date = getDatetime(inboxMessage, DCTERMS.modified);
-          const messageFile = await getFile(inboxMessageUrl, {fetch: this.session.fetch});
-
-          promises.push(messageFile.text().then(text => {
-            let message = new InboxMessage();
-            message.url = inboxMessageUrl;
-            message.inbox = inbox;
-            message.content = text;
-            message.type = messageFile.type;
-            message.created = created;
-
+          promises.push(this._loadMessage(inboxDataSet, inbox, inboxMessageUrl).then(message => {
             messagesForTable.push(message)
           }));
         }
@@ -119,6 +108,18 @@ export class InruptService {
     return new Promise(async (resolve, reject) => {
       try {
         const inboxDataSet = await getSolidDataset(inbox.url, {fetch: this.session.fetch});
+        this._loadMessage(inboxDataSet, inbox, messageUrl).then(message => {
+          resolve(message);
+        });
+      } catch (err) {
+        reject(err)
+      }
+    });
+  }
+
+  _loadMessage(inboxDataSet, inbox: Inbox, messageUrl: string): Promise<InboxMessage> {
+    return new Promise(async (resolve, reject) => {
+      try {
         const inboxMessage: Thing = getThing(inboxDataSet, messageUrl)
         const created: Date = getDatetime(inboxMessage, DCTERMS.modified);
         const messageFile = await getFile(messageUrl, {fetch: this.session.fetch});

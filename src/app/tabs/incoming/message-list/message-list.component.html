@@ -37,14 +37,16 @@
     </td>
   </ng-container>
 
-  <ng-container matColumnDef="url">
-    <th mat-header-cell *matHeaderCellDef>URL</th>
-    <td mat-cell *matCellDef="let message">{{message.url}}</td>
+  <ng-container matColumnDef="actor">
+    <th mat-header-cell *matHeaderCellDef>From</th>
+    <td mat-cell *matCellDef="let message" [class.muted]="!message.actor">{{message.actor ? message.actor : '(uknown)'}}</td>
   </ng-container>
 
-  <ng-container matColumnDef="type">
-    <th mat-header-cell *matHeaderCellDef>Message Type</th>
-    <td mat-cell *matCellDef="let message">{{message.type}}</td>
+  <ng-container matColumnDef="content">
+    <th mat-header-cell *matHeaderCellDef>Content</th>
+    <td mat-cell *matCellDef="let message">
+      {{(message.content | slice:0:50) + (message.content?.length > 50 ? '...' : '')}}
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
