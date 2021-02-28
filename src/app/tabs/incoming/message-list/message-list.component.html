@@ -13,10 +13,7 @@
     <mat-icon>refresh</mat-icon>
   </button>
 
-  <button mat-stroked-button (click)="monitor(inbox)" [disabled]="inbox.isMonitored">
-    <ng-template [ngIf]="!inbox.isMonitored">enable notifications</ng-template>
-    <ng-template [ngIf]="inbox.isMonitored">notifications enabled</ng-template>
-  </button>
+  <a routerLink="/monitor" *ngIf="showNotificationButton" mat-stroked-button >enable system notifications</a>
 </h2>
 
 

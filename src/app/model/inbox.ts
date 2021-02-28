@@ -4,6 +4,5 @@ export class Inbox {
   url: string; // id
   name: string;
   messages: InboxMessage[];
-  isMonitored: boolean;
   style: string;
 }

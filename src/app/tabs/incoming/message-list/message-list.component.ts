@@ -4,6 +4,7 @@ import {InboxMessage} from "../../../model/inbox.message";
 import {Inbox} from "../../../model/inbox";
 import {ActivatedRoute} from "@angular/router";
 import {MonitorInboxesService} from "../../../services/monitor-inboxes/monitor-inboxes.service";
+import {SystemNotificationsService} from "../../../services/system-notifications/system-notifications.service";
 
 @Component({
   selector: 'app-message-list',
@@ -16,6 +17,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
   inbox: Inbox;
   messages: InboxMessage[];
   columnsToDisplay;
+  showNotificationButton: boolean = false;
   private sub: any;
 
   constructor(private readonly _inruptService: InruptService,
@@ -36,6 +38,8 @@ export class MessageListComponent implements OnInit, OnDestroy {
         this.loadAllMessages();
       }
     });
+
+    this.showNotificationButton = MessageListComponent._setShowNotificationButton();
   }
 
   readInbox(inbox: Inbox) {
@@ -78,6 +82,10 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  private static _setShowNotificationButton(): boolean {
+    return SystemNotificationsService.systemSupportsNotifications() && !SystemNotificationsService.systemNotificationsEnabled();
   }
 }
 

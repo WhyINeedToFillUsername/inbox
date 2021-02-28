@@ -41,4 +41,12 @@ export class SystemNotificationsService {
       this._router.navigate(['/incoming/', inboxUrl])
     });
   }
+
+  static systemSupportsNotifications(): boolean {
+    return 'Notification' in window;
+  }
+
+  static systemNotificationsEnabled(): boolean {
+    return Notification.permission === 'granted';
+  }
 }

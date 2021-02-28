@@ -17,7 +17,6 @@ import {
 import {InboxMessage} from "../../model/inbox.message";
 import {DCTERMS, FOAF} from "@inrupt/vocab-common-rdf";
 import {Inbox} from "../../model/inbox";
-import {MonitorInboxesService} from "../monitor-inboxes/monitor-inboxes.service";
 import {CommonHelper} from "../../helpers/common.helper";
 import {InboxDiscoveryService} from "../discovery/inbox-discovery.service";
 import {Observable} from "rxjs";
@@ -34,8 +33,7 @@ export class InruptService {
   inboxes$: Observable<Inbox[]>;
   allMessages$: Observable<InboxMessage[]>;
 
-  constructor(private readonly _snackBar: MatSnackBar,
-              private readonly _monitorService: MonitorInboxesService) {
+  constructor(private readonly _snackBar: MatSnackBar) {
 
     this.inboxes$ = this._getObservableInboxes$();
     this.reloadAllMessages();
@@ -156,7 +154,6 @@ export class InruptService {
     inbox.url = inboxUrl;
     inbox.name = await this.getInboxName(inboxUrl);
     inbox.style = CommonHelper.getStyle(inboxUrl);
-    inbox.isMonitored = this._monitorService.isInboxMonitored(inboxUrl);
     return inbox;
   }
 

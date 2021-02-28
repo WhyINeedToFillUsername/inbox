@@ -9,7 +9,5 @@ import {MonitorInboxesService} from "./services/monitor-inboxes/monitor-inboxes.
 export class AppComponent {
   title = 'inbox';
 
-  constructor(private readonly _monitorInboxesService: MonitorInboxesService) {
-    _monitorInboxesService.startMonitoring();
-  }
+  constructor() {}
 }

@@ -67,7 +67,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 
     HttpClientModule,
   ],
-  providers: [{provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 10000}}],
+  providers: [{provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 20000}}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

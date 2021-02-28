@@ -5,7 +5,7 @@
     <a mat-button routerLink="/login" routerLinkActive="active" *ngIf="!userLoggedIn">Login</a>
     <a mat-button routerLink="/incoming" routerLinkActive="active" *ngIf="userLoggedIn">Incoming</a>
     <a mat-button routerLink="/send" routerLinkActive="active" *ngIf="userLoggedIn">Send message</a>
-    <a mat-button routerLink="/monitor" routerLinkActive="active">Notifications</a>
+    <a mat-button routerLink="/monitor" routerLinkActive="active" *ngIf="userLoggedIn">Notifications</a>
     <a mat-button routerLink="/pleroma" routerLinkActive="active">Pleroma</a>
     <a mat-button routerLink="/about" routerLinkActive="active">About</a>
   </nav>

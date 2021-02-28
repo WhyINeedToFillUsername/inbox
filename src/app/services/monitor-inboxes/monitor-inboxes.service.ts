@@ -46,7 +46,6 @@ export class MonitorInboxesService {
 
   addInboxToMonitor(inbox: Inbox) {
     this.addInboxToMonitorByUrl(inbox.url);
-    inbox.isMonitored = true;
   }
 
   removeInboxFromMonitored(inboxUrl: string) {

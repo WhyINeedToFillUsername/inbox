@@ -16,10 +16,10 @@ const routes: Routes = [
   { path: 'incoming', component: IncomingComponent, canActivate: [AuthGuardService], children: INCOMING_ROUTES},
   { path: 'send', component: SendSimpleComponent, canActivate: [AuthGuardService]},
   { path: 'send/activity-pub', component: SendActivityPubComponent, canActivate: [AuthGuardService]},
+  { path: 'monitor', component: MonitorInboxesComponent, canActivate: [AuthGuardService]},
 
   { path: 'about', component: AboutComponent },
   { path: 'pleroma', component: PleromaComponent },
-  { path: 'monitor', component: MonitorInboxesComponent },
 ];
 
 @NgModule({
