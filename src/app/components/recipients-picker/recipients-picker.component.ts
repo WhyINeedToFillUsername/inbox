@@ -112,8 +112,8 @@ export class RecipientsPickerComponent implements OnInit {
   private _processReplyMessage() {
     if (this.replyTo?.actor) {
       this.formControl.setValue(this.replyTo);
-      this.inputValue = this.replyTo.actor;
-      this._addRecipient(this.replyTo.actor)
+      this.inputValue = this.replyTo.actor.webId;
+      this._addRecipient(this.replyTo.actor.webId)
     }
   }
 

@@ -32,6 +32,11 @@ button:hover {
   background-color: rgba(0, 0, 0, .04);
 }
 
+pre {
+  white-space: pre-wrap;
+  word-break: keep-all
+}
+
 mat-expansion-panel {
   border-top: 1px solid #d6d6d6;
 }

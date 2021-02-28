@@ -52,7 +52,7 @@ export class InruptStaticService {
     return typesToParse.includes(type);
   }
 
-  static parseActivityPubMessage(message: InboxMessage): InboxMessage {
+  static async parseActivityPubMessage(message: InboxMessage): Promise<InboxMessage> {
     if (InruptStaticService.shouldParseJson(message.type)) {
       try {
         message.jsonFields = JSON.parse(message.content);
@@ -61,7 +61,11 @@ export class InruptStaticService {
         else if (message.jsonFields?.content) message.content = message.jsonFields.content;
 
         message.name = message.jsonFields?.name;
-        message.actor = message.jsonFields?.actor;
+
+        if (message.jsonFields?.actor) {
+          let actorName = await InruptStaticService.getProfileName(message.jsonFields.actor);
+          message.actor = {webId: message.jsonFields.actor, name: actorName};
+        }
 
         return message;
 

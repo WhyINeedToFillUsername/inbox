@@ -124,7 +124,7 @@ export class InruptService {
         const created: Date = getDatetime(inboxMessage, DCTERMS.modified);
         const messageFile = await getFile(messageUrl, {fetch: this.session.fetch});
 
-        messageFile.text().then(text => {
+        messageFile.text().then(async text => {
           let message = new InboxMessage();
           message.url = messageUrl;
           message.inbox = inbox;
@@ -132,7 +132,7 @@ export class InruptService {
           message.type = messageFile.type;
           message.created = created;
 
-          message = InruptStaticService.parseActivityPubMessage(message);
+          message = await InruptStaticService.parseActivityPubMessage(message);
 
           resolve(message);
         });

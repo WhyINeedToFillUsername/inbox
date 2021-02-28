@@ -25,7 +25,7 @@ export class SendService {
     message.name = subject;
     message.content = messageContent;
     message.to = destinations.map(destination => destination.url);
-    message.actor = this._inruptService.getSessionWebId();
+    message.actor = {webId: this._inruptService.getSessionWebId(), name: undefined};
     message.inReplyTo = replyTo?.inReplyTo;
 
     return this._sendActivityPubMessage(message);
@@ -56,7 +56,7 @@ export class SendService {
       type: "Note",
       inReplyTo: message.inReplyTo,
       name: message.name,
-      actor: message.actor,
+      actor: message.actor.webId,
       to: message.to,
       content: message.content
     };

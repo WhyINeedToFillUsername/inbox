@@ -1,4 +1,5 @@
 import {Inbox} from "./inbox";
+import {Contact} from "./contact";
 
 export class InboxMessage {
   url: string;
@@ -12,7 +13,7 @@ export class InboxMessage {
   replyToMessageInboxUrl: string;
 
   name: string; // aka subject of email
-  actor: string; // who created this activity, "from"; a subset of 'attributedTo'
+  actor: Contact; // who created this activity, "from"; a subset of 'attributedTo'
   to: string[] = []; // list of (disclosed) recipients
 
   jsonFields; // object with all fields
