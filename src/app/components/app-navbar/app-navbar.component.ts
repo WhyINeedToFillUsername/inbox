@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {InruptService} from "../../services/inrupt/inrupt.service";
 import {InruptStaticService} from "../../services/inrupt/inrupt.static.service";
+import {MonitorInboxesService} from "../../services/monitor-inboxes/monitor-inboxes.service";
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,8 @@ export class AppNavbarComponent implements OnInit {
   userLoggedIn;
   photoSrc: string = "assets/images/avatar.png";
 
-  constructor(private readonly _inruptService: InruptService) {
+  constructor(private readonly _inruptService: InruptService,
+              private readonly _monitoringService: MonitorInboxesService) {
   }
 
   ngOnInit(): void {
@@ -36,6 +38,7 @@ export class AppNavbarComponent implements OnInit {
 
   logout() {
     this._inruptService.logout();
+    this._monitoringService.stopMonitoringUserInboxes();
     window.location.reload();
   }
 }

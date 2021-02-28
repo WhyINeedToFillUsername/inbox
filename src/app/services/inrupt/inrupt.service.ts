@@ -55,7 +55,9 @@ export class InruptService {
   logout() {
     this.session.logout()
       .then(() => {
-        this._snackBar.open("Logged out!", "Dismiss")
+        this._snackBar.open("Logged out!", "Dismiss");
+        this.inboxes$ = null;
+        this.allMessages$ = null;
       });
   }
 

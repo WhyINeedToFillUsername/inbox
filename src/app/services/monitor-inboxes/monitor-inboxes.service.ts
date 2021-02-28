@@ -4,56 +4,37 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {SystemNotificationsService} from "../system-notifications/system-notifications.service";
 import {Inbox} from "../../model/inbox";
 import {MessageSnackbarComponent} from "../../components/message-snackbar/message-snackbar.component";
+import {InruptService} from "../inrupt/inrupt.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MonitorInboxesService {
 
-  public static readonly MONITORED_INBOXES_STORAGE_KEY: string = "MONITORED_INBOXES_STORAGE_KEY";
+  sockets: WebSocket[] = [];
+
   private static readonly WS_SOLID_PROTOCOL = 'solid.0.1.0-alpha'; // originally 'solid/0.1.0-alpha', now 'solid-0.1'
 
   constructor(private readonly _snackBar: MatSnackBar,
-              private readonly _systemNotificationsService: SystemNotificationsService) {
+              private readonly _systemNotificationsService: SystemNotificationsService,
+              private readonly _inruptService: InruptService) {
   }
 
-  startMonitoring() {
-    const monitoredInboxes: string[] = this.getMonitoredInboxes();
-    if (!monitoredInboxes) return;
+  startMonitoringUserInboxes() {
+    console.log("starting monitoring");
+    this._inruptService.inboxes$.subscribe(inboxes => {
+      console.log("got inboxes", inboxes)
+      for (const inbox of inboxes) {
+        this.connect(inbox.url);
+      }
+      console.log("connected");
+    })
+  }
 
-    for (const monitoredInbox of monitoredInboxes) {
-      this.connect(monitoredInbox);
+  stopMonitoringUserInboxes() {
+    for (const socket of this.sockets) {
+      socket.close();
     }
-  }
-
-  getMonitoredInboxes(): string[] {
-    const monitoredInboxes = BrowserStorageService.loadFromLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY);
-    if (!monitoredInboxes) return [];
-    else return monitoredInboxes;
-  }
-
-  addInboxToMonitorByUrl(inboxUrl: string) {
-    let inboxesToMonitor: string[] = this.getMonitoredInboxes();
-
-    if (!inboxesToMonitor.includes(inboxUrl)) {
-
-      inboxesToMonitor.push(inboxUrl);
-
-      BrowserStorageService.saveToLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY, inboxesToMonitor);
-      this.connect(inboxUrl, true);
-    }
-  }
-
-  addInboxToMonitor(inbox: Inbox) {
-    this.addInboxToMonitorByUrl(inbox.url);
-  }
-
-  removeInboxFromMonitored(inboxUrl: string) {
-    const monitoredInboxes: string[] = this.getMonitoredInboxes();
-    const inboxesToMonitor: string[] = monitoredInboxes.filter(url => url !== inboxUrl);
-
-    BrowserStorageService.saveToLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY, inboxesToMonitor);
-    this._snackBar.open("Removed '" + inboxUrl + "' from monitored inboxes.", "Dismiss");
   }
 
   private connect(inboxUrl: string, connectNew: boolean = false) {
@@ -66,6 +47,7 @@ export class MonitorInboxesService {
         this._systemNotificationsService.inboxNotification(inboxUrl);
       }
     }
+    this.sockets.push(socket);
   }
 
   static getWsUrlFromInboxUrl(inboxUrl: string) {
@@ -83,9 +65,5 @@ export class MonitorInboxesService {
       this.send('sub ' + inboxUrl);
       if (connectNew) _snackBar.open("Successfully added inbox to monitor: " + inboxUrl, "Dismiss");
     }
-  }
-
-  isInboxMonitored(inboxUrl: string): boolean {
-    return this.getMonitoredInboxes().includes(inboxUrl);
   }
 }

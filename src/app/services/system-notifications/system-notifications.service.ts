@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Router} from "@angular/router";
+import {InruptService} from "../inrupt/inrupt.service";
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,8 @@ import {Router} from "@angular/router";
 export class SystemNotificationsService {
 
   constructor(
-    private readonly _router: Router) {
+    private readonly _router: Router,
+    private readonly _inruptService: InruptService) {
   }
 
   notify(title: string = "New inbox notification", text: string = "", tag: string = "inbox-notification") {
@@ -38,6 +40,7 @@ export class SystemNotificationsService {
     const notification = new Notification("New message in your inbox", options);
 
     notification.addEventListener('click', () => {
+      this._inruptService.reloadAllMessages();
       this._router.navigate(['/incoming/', inboxUrl])
     });
   }

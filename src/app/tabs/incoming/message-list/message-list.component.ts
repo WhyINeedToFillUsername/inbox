@@ -74,10 +74,8 @@ export class MessageListComponent implements OnInit, OnDestroy {
       this.messages = allMessages;
       this.workingInbox = false;
     });
-  }
 
-  monitor(inbox: Inbox) {
-    this._monitorInboxesService.addInboxToMonitor(inbox);
+    this.showNotificationButton = MessageListComponent._setShowNotificationButton();
   }
 
   ngOnDestroy() {
