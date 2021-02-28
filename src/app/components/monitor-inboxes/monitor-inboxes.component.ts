@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SystemNotificationsService} from "../../services/system-notifications/system-notifications.service";
-import {InboxDiscoveryService} from "../../services/discovery/inbox-discovery.service";
+import {MessageSnackbarComponent} from "../message-snackbar/message-snackbar.component";
 
 @Component({
   selector: 'app-monitor-inboxes',
@@ -36,5 +36,6 @@ export class MonitorInboxesComponent implements OnInit {
 
   testNotification() {
     this._systemNotificationsService.notify(undefined, "test notification");
+    this._snackBar.openFromComponent(MessageSnackbarComponent, {data: ""});
   }
 }

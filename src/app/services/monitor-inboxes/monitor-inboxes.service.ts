@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SystemNotificationsService} from "../system-notifications/system-notifications.service";
 import {MessageSnackbarComponent} from "../../components/message-snackbar/message-snackbar.component";
@@ -16,7 +16,8 @@ export class MonitorInboxesService {
 
   constructor(private readonly _snackBar: MatSnackBar,
               private readonly _systemNotificationsService: SystemNotificationsService,
-              private readonly _inruptService: InruptService) {
+              private readonly _inruptService: InruptService,
+              private zone: NgZone) {
   }
 
   startMonitoringUserInboxes() {
@@ -39,8 +40,10 @@ export class MonitorInboxesService {
 
     socket.onmessage = (msg) => {
       if (msg.data && msg.data.slice(0, 3) === 'pub') {
-        this._snackBar.openFromComponent(MessageSnackbarComponent, {data: inboxUrl});
-        this._systemNotificationsService.inboxNotification(inboxUrl);
+        this.zone.run(() => {
+          this._snackBar.openFromComponent(MessageSnackbarComponent, {data: inboxUrl});
+          this._systemNotificationsService.inboxNotification(inboxUrl);
+        });
       }
     }
     this.sockets.push(socket);
