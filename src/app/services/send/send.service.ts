@@ -4,6 +4,7 @@ import {forkJoin, Observable} from "rxjs";
 import {ContactInbox} from "../../model/contact.inbox";
 import {map} from "rxjs/operators";
 import {ApMessage} from "../../model/ap.message";
+import {InruptService} from "../inrupt/inrupt.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,24 +12,47 @@ import {ApMessage} from "../../model/ap.message";
 export class SendService {
   public replyTo: ApMessage;
 
-  constructor(private readonly http: HttpClient) {
+  constructor(private readonly http: HttpClient,
+              private readonly _inruptService: InruptService) {
   }
 
   sendSimpleMessage(destinations: ContactInbox[], messageContent: string) {
     return forkJoin(destinations.map(destinationInbox => this.http.post(destinationInbox.url, messageContent, {responseType: 'text'})));
   }
 
-  sendActivityPubMessage(destinations: ContactInbox[], message: ApMessage) {
-    const headers = new HttpHeaders({'Content-Type': 'application/ld+json'});
-    const options = { headers: headers };
+  sendActivityPubMessage(destinations: ContactInbox[], subject: string, messageContent: string, replyTo: ApMessage) {
+    let message = new ApMessage();
+    message.name = subject;
+    message.content = messageContent;
+    message.to = destinations.map(destination => destination.url);
+    message.actor = this._inruptService.getSessionWebId();
+    message.inReplyTo = replyTo?.inReplyTo;
 
-    return forkJoin(destinations.map(destinationInbox => {
-      return this.http.post(destinationInbox.url, this.constructActivityPubMessage(message), options);
+    return this._sendActivityPubMessage(message);
+  }
+
+  private _sendActivityPubMessage(message: ApMessage) {
+    const options = {headers: new HttpHeaders({'Content-Type': 'application/ld+json'}), responseType: 'text'};
+
+    return forkJoin(message.to.map(destinationInbox => {
+      return this.http.post<string>(destinationInbox, SendService.ConstructActivityPubObject(message), options);
     }));
   }
 
-  constructActivityPubMessage(message: ApMessage): JSON {
-    let obj = {
+  isInboxIri(iri: string): Observable<boolean> {
+    return this.http.options(iri, {observe: 'response'}).pipe(
+      map(response => {
+          if (response.headers.get('link')?.includes('<http://www.w3.org/ns/ldp#Container>; rel="type"')) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      ));
+  }
+
+  private static ConstructActivityPubObject(message: ApMessage) {
+    return {
       '@context': "https://www.w3.org/ns/activitystreams",
       type: "Note",
       inReplyTo: message.inReplyTo,
@@ -37,22 +61,5 @@ export class SendService {
       to: message.to,
       content: message.content
     };
-    const text = JSON.stringify(obj);
-    console.log(text);
-    const parse = JSON.parse(text);
-    console.log(parse);
-    return parse;
-  }
-
-  isInboxIri(iri: string): Observable<boolean> {
-    return this.http.options(iri, {observe: 'response'}).pipe(
-      map(response => {
-        if (response.headers.get('link')?.includes('<http://www.w3.org/ns/ldp#Container>; rel="type"')) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    ));
   }
 }

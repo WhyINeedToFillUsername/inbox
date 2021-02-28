@@ -13,10 +13,13 @@
   height: 3em;
 }
 
-.content {
-  padding: 2em;
+.content-wrapper {
   background-color: white;
   margin: 0;
+}
+
+.content {
+  padding: 2em;
 }
 
 .key {
@@ -27,4 +30,11 @@
 
 button:hover {
   background-color: rgba(0, 0, 0, .04);
+}
+
+mat-expansion-panel {
+  border-top: 1px solid #d6d6d6;
+}
+.mat-expansion-panel:not([class*='mat-elevation-z']) {
+  box-shadow: none;
 }

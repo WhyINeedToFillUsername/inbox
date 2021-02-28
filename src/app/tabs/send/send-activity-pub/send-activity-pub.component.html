@@ -12,6 +12,10 @@
   </h1>
 
   <h2 *ngIf="replyTo?.inReplyTo">
+    <a [routerLink]="['/incoming/', replyTo.replyToMessageInboxUrl, replyTo.inReplyTo]" title="Go back to message"
+       mat-icon-button aria-label="Go back">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
     Replying to
     <a [routerLink]="['/incoming/', replyTo.replyToMessageInboxUrl, replyTo.inReplyTo]" title="Show message">
       {{replyTo.name ? replyTo.name : replyTo.inReplyTo}}

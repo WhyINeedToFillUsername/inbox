@@ -18,6 +18,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy {
   message: InboxMessage;
   jsonFields;
   inbox: Inbox;
+  panelOpenState = false;
   private sub: any;
 
   constructor(
@@ -86,6 +87,7 @@ export class MessageDetailComponent implements OnInit, OnDestroy {
     replyTo.name = this.jsonFields?.name;
     replyTo.actor = this.jsonFields?.actor;
     if (this.jsonFields?.object?.content) replyTo.content = "\n\n> " + this.jsonFields.object.content;
+    else if (this.jsonFields?.content) replyTo.content = "\n\n> " + this.jsonFields.content;
 
     this._sendService.replyTo = replyTo;
     this._router.navigate(['/send/activity-pub']);

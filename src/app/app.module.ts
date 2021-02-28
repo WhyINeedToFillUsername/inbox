@@ -36,6 +36,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import { SendTabNavComponent } from './tabs/send/send-tab-nav/send-tab-nav.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatCardModule} from "@angular/material/card";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import {MatCardModule} from "@angular/material/card";
     MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, MatIconModule, MatToolbarModule, MatMenuModule,
     MatSnackBarModule, MatTableModule, MatListModule, MatProgressSpinnerModule, MatRadioModule, MatSidenavModule,
     MatChipsModule, MatAutocompleteModule, ReactiveFormsModule, MatTabsModule, MatTooltipModule, MatCardModule,
+    MatExpansionModule,
 
     HttpClientModule,
   ],
