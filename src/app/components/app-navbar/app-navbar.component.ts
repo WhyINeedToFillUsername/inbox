@@ -33,6 +33,8 @@ export class AppNavbarComponent implements OnInit {
       InruptStaticService.getProfilePicture(this.webId).then(photoPath => {
         if (photoPath) this.photoSrc = photoPath;
       });
+
+      this._monitoringService.startMonitoringUserInboxes();
     });
   }
 

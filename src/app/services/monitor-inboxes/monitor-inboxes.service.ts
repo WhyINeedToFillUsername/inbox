@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
-import {BrowserStorageService} from "../browser-storage.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SystemNotificationsService} from "../system-notifications/system-notifications.service";
-import {Inbox} from "../../model/inbox";
 import {MessageSnackbarComponent} from "../../components/message-snackbar/message-snackbar.component";
 import {InruptService} from "../inrupt/inrupt.service";
+import {InboxDiscoveryService} from "../discovery/inbox-discovery.service";
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +20,11 @@ export class MonitorInboxesService {
   }
 
   startMonitoringUserInboxes() {
-    console.log("starting monitoring");
-    this._inruptService.inboxes$.subscribe(inboxes => {
-      console.log("got inboxes", inboxes)
-      for (const inbox of inboxes) {
-        this.connect(inbox.url);
+    InboxDiscoveryService.retrieveInboxUrlsFromWebId(this._inruptService.getSessionWebId()).then(inboxUrls => {
+      for (const inboxUrl of inboxUrls) {
+        this.connect(inboxUrl);
       }
-      console.log("connected");
-    })
+    });
   }
 
   stopMonitoringUserInboxes() {
