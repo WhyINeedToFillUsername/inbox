@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ApMessage} from "../../../model/ap.message";
+import {Component, ViewChild} from '@angular/core';
 import {SendService} from "../../../services/send/send.service";
 import {ContactInbox} from "../../../model/contact.inbox";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RecipientsPickerComponent} from "../../../components/recipients-picker/recipients-picker.component";
+import {InboxMessage} from "../../../model/inbox.message";
 
 @Component({
   selector: 'app-send-activity-pub',
@@ -14,7 +14,7 @@ export class SendActivityPubComponent {
   subject: string = "";
   messageContent: string = "";
   messageError: string = null;
-  replyTo: ApMessage;
+  replyTo: InboxMessage;
 
   @ViewChild(RecipientsPickerComponent)
   picker: RecipientsPickerComponent;

@@ -1,9 +1,8 @@
-import {AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RecipientsPickerComponent} from "../../../components/recipients-picker/recipients-picker.component";
 import {SendService} from "../../../services/send/send.service";
 import {ContactInbox} from "../../../model/contact.inbox";
-import {ApMessage} from "../../../model/ap.message";
 
 @Component({
   selector: 'app-send',

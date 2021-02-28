@@ -9,14 +9,14 @@
 
 <div class="message" *ngIf="!spinner">
   <div class="header">
-    <strong *ngIf="jsonFields?.actor">From: {{jsonFields.actor}}</strong>
+    <strong *ngIf="this.message?.actor">From: {{this.message.actor}}</strong>
     <span><a mat-raised-button [routerLink]="['/incoming/', inbox?.url]" [style]="inbox?.style">{{inbox?.name}}</a></span>
     <span class="date" title="Received">{{message?.created | date:'yyyy-MM-dd, HH:mm'}}</span>
-    <span *ngIf="jsonFields?.actor"><button mat-icon-button aria-label="Reply" title="Reply" (click)="reply()"><mat-icon>reply</mat-icon></button></span>
+    <span *ngIf="this.message?.actor"><button mat-icon-button aria-label="Reply" title="Reply" (click)="reply()"><mat-icon>reply</mat-icon></button></span>
   </div>
 
   <!--  simple message  -->
-  <div *ngIf="!jsonFields" class="content-wrapper">
+  <div *ngIf="!this.message?.jsonFields" class="content-wrapper">
     <div class="content">
 <pre>{{message?.content}}</pre>
     </div>
@@ -27,38 +27,34 @@
           <mat-panel-title>Message type</mat-panel-title>
           <mat-panel-description>Type: {{message?.type}}</mat-panel-description>
         </mat-expansion-panel-header>
-        <p>This message was send in a simple (or unsupported) format and does not support fields like sender, action "reply to" and others.</p>
+        <p>This message was sent in a simple (or unsupported) format and does not support fields like sender, action "reply to" and others.</p>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
 
 
   <!--  json content  -->
-  <div *ngIf="jsonFields" class="content-wrapper">
+  <div *ngIf="this.message?.jsonFields" class="content-wrapper">
     <div class="content">
-      <h2 *ngIf="jsonFields?.name">{{jsonFields.name}}</h2>
+      <h2 *ngIf="this.message?.name">{{this.message.name}}</h2>
 
-      <ng-template [ngIf]="jsonFields?.object?.content">
-<pre>{{jsonFields.object.content | json}}</pre>
-      </ng-template>
-
-      <ng-template [ngIf]="jsonFields?.content">
-<pre>{{jsonFields.content | json}}</pre>
+      <ng-template [ngIf]="this.message?.content">
+<pre>{{this.message.content | json}}</pre>
       </ng-template>
     </div>
 
-    <mat-accordion *ngIf="jsonFields">
+    <mat-accordion *ngIf="this.message">
       <mat-expansion-panel (opened)="panelOpenState = true"
                            (closed)="panelOpenState = false">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            Message details
+            {{panelOpenState ? 'Hide' : 'Show'}} message details
           </mat-panel-title>
         </mat-expansion-panel-header>
 
         <!--  list of json fields  -->
         <mat-list role="list">
-          <mat-list-item role="listitem" *ngFor="let field of jsonFields | keyvalue; last as last">
+          <mat-list-item role="listitem" *ngFor="let field of this.message.jsonFields | keyvalue; last as last">
             <span class="key">{{field.key}}:</span><span class="value">{{field.value | json}}</span>
             <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
           </mat-list-item>

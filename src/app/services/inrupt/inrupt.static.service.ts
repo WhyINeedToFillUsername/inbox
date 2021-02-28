@@ -44,4 +44,29 @@ export class InruptStaticService {
     }
     return inboxesWithContactInfo;
   }
+
+  static shouldParseJson(type: string): boolean {
+    const typesToParse = ['application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
+      'application/activity+json', 'application/json', 'application/ld+json']
+
+    return typesToParse.includes(type);
+  }
+
+  static parseActivityPubMessage(message: InboxMessage): InboxMessage {
+    if (InruptStaticService.shouldParseJson(message.type)) {
+      try {
+        message.jsonFields = JSON.parse(message.content);
+
+        if (message.jsonFields?.object?.content) message.content = message.jsonFields.object.content;
+        else if (message.jsonFields?.content) message.content = message.jsonFields.content;
+
+        message.name = message.jsonFields?.name;
+        message.actor = message.jsonFields?.actor;
+
+        return message;
+
+      } catch (ignore) {}
+    }
+    return message;
+  }
 }

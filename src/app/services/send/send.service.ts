@@ -3,14 +3,14 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {forkJoin, Observable} from "rxjs";
 import {ContactInbox} from "../../model/contact.inbox";
 import {map} from "rxjs/operators";
-import {ApMessage} from "../../model/ap.message";
 import {InruptService} from "../inrupt/inrupt.service";
+import {InboxMessage} from "../../model/inbox.message";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SendService {
-  public replyTo: ApMessage;
+  public replyTo: InboxMessage;
 
   constructor(private readonly http: HttpClient,
               private readonly _inruptService: InruptService) {
@@ -20,8 +20,8 @@ export class SendService {
     return forkJoin(destinations.map(destinationInbox => this.http.post(destinationInbox.url, messageContent, {responseType: 'text'})));
   }
 
-  sendActivityPubMessage(destinations: ContactInbox[], subject: string, messageContent: string, replyTo: ApMessage) {
-    let message = new ApMessage();
+  sendActivityPubMessage(destinations: ContactInbox[], subject: string, messageContent: string, replyTo: InboxMessage) {
+    let message = new InboxMessage();
     message.name = subject;
     message.content = messageContent;
     message.to = destinations.map(destination => destination.url);
@@ -31,9 +31,7 @@ export class SendService {
     return this._sendActivityPubMessage(message);
   }
 
-  private _sendActivityPubMessage(message: ApMessage) {
-    const options = {headers: new HttpHeaders({'Content-Type': 'application/ld+json'}), responseType: 'text' as 'text'};
-
+  private _sendActivityPubMessage(message: InboxMessage) {
     return forkJoin(message.to.map(destinationInbox => {
       return this.http.post(destinationInbox, SendService.ConstructActivityPubObject(message),
         {headers: new HttpHeaders({'Content-Type': 'application/ld+json'}), responseType: 'text'});
@@ -52,7 +50,7 @@ export class SendService {
       ));
   }
 
-  private static ConstructActivityPubObject(message: ApMessage) {
+  private static ConstructActivityPubObject(message: InboxMessage) {
     return {
       '@context': "https://www.w3.org/ns/activitystreams",
       type: "Note",

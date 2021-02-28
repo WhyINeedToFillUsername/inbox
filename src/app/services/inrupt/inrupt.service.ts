@@ -84,9 +84,14 @@ export class InruptService {
           const messageFile = await getFile(inboxMessageUrl, {fetch: this.session.fetch});
 
           promises.push(messageFile.text().then(text => {
-            messagesForTable.push({
-              url: inboxMessageUrl, inbox: inbox, content: text, type: messageFile.type, created: created
-            })
+            let message = new InboxMessage();
+            message.url = inboxMessageUrl;
+            message.inbox = inbox;
+            message.content = text;
+            message.type = messageFile.type;
+            message.created = created;
+
+            messagesForTable.push(message)
           }));
         }
         Promise.all(promises).then(() => resolve(InruptStaticService.sortMessagesByDateDesc(messagesForTable)));
@@ -119,9 +124,16 @@ export class InruptService {
         const messageFile = await getFile(messageUrl, {fetch: this.session.fetch});
 
         messageFile.text().then(text => {
-          resolve({
-            url: messageUrl, inbox: inbox, content: text, type: messageFile.type, created: created
-          });
+          let message = new InboxMessage();
+          message.url = messageUrl;
+          message.inbox = inbox;
+          message.content = text;
+          message.type = messageFile.type;
+          message.created = created;
+
+          message = InruptStaticService.parseActivityPubMessage(message);
+
+          resolve(message);
         });
       } catch (err) {
         reject(err)

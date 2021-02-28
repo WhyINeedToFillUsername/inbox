@@ -10,7 +10,7 @@ import {ContactInbox} from "../../model/contact.inbox";
 import {SendService} from "../../services/send/send.service";
 import {InboxDiscoveryService} from "../../services/discovery/inbox-discovery.service";
 import {InruptStaticService} from "../../services/inrupt/inrupt.static.service";
-import {ApMessage} from "../../model/ap.message";
+import {InboxMessage} from "../../model/inbox.message";
 
 @Component({
   selector: 'app-recipients-picker',
@@ -32,7 +32,7 @@ export class RecipientsPickerComponent implements OnInit {
   @ViewChild('recipientInput') recipientInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  @Input() replyTo: ApMessage;
+  @Input() replyTo: InboxMessage;
 
   constructor(
     private readonly _inruptService: InruptService,
