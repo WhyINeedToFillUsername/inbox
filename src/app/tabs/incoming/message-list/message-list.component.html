@@ -4,6 +4,8 @@
     Reload
     <mat-icon>refresh</mat-icon>
   </button>
+
+  <button routerLink="/monitor" *ngIf="showNotificationButton" mat-stroked-button >enable system notifications</button>
 </h2>
 
 <h2 *ngIf="inbox">messages from inbox "<a href="{{inbox.url}}" target="_blank">{{inbox.name}}</a>"
@@ -13,7 +15,7 @@
     <mat-icon>refresh</mat-icon>
   </button>
 
-  <a routerLink="/monitor" *ngIf="showNotificationButton" mat-stroked-button >enable system notifications</a>
+  <button routerLink="/monitor" *ngIf="showNotificationButton" mat-stroked-button >enable system notifications</button>
 </h2>
 
 
