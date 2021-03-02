@@ -132,7 +132,7 @@ export class InruptService {
           message.type = messageFile.type;
           message.created = created;
 
-          message = await InruptStaticService.parseActivityPubMessage(message);
+          message = await InruptStaticService.parseActivityStreamsMessage(message);
 
           resolve(message);
         });

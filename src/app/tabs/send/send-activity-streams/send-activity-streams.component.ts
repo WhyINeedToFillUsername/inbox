@@ -7,10 +7,10 @@ import {InboxMessage} from "../../../model/inbox.message";
 
 @Component({
   selector: 'app-send-activity-pub',
-  templateUrl: './send-activity-pub.component.html',
-  styleUrls: ['./send-activity-pub.component.css']
+  templateUrl: './send-activity-streams.component.html',
+  styleUrls: ['./send-activity-streams.component.css']
 })
-export class SendActivityPubComponent {
+export class SendActivityStreamsComponent {
   subject: string = "";
   messageContent: string = "";
   messageError: string = null;
@@ -51,7 +51,7 @@ export class SendActivityPubComponent {
       return;
     }
 
-    this._sendService.sendActivityPubMessage(selectedRecipients, this.subject, this.messageContent, this.replyTo).subscribe(
+    this._sendService.sendActivityStreamsMessage(selectedRecipients, this.subject, this.messageContent, this.replyTo).subscribe(
       data => {
         this._snackBar.open("Message sent!", "Dismiss");
         this.messageContent = "";

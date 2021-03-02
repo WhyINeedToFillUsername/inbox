@@ -5,11 +5,9 @@
 
     <p>Here you can connect this application to your <a href="https://pleroma.social/" target="_blank">Pleroma</a>
       account.<br>
-      Insert your the Pleroma instance and your ID (like 'https://pleroma.instance/users/&lt;yourNick&gt;') and
-      submit.<br>
+      Insert your the Pleroma instance and your ID (like 'https://pleroma.instance/users/&lt;yourNick&gt;') and submit.<br>
       Please note that you'll be <strong>automatically redirected</strong> to the Pleroma site to login and authorize
-      this
-      application.
+      this application.
     </p>
 
     <mat-form-field>
@@ -21,7 +19,7 @@
   </div>
 
   <ng-template #elseBlock>
-    <h2><a href="https://pleroma.social/" target="_blank">Pleroma</a> statuses</h2>
+    <h2>Your Pleroma statuses</h2>
     <ul *ngIf="logged">
       <li *ngFor="let status of statuses">
         <cite>{{status.actor}}:</cite>
@@ -30,4 +28,14 @@
       </li>
     </ul>
   </ng-template>
+
+  <br>
+  <h2>About Pleroma</h2>
+  <p>
+    <a href="https://pleroma.social/" target="_blank">Pleroma</a> is a federated social network and it is part of the
+    <a href="https://fediverse.party/" title="Fediverse network" target="_blank">Fediverse.</a><br>
+    The Fediverse is a network of websites that talk with each other using a common language -
+    <a href="https://www.w3.org/TR/activitypub/" title="ActivityPub specification" target="_blank">ActivityPub</a>.<br>
+    This means users of these websites can interact with each other, no matter which service they use.
+  </p>
 </div>

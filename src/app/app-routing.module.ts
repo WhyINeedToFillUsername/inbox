@@ -8,14 +8,14 @@ import {IncomingComponent} from "./tabs/incoming/incoming.component";
 import {SendSimpleComponent} from "./tabs/send/send-simple/send-simple.component";
 import {AboutComponent} from "./tabs/about/about.component";
 import {INCOMING_ROUTES} from "./tabs/incoming/incoming.routes";
-import {SendActivityPubComponent} from "./tabs/send/send-activity-pub/send-activity-pub.component";
+import {SendActivityStreamsComponent} from "./tabs/send/send-activity-streams/send-activity-streams.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent},
   { path: 'incoming', component: IncomingComponent, canActivate: [AuthGuardService], children: INCOMING_ROUTES},
-  { path: 'send', component: SendSimpleComponent, canActivate: [AuthGuardService]},
-  { path: 'send/activity-pub', component: SendActivityPubComponent, canActivate: [AuthGuardService]},
+  { path: 'send', component: SendActivityStreamsComponent, canActivate: [AuthGuardService]},
+  { path: 'send/simple', component: SendSimpleComponent, canActivate: [AuthGuardService]},
   { path: 'monitor', component: MonitorInboxesComponent, canActivate: [AuthGuardService]},
 
   { path: 'about', component: AboutComponent },

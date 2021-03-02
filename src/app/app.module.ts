@@ -31,7 +31,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { RecipientsPickerComponent } from './components/recipients-picker/recipients-picker.component';
 import { MessageDetailComponent } from './tabs/incoming/message-detail/message-detail.component';
 import { MessageSnackbarComponent } from './components/message-snackbar/message-snackbar.component';
-import { SendActivityPubComponent } from './tabs/send/send-activity-pub/send-activity-pub.component';
+import { SendActivityStreamsComponent } from './tabs/send/send-activity-streams/send-activity-streams.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import { SendTabNavComponent } from './tabs/send/send-tab-nav/send-tab-nav.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
@@ -52,7 +52,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
     RecipientsPickerComponent,
     MessageDetailComponent,
     MessageSnackbarComponent,
-    SendActivityPubComponent,
+    SendActivityStreamsComponent,
     SendTabNavComponent
   ],
   imports: [

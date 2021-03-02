@@ -71,6 +71,6 @@ export class MessageDetailComponent implements OnInit, OnDestroy {
     replyTo.content = "\n\n> " + this.message.content;
 
     this._sendService.replyTo = replyTo;
-    this._router.navigate(['/send/activity-pub']);
+    this._router.navigate(['/send']);
   }
 }

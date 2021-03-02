@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SendActivityPubComponent } from './send-activity-pub.component';
+import { SendActivityStreamsComponent } from './send-activity-streams.component';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Overlay} from "@angular/cdk/overlay";
 import {RouterTestingModule} from "@angular/router/testing";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
-describe('SendActivityPubComponent', () => {
-  let component: SendActivityPubComponent;
-  let fixture: ComponentFixture<SendActivityPubComponent>;
+describe('SendActivityStreamsComponent', () => {
+  let component: SendActivityStreamsComponent;
+  let fixture: ComponentFixture<SendActivityStreamsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SendActivityPubComponent ],
+      declarations: [ SendActivityStreamsComponent ],
       imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [MatSnackBar, Overlay],
     })
@@ -20,7 +20,7 @@ describe('SendActivityPubComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SendActivityPubComponent);
+    fixture = TestBed.createComponent(SendActivityStreamsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -20,7 +20,7 @@ export class SendService {
     return forkJoin(destinations.map(destinationInbox => this.http.post(destinationInbox.url, messageContent, {responseType: 'text'})));
   }
 
-  sendActivityPubMessage(destinations: ContactInbox[], subject: string, messageContent: string, replyTo: InboxMessage) {
+  sendActivityStreamsMessage(destinations: ContactInbox[], subject: string, messageContent: string, replyTo: InboxMessage) {
     let message = new InboxMessage();
     message.name = subject;
     message.content = messageContent;
@@ -28,12 +28,12 @@ export class SendService {
     message.actor = {webId: this._inruptService.getSessionWebId(), name: undefined};
     message.inReplyTo = replyTo?.inReplyTo;
 
-    return this._sendActivityPubMessage(message);
+    return this._sendActivityStreamsMessage(message);
   }
 
-  private _sendActivityPubMessage(message: InboxMessage) {
+  private _sendActivityStreamsMessage(message: InboxMessage) {
     return forkJoin(message.to.map(destinationInbox => {
-      return this.http.post(destinationInbox, SendService.ConstructActivityPubObject(message),
+      return this.http.post(destinationInbox, SendService.ConstructActivityStreamsObject(message),
         {headers: new HttpHeaders({'Content-Type': 'application/ld+json'}), responseType: 'text'});
     }));
   }
@@ -50,7 +50,7 @@ export class SendService {
       ));
   }
 
-  private static ConstructActivityPubObject(message: InboxMessage) {
+  private static ConstructActivityStreamsObject(message: InboxMessage) {
     return {
       '@context': "https://www.w3.org/ns/activitystreams",
       type: "Note",

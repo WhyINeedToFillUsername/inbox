@@ -8,7 +8,7 @@ export class InboxMessage {
   type: string;
   created: Date;
 
-  // ActivityPub fields
+  // Activity Streams fields
   inReplyTo: string;
   replyToMessageInboxUrl: string;
 

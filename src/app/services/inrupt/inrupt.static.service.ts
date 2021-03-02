@@ -60,7 +60,7 @@ export class InruptStaticService {
     return typesToParse.includes(type);
   }
 
-  static async parseActivityPubMessage(message: InboxMessage): Promise<InboxMessage> {
+  static async parseActivityStreamsMessage(message: InboxMessage): Promise<InboxMessage> {
     if (InruptStaticService.shouldParseJson(message.type)) {
       try {
         message.jsonFields = JSON.parse(message.content);
