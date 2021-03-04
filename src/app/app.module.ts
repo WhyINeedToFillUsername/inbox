@@ -37,6 +37,7 @@ import { SendTabNavComponent } from './tabs/send/send-tab-nav/send-tab-nav.compo
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatCardModule} from "@angular/material/card";
 import {MatExpansionModule} from "@angular/material/expansion";
+import { MonitorInboxesComponent } from './tabs/monitor-inboxes/monitor-inboxes.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
     MessageDetailComponent,
     MessageSnackbarComponent,
     SendActivityStreamsComponent,
-    SendTabNavComponent
+    SendTabNavComponent,
+    MonitorInboxesComponent
   ],
   imports: [
     BrowserModule,
