@@ -2,18 +2,24 @@
   <a id="home" mat-button href="">inbox</a>
 
   <nav>
-    <a mat-button routerLink="/login" routerLinkActive="active" *ngIf="!userLoggedIn">Login</a>
-    <a mat-button routerLink="/incoming" routerLinkActive="active" *ngIf="userLoggedIn">Incoming</a>
-    <a mat-button routerLink="/send" routerLinkActive="active" *ngIf="userLoggedIn">Send message</a>
-    <a mat-button routerLink="/monitor" routerLinkActive="active" *ngIf="userLoggedIn">Notifications</a>
-    <a mat-button routerLink="/pleroma" routerLinkActive="active">Pleroma</a>
-    <a mat-button routerLink="/about" routerLinkActive="active">About</a>
-  </nav>
+    <div class="left">
+      <a mat-button routerLink="/login" routerLinkActive="active" *ngIf="!userLoggedIn">Login to Solid</a>
+      <a mat-button routerLink="/incoming" routerLinkActive="active" *ngIf="userLoggedIn" title="Incoming messages">Incoming</a>
+      <a mat-button routerLink="/send" routerLinkActive="active" *ngIf="userLoggedIn">Send message</a>
+      <a mat-button routerLink="/monitor" routerLinkActive="active" *ngIf="userLoggedIn">Monitor inboxes</a>
+      |
+      <a mat-button routerLink="/pleroma" routerLinkActive="active">Try Pleroma</a>
+    </div>
 
-  <span class="spacer"></span>
-  <div class="userInfo" *ngIf="userLoggedIn">
-    <img src="{{photoSrc}}" alt="Profile picture" class="rounded">
-    <a href="{{webId}}" title="Go to profile" target="_blank">{{username}}</a>
-    <button mat-stroked-button (click)="logout()">Logout</button>
-  </div>
+    <div class="right">
+      <a mat-button routerLink="/monitor" routerLinkActive="active"><mat-icon>settings</mat-icon>Notifications</a>
+      <a mat-button routerLink="/about" routerLinkActive="active">About</a>
+
+      <span class="userInfo" *ngIf="userLoggedIn">
+        <img src="{{photoSrc}}" alt="Profile picture" class="rounded">
+        <a href="{{webId}}" title="Go to profile" target="_blank">{{username}}</a>
+        <button mat-stroked-button (click)="logout()">Logout</button>
+      </span>
+    </div>
+  </nav>
 </mat-toolbar>

@@ -3,11 +3,10 @@
 }
 
 nav {
+  width: 100%;
   margin-left: 10px;
-}
-
-.spacer {
-  flex: 1 1 auto;
+  display: flex;
+  justify-content: space-between;
 }
 
 .active {
@@ -17,15 +16,18 @@ nav {
 /* user info */
 .userInfo {
   font-size: 0.7em;
+  margin-left: 3em;
+  border-left: 1px solid #d6d6d6;
 }
 .userInfo button {
   margin-left: 1em;
 }
 img.rounded {
+  margin-left: 3em;
   margin-right: 1em;
   object-fit: cover;
   border-radius: 50%;
-  height: 3em;
-  width: 3em;
+  height: 2.7em;
+  width: 2.7em;
   vertical-align: bottom;
 }
