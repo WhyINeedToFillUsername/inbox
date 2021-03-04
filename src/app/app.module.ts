@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {PleromaComponent} from './components/pleroma/pleroma.component';
+import {PleromaComponent} from './tabs/pleroma/pleroma.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -16,7 +16,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {AppNavbarComponent} from './components/app-navbar/app-navbar.component';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatTableModule} from "@angular/material/table";
-import {NotificationsComponent} from './components/notifications/notifications.component';
+import {NotificationsComponent} from './tabs/notifications/notifications.component';
 import {MatListModule} from "@angular/material/list";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatRadioModule} from "@angular/material/radio";

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {PleromaComponent} from './components/pleroma/pleroma.component';
-import {NotificationsComponent} from "./components/notifications/notifications.component";
+import {PleromaComponent} from './tabs/pleroma/pleroma.component';
+import {NotificationsComponent} from "./tabs/notifications/notifications.component";
 import {AuthGuardService} from "./services/auth-guard/auth-guard.service";
 import {LoginComponent} from "./tabs/login/login.component";
 import {IncomingComponent} from "./tabs/incoming/incoming.component";

@@ -67,7 +67,7 @@ export class PleromaComponent implements OnInit, OnDestroy {
 
             // this.location.replaceState('pleroma');
             // history.replaceState(null, '', location.pathname); // remove code from URL
-            console.log('replaced state');
+            // console.log('replaced state');
             // this.router.navigateByUrl(this.router.url, {queryParams: {}, preserveQueryParams: false});
             // this.initPage();
           }
@@ -79,20 +79,20 @@ export class PleromaComponent implements OnInit, OnDestroy {
   private loadInbox() {
     const inboxUrl = BrowserStorageService.loadFromSession('userInbox');
 
-    console.log('retrieving inbox', inboxUrl);
+    // console.log('retrieving inbox', inboxUrl);
     if (inboxUrl) {
       this.pleromaService.getWithToken(inboxUrl).subscribe(
         inbox => {
-          console.log('Retrieved inbox: ', inbox);
+          // console.log('Retrieved inbox: ', inbox);
           this.logged = true;
 
           this.pleromaService.getWithToken(inbox.first).subscribe(
             page => {
-              console.log('Retrieved page: ', page);
+              // console.log('Retrieved page: ', page);
               this.statuses = page.orderedItems;
             },
             error => {
-              console.error('Error getting page: ', error);
+              // console.error('Error getting page: ', error);
               this.submitted = false;
               this.logged = false;
               return of(error);
@@ -113,21 +113,21 @@ export class PleromaComponent implements OnInit, OnDestroy {
   }
 
   private initPage(): void {
-    console.log('init');
+    // console.log('init');
 
     this.route.queryParamMap.subscribe(
       queryParamMap => {
-        console.log('map');
+        // console.log('map');
 
         this.code = queryParamMap.get('code');
         this.apid = queryParamMap.get('state');
 
         if (this.code && this.apid) {
-          console.log('Retrieved params: code=\'', this.code, '\', apid=\'', this.apid, '\'.');
+          // console.log('Retrieved params: code=\'', this.code, '\', apid=\'', this.apid, '\'.');
           this.submitted = true;
           this.connectPleroma(this.code, this.apid);
         } else {
-          console.log('no params, loading inbox');
+          // console.log('no params, loading inbox');
           this.loadInbox()
         }
 
@@ -136,7 +136,7 @@ export class PleromaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('destroy');
+    // console.log('destroy');
     this.destroyed$.next();
     this.destroyed$.complete();
   }

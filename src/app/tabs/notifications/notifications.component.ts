@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SystemNotificationsService} from "../../services/system-notifications/system-notifications.service";
-import {MessageSnackbarComponent} from "../message-snackbar/message-snackbar.component";
+import {MessageSnackbarComponent} from "../../components/message-snackbar/message-snackbar.component";
 
 @Component({
   selector: 'app-notifications',
