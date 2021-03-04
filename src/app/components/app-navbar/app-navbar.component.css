@@ -16,14 +16,14 @@ nav {
 /* user info */
 .userInfo {
   font-size: 0.7em;
-  margin-left: 3em;
+  margin-left: 2em;
   border-left: 1px solid #d6d6d6;
 }
 .userInfo button {
   margin-left: 1em;
 }
 img.rounded {
-  margin-left: 3em;
+  margin-left: 2em;
   margin-right: 1em;
   object-fit: cover;
   border-radius: 50%;

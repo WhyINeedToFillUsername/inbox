@@ -16,7 +16,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {AppNavbarComponent} from './components/app-navbar/app-navbar.component';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatTableModule} from "@angular/material/table";
-import {MonitorInboxesComponent} from './components/monitor-inboxes/monitor-inboxes.component';
+import {NotificationsComponent} from './components/notifications/notifications.component';
 import {MatListModule} from "@angular/material/list";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatRadioModule} from "@angular/material/radio";
@@ -43,7 +43,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
     AppComponent,
     PleromaComponent,
     AppNavbarComponent,
-    MonitorInboxesComponent,
+    NotificationsComponent,
     IncomingComponent,
     SendSimpleComponent,
     AboutComponent,

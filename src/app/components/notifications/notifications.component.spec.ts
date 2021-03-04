@@ -1,25 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MonitorInboxesComponent } from './monitor-inboxes.component';
+import { NotificationsComponent } from './notifications.component';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Overlay} from "@angular/cdk/overlay";
 import {RouterTestingModule} from "@angular/router/testing";
 
 describe('MonitorInboxesComponent', () => {
-  let component: MonitorInboxesComponent;
-  let fixture: ComponentFixture<MonitorInboxesComponent>;
+  let component: NotificationsComponent;
+  let fixture: ComponentFixture<NotificationsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ MonitorInboxesComponent ],
+      declarations: [ NotificationsComponent ],
       providers: [MatSnackBar, Overlay]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MonitorInboxesComponent);
+    fixture = TestBed.createComponent(NotificationsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

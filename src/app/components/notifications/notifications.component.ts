@@ -4,12 +4,11 @@ import {SystemNotificationsService} from "../../services/system-notifications/sy
 import {MessageSnackbarComponent} from "../message-snackbar/message-snackbar.component";
 
 @Component({
-  selector: 'app-monitor-inboxes',
-  templateUrl: './monitor-inboxes.component.html',
-  styleUrls: ['./monitor-inboxes.component.css']
+  selector: 'app-notifications',
+  templateUrl: './notifications.component.html',
+  styleUrls: ['./notifications.component.css']
 })
-export class MonitorInboxesComponent implements OnInit {
-  inboxUrl: string = "";
+export class NotificationsComponent implements OnInit {
   notificationsSystemSupports: boolean;
   notificationPermission: string;
 

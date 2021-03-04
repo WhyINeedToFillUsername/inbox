@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {PleromaComponent} from './components/pleroma/pleroma.component';
-import {MonitorInboxesComponent} from "./components/monitor-inboxes/monitor-inboxes.component";
+import {NotificationsComponent} from "./components/notifications/notifications.component";
 import {AuthGuardService} from "./services/auth-guard/auth-guard.service";
 import {LoginComponent} from "./tabs/login/login.component";
 import {IncomingComponent} from "./tabs/incoming/incoming.component";
@@ -16,8 +16,9 @@ const routes: Routes = [
   { path: 'incoming', component: IncomingComponent, canActivate: [AuthGuardService], children: INCOMING_ROUTES},
   { path: 'send', component: SendActivityStreamsComponent, canActivate: [AuthGuardService]},
   { path: 'send/simple', component: SendSimpleComponent, canActivate: [AuthGuardService]},
-  { path: 'monitor', component: MonitorInboxesComponent, canActivate: [AuthGuardService]},
+  { path: 'monitor', component: NotificationsComponent, canActivate: [AuthGuardService]},
 
+  { path: 'notifications', component: NotificationsComponent},
   { path: 'about', component: AboutComponent },
   { path: 'pleroma', component: PleromaComponent },
 ];
