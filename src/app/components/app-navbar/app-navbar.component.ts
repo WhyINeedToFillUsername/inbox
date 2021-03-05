@@ -34,13 +34,13 @@ export class AppNavbarComponent implements OnInit {
         if (photoPath) this.photoSrc = photoPath;
       });
 
-      this._monitoringService.startMonitoringUserInboxes();
+      this._monitoringService.startMonitoringAll();
     });
   }
 
   logout() {
     this._inruptService.logout();
-    this._monitoringService.stopMonitoringUserInboxes();
+    this._monitoringService.stopMonitoringAllInboxes();
     window.location.reload();
   }
 }

@@ -1,1 +1,38 @@
-<p>monitor-inboxes works!</p>
+<div class="content-spacer">
+  <h1>Notifications</h1>
+  <p>
+    <strong>Inboxes from your WebID profile are monitored automatically.</strong>
+    Here you can add any other inbox (e.g. comments for your article) for monitoring and you will get a notification
+    when you receive a message to that inbox.
+  </p>
+  <p>To receive system notifications, enable them <a routerLink="/notifications">here</a>.</p>
+
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Add target url to discover inbox and start monitoring it</mat-label>
+      <input matInput type="url" placeholder="Format: 'https://tonda.solid.community/profile/card#me'" [(ngModel)]="targetUrl">
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" (click)="discoverAndStartMonitoring()">
+      Discover inbox and monitor it
+    </button>
+  </div>
+
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Add directly inbox url to monitor</mat-label>
+      <input matInput type="url" placeholder="Format: 'https://tonda.solidcommunity.net/inbox/'" [(ngModel)]="inboxUrl">
+    </mat-form-field>
+    <button mat-raised-button type="submit" (click)="startMonitoringInboxDirectly()">Start monitoring inbox</button>
+  </div>
+
+  <h2>Monitored inboxes:</h2>
+  <mat-list *ngIf="monitoredInboxes?.length > 0; else elseBlockMonitor">
+    <mat-list-item *ngFor="let inboxUrl of monitoredInboxes">
+      {{inboxUrl}}
+      <button mat-icon-button color="warn" aria-label="Stop monitoring" (click)="stopMonitoring(inboxUrl)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+  <ng-template #elseBlockMonitor>(no monitored inboxes)</ng-template>
+</div>

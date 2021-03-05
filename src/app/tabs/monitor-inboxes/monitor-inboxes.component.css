@@ -1,0 +1,8 @@
+div {
+  margin: 1em 0 2em;
+}
+
+mat-form-field {
+  width: 30em;
+  margin-right: 1em;
+}

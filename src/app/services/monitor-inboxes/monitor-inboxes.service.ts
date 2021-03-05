@@ -4,6 +4,7 @@ import {SystemNotificationsService} from "../system-notifications/system-notific
 import {MessageSnackbarComponent} from "../../components/message-snackbar/message-snackbar.component";
 import {InruptService} from "../inrupt/inrupt.service";
 import {InboxDiscoveryService} from "../discovery/inbox-discovery.service";
+import {BrowserStorageService} from "../browser-storage.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,9 @@ import {InboxDiscoveryService} from "../discovery/inbox-discovery.service";
 export class MonitorInboxesService {
 
   sockets: WebSocket[] = [];
+  userProfileInboxes: string[] = [];
 
+  public static readonly MONITORED_INBOXES_STORAGE_KEY: string = "MONITORED_INBOXES_STORAGE_KEY";
   private static readonly WS_SOLID_PROTOCOL = 'solid.0.1.0-alpha'; // originally 'solid/0.1.0-alpha', now 'solid-0.1'
 
   constructor(private readonly _snackBar: MatSnackBar,
@@ -20,17 +23,58 @@ export class MonitorInboxesService {
               private zone: NgZone) {
   }
 
-  startMonitoringUserInboxes() {
+  startMonitoringAll() {
+    this._startMonitoringUserInboxes()
+    this._startMonitoringManuallyAddedInboxes()
+  }
+
+  stopMonitoringAllInboxes() {
+    for (const socket of this.sockets) {
+      socket.close();
+    }
+  }
+
+  addInboxToMonitorByUrl(inboxUrl: string) {
+    let inboxesToMonitor: string[] = this.getManuallyAddedMonitoredInboxes();
+
+    if (!inboxesToMonitor.includes(inboxUrl)) {
+
+      inboxesToMonitor.push(inboxUrl);
+
+      BrowserStorageService.saveToLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY, inboxesToMonitor);
+      this.connect(inboxUrl, true);
+    }
+  }
+
+  removeInboxFromMonitored(inboxUrl: string) {
+    const monitoredInboxes: string[] = this.getManuallyAddedMonitoredInboxes();
+    const inboxesToMonitor: string[] = monitoredInboxes.filter(url => url !== inboxUrl);
+
+    BrowserStorageService.saveToLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY, inboxesToMonitor);
+    this._snackBar.open("Removed '" + inboxUrl + "' from monitored inboxes.", "Dismiss");
+  }
+
+  getManuallyAddedMonitoredInboxes(): string[] {
+    const monitoredInboxes = BrowserStorageService.loadFromLocalStorage(MonitorInboxesService.MONITORED_INBOXES_STORAGE_KEY);
+    if (!monitoredInboxes) return [];
+    else return monitoredInboxes;
+  }
+
+  private _startMonitoringUserInboxes() {
     InboxDiscoveryService.retrieveInboxUrlsFromWebId(this._inruptService.getSessionWebId()).then(inboxUrls => {
+      this.userProfileInboxes = inboxUrls;
       for (const inboxUrl of inboxUrls) {
         this.connect(inboxUrl);
       }
     });
   }
 
-  stopMonitoringUserInboxes() {
-    for (const socket of this.sockets) {
-      socket.close();
+  private _startMonitoringManuallyAddedInboxes() {
+    const monitoredInboxes: string[] = this.getManuallyAddedMonitoredInboxes();
+    if (!monitoredInboxes) return;
+
+    for (const monitoredInbox of monitoredInboxes) {
+      this.connect(monitoredInbox);
     }
   }
 
