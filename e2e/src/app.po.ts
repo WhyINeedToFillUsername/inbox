@@ -9,7 +9,7 @@ export class AppPage {
     return element(by.css('app-root app-navbar a#home')).getText() as Promise<string>;
   }
 
-  async loginToInrupt() {
+  loginToInrupt() {
     const until = protractor.ExpectedConditions;
 
     $('.login input').sendKeys("https://inrupt.net/");
@@ -17,21 +17,27 @@ export class AppPage {
     $('#btnLogin').click();
     browser.waitForAngularEnabled(false);
 
-    await browser.wait(until.urlContains("inrupt.net/login"), 4000).then(() => {
+    browser.wait(until.urlContains("inrupt.net/login"), 5000).then(() => {
+      // fill form on inrupt login page
       $('#username').sendKeys("test-user1");
       $('#password').sendKeys("Inrupt@2021");
       $('#login').click();
-    }).catch(ignore => {/* user has already been logged in, inrupt redirected back to our app immediately */});
 
-    await browser.getCurrentUrl().then(url => {
-    if (url.includes("inrupt.net/sharing")) {
-      // we need to authorize this app
-      $('button[type=submit][name=consent]').click();
-    }
-    });
+      browser.wait(until.urlContains("inrupt.net/sharing"), 5000, "app authorized").then(() => {
+        // we need to authorize this app
+        expect($('h1').getText()).toContain("Authorize");
+        const authorizeButton = $('form button[name=consent]');
+        browser.wait(until.elementToBeClickable(authorizeButton), 5000, 'authorize button not clickable').then(() => {
+          authorizeButton.click().then(this.waitForMessagesListLoaded);
+        });
+      }).catch(this.waitForMessagesListLoaded); // app was already authorized
+    }).catch(this.waitForMessagesListLoaded); // we are already logged in, inrupt redirects back to app immediately
+  }
 
+  waitForMessagesListLoaded() {
+    const until = protractor.ExpectedConditions;
     browser.waitForAngularEnabled(true);
-
-    return browser.wait(until.urlContains("/incoming"), 20000, "Page is not /incoming.");
+    browser.wait(until.urlContains("/incoming"), 20000, "Page is not /incoming.");
+    expect(browser.getCurrentUrl()).toContain("/incoming");
   }
 }
