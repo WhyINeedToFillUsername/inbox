@@ -31,6 +31,8 @@ jobs:
       run: yarn run build
     - name: unit tests
       run: yarn run test-headless
+    - name: update webdriver
+      run: webdriver-manager update
     - name: e2e tests
       run: yarn run e2e
       
