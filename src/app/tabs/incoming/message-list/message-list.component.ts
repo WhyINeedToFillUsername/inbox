@@ -9,7 +9,7 @@ import {SystemNotificationsService} from "../../../services/system-notifications
 @Component({
   selector: 'app-message-list',
   templateUrl: './message-list.component.html',
-  styleUrls: ['./message-list.component.css', '/src/assets/styles/table.css', '/src/assets/styles/spinner-button.css']
+  styleUrls: ['./message-list.component.css', '../../../../assets/styles/table.css', '../../../../assets/styles/spinner-button.css']
 })
 export class MessageListComponent implements OnInit, OnDestroy {
   workingInbox: boolean = false;

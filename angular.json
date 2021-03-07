@@ -11,8 +11,12 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "./webpack.partial.js",
+              "replaceDuplicatePlugins": true
+            },
             "outputPath": "dist/inbox",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -59,7 +63,7 @@
           }
         },
         "serve": {
-          "builder": "ngx-build-plus:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "inbox:build"
           },
@@ -70,14 +74,22 @@
           }
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular-builders/custom-webpack:extract-i18n",
           "options": {
+            "customWebpackConfig": {
+              "path": "./webpack.partial.js",
+              "replaceDuplicatePlugins": true
+            },
             "browserTarget": "inbox:build"
           }
         },
         "test": {
-          "builder": "ngx-build-plus:karma",
+          "builder": "@angular-builders/custom-webpack:karma",
           "options": {
+            "customWebpackConfig": {
+              "path": "./webpack.partial.js",
+              "replaceDuplicatePlugins": true
+            },
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",

@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --extra-webpack-config webpack.partial.js",
-    "build": "ng build --extra-webpack-config webpack.partial.js",
-    "build-prod": "ng build --extra-webpack-config webpack.partial.js --prod",
-    "build-prod-github": "ng build --extra-webpack-config webpack.partial.js --base-href /inbox/ --prod",
+    "start": "ng serve",
+    "build": "ng build",
+    "build-prod": "ng build --prod",
+    "build-prod-github": "ng build --base-href /inbox/ --prod",
     "deploy-github": "ng deploy --no-build",
-    "test": "ng test --extra-webpack-config webpack.partial.js",
-    "test-headless": "ng test --watch=false --browsers=ChromeHeadless --extra-webpack-config webpack.partial.js",
+    "test": "ng test",
+    "test-headless": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -29,7 +29,6 @@
     "@inrupt/solid-client-authn-browser": "1.4.2",
     "@inrupt/vocab-common-rdf": "0.7.2",
     "crypto-browserify": "3.12.0",
-    "ngx-build-plus": "^10.1.1",
     "rxjs": "~6.6.0",
     "stream-browserify": "^3.0.0",
     "tslib": "^2.0.0",
@@ -37,6 +36,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
+    "@angular-builders/custom-webpack": "^11.1.0",
     "@angular-devkit/build-angular": "^0.1100.3",
     "@angular/cli": "~11.0.3",
     "@angular/compiler-cli": "~11.0.3",
