@@ -1,5 +1,5 @@
-import { AppPage } from './app.po';
-import {$, browser, logging, protractor} from 'protractor';
+import {AppPage} from './app.po';
+import {$, browser} from 'protractor';
 
 describe('workspace-project App', () => {
   let page: AppPage;
@@ -14,7 +14,7 @@ describe('workspace-project App', () => {
     expect($('.login input').isDisplayed()).toBeTruthy();
   });
 
-  it('login input works', () => {
+  it('login input with autocomplete works', () => {
     page.navigateTo();
     const $loginInput = $('.login input');
     const $autocompleteSuggestion = $('.mat-option-text');
@@ -29,8 +29,8 @@ describe('workspace-project App', () => {
   it('login to inrupt works', () => {
     page.navigateTo();
 
-    page.loginToInrupt();
-
-    expect(browser.getCurrentUrl()).toContain("/incoming");
+    page.loginToInrupt().then(() => {
+      expect(browser.getCurrentUrl()).toContain("/incoming");
+    });
   });
 });

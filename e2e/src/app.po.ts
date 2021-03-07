@@ -1,4 +1,4 @@
-import {$, browser, by, element, protractor} from 'protractor';
+import {$, $$, browser, by, element, protractor} from 'protractor';
 
 export class AppPage {
   navigateTo(): Promise<unknown> {
@@ -9,20 +9,29 @@ export class AppPage {
     return element(by.css('app-root app-navbar a#home')).getText() as Promise<string>;
   }
 
-  loginToInrupt() {
+  async loginToInrupt() {
     const until = protractor.ExpectedConditions;
 
-    $('.login input').sendKeys("inrupt");
-    $('.mat-option-text').click();
+    $('.login input').sendKeys("https://inrupt.net/");
+    $$('.mat-option-text').first().click();
     $('#btnLogin').click();
     browser.waitForAngularEnabled(false);
-    browser.wait(until.urlContains("inrupt.net/login"), 20000);
 
-    $('#username').sendKeys("test-user1");
-    $('#password').sendKeys("Inrupt@2021");
-    $('#login').click();
+    await browser.wait(until.urlContains("inrupt.net/login"), 4000).then(() => {
+      $('#username').sendKeys("test-user1");
+      $('#password').sendKeys("Inrupt@2021");
+      $('#login').click();
+    }).catch(ignore => {/* user has already been logged in, inrupt redirected back to our app immediately */});
+
+    await browser.getCurrentUrl().then(url => {
+    if (url.includes("inrupt.net/sharing")) {
+      // we need to authorize this app
+      $('button[type=submit][name=consent]').click();
+    }
+    });
+
     browser.waitForAngularEnabled(true);
 
-    browser.wait(until.urlContains("/incoming"), 20000);
+    return browser.wait(until.urlContains("/incoming"), 20000, "Page is not /incoming.");
   }
 }
