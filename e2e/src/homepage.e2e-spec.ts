@@ -1,7 +1,7 @@
 import { AppPage } from './app.po';
-import {$, browser, logging} from 'protractor';
+import {$, browser, by, element, logging} from 'protractor';
 
-describe('workspace-project App', () => {
+describe('homepage tests', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -17,5 +17,11 @@ describe('workspace-project App', () => {
     page.navigateTo();
     $('a#home').getWebElement().click();
     expect(page.getNavbarHomeLinkText()).toEqual('inbox');
+  });
+
+  it('navigation bar works -> about page', () => {
+    page.navigateTo();
+    element(by.linkText("About")).click();
+    expect($('h1').getText()).toEqual('About inbox');
   });
 });

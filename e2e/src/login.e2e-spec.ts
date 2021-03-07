@@ -1,7 +1,7 @@
 import {AppPage} from './app.po';
 import {$, $$} from 'protractor';
 
-describe('workspace-project App', () => {
+describe('inrupt login tests', () => {
   let page: AppPage;
 
   beforeEach(() => {
