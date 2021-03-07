@@ -19,12 +19,6 @@ describe('workspace-project App', () => {
     expect(page.getNavbarHomeLinkText()).toEqual('inbox');
   });
 
-  it('login is shown', () => {
-    page.navigateTo();
-    expect($('.login h1').getText()).toEqual('Inbox');
-    expect($('.login input').isDisplayed()).toBeTruthy();
-  });
-
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
     const logs = await browser.manage().logs().get(logging.Type.BROWSER);
