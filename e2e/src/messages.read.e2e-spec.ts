@@ -3,6 +3,7 @@ import {$, $$, browser, logging, protractor} from 'protractor';
 
 describe('reading messages test', () => {
   let page: AppPage;
+  const until = protractor.ExpectedConditions;
 
   beforeEach(() => {
     page = new AppPage();
@@ -11,7 +12,6 @@ describe('reading messages test', () => {
   });
 
   it('list of messages is loaded and contains at least 1 message', () => {
-    const until = protractor.ExpectedConditions;
 
     browser.wait(until.presenceOf($('table')), 20000, 'Messages not loaded.');
 
@@ -19,7 +19,6 @@ describe('reading messages test', () => {
   });
 
   it('read message detail', () => {
-    const until = protractor.ExpectedConditions;
     browser.wait(until.presenceOf($('table')), 20000, 'Messages not loaded.');
 
     const firstMessage = $$('table tr td').get(3);
