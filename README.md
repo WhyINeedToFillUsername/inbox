@@ -3,7 +3,10 @@
 This application is a messaging application for [inrupt/solid](https://inrupt.com/). Inbox is an web application written in angular
 It uses [Yarn](https://yarnpkg.com/) (instead of angular's default npm) as a package manager.
 
-## How to run application
+## Live version
+Application is deployed live at https://whyineedtofillusername.github.io/inbox/.
+
+## How to run application yourself
 ### Prerequisites
 Follow steps for running angular at https://angular.io/guide/setup-local - install node.js and yarn (instead/after npm).
 
