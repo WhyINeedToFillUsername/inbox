@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
+import {CanActivate, Router, UrlTree} from "@angular/router";
 import {InruptService} from "../inrupt/inrupt.service";
 
 @Injectable({
@@ -11,7 +11,7 @@ export class AuthGuardService implements CanActivate {
               private readonly _router: Router) {
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): UrlTree | boolean {
+  canActivate(): UrlTree | boolean {
     if (this._inruptService.isLoggedIn()) {
       return true;
     } else {
