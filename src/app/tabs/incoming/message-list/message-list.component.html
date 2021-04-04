@@ -43,6 +43,13 @@
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="subject">
+    <th mat-header-cell *matHeaderCellDef>Subject</th>
+    <td mat-cell *matCellDef="let message" [class.muted]="!message.name">
+      {{message.name ? ((message.name | slice:0:50) + (message.name?.length > 50 ? '...' : '')) : '(no subject)'}}
+    </td>
+  </ng-container>
+
   <ng-container matColumnDef="content">
     <th mat-header-cell *matHeaderCellDef>Content</th>
     <td mat-cell *matCellDef="let message">

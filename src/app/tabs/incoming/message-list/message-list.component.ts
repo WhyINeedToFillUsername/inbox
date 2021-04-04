@@ -31,10 +31,10 @@ export class MessageListComponent implements OnInit, OnDestroy {
       const inboxUrl = params['inboxUrl'];
 
       if (inboxUrl) {
-        this.columnsToDisplay = ['actor', 'content', 'created'];
+        this.columnsToDisplay = ['actor', 'subject', 'content', 'created'];
         this._readInbox(inboxUrl);
       } else {
-        this.columnsToDisplay = ['actor', 'inbox', 'content', 'created'];
+        this.columnsToDisplay = ['actor', 'subject', 'inbox', 'content', 'created'];
         this.loadAllMessages();
       }
     });
