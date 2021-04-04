@@ -7,10 +7,19 @@ mat-sidenav-content {
 }
 
 mat-sidenav {
-  padding: 2em 0;
-  min-width: 20em;
+  padding: 0;
+  min-width: 15em;
+  overflow-x: visible;
 }
 
 .active {
   background: rgba(0,0,0,.04);
+}
+
+.inbox-icon {
+  margin-right: 0.3em;
+}
+
+.nested-inbox .inbox-icon{
+  margin-left: 2em;
 }

@@ -3,10 +3,11 @@
     <mat-nav-list>
       <div mat-subheader>Select inbox:</div>
       <a mat-list-item routerLink='/incoming' routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}">
-        Messages from all inboxes
+        <mat-icon>expand_more</mat-icon><mat-icon class="inbox-icon">all_inbox</mat-icon>All inboxes
       </a>
-      <a *ngFor="let inbox of inboxes" mat-list-item [routerLink]="['/incoming/', inbox.url]" routerLinkActive='active'>
-        {{inbox.name}}
+      <a *ngFor="let inbox of inboxes" mat-list-item [routerLink]="['/incoming/', inbox.url]" routerLinkActive='active'
+      class="nested-inbox">
+        <mat-icon class="inbox-icon">inbox</mat-icon>{{inbox.name}}
       </a>
     </mat-nav-list>
   </mat-sidenav>
