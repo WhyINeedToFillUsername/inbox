@@ -25,7 +25,7 @@ describe('send messages test', () => {
     expect($error.getText()).toEqual('No recipients!');
 
     addRecipient('https://test-user1.inrupt.net/profile/card#me');
-    expect($('mat-chip').getText()).toContain('Test User 1: https://test-user1.inrupt.net/inbox/')
+    expect($('mat-chip').getText()).toContain('Test User 1: https://test-user1.inrupt.net/inbox/');
 
     $submitButton.click();
     expect($error.getText()).toEqual('Message cannot be empty!');

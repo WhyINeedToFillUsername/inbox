@@ -105,7 +105,7 @@ export class RecipientsPickerComponent implements OnInit {
       contacts => {
         this.allContacts = contacts;
       }
-    )
+    );
   }
 
   private _setErrors(message: string) {
@@ -120,7 +120,7 @@ export class RecipientsPickerComponent implements OnInit {
     if (this.replyTo?.actor) {
       this.formControl.setValue(this.replyTo);
       this.inputValue = this.replyTo.actor.webId;
-      this._addRecipient(this.replyTo.actor.webId)
+      this._addRecipient(this.replyTo.actor.webId);
     }
   }
 
@@ -161,8 +161,8 @@ export class RecipientsPickerComponent implements OnInit {
       let inboxes;
       let name = InruptStaticService.getProfileName$(iri);
 
-      promises.push(this._sendService.isInboxIri(iri).toPromise().then(value => isInboxIri = value).catch(ignore => {return}));
-      promises.push(InboxDiscoveryService.retrieveInboxUrlsFromWebId(iri).then(urls => inboxes = urls).catch(ignore => {return}))
+      promises.push(this._sendService.isInboxIri(iri).toPromise().then(value => isInboxIri = value).catch(ignore => {return;}));
+      promises.push(InboxDiscoveryService.retrieveInboxUrlsFromWebId(iri).then(urls => inboxes = urls).catch(ignore => {return;}));
 
       Promise.all(promises).then(() => {
         if (isInboxIri) {

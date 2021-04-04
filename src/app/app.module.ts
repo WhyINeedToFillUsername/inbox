@@ -71,7 +71,7 @@ import {MonitorInboxesComponent} from './tabs/monitor-inboxes/monitor-inboxes.co
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 20000}},
-    {provide: 'googleTagManagerId',  useValue: 'G-S756EEBE7S'}
+    {provide: 'googleTagManagerId',  useValue: 'GTM-TMD9XRM'}
   ],
   bootstrap: [AppComponent]
 })
