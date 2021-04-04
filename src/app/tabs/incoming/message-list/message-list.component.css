@@ -5,3 +5,10 @@ h2 button {
 .muted {
   color: #d6d6d6;
 }
+
+.inbox-badge {
+  font-size: 0.8em;
+  min-width: 1%;
+  line-height: 2;
+  padding: 0.1em 0.7em;
+}

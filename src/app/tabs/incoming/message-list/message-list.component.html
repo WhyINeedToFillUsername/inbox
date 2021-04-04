@@ -30,7 +30,7 @@
   <ng-container matColumnDef="inbox">
     <th mat-header-cell *matHeaderCellDef>Inbox</th>
     <td mat-cell *matCellDef="let message">
-      <a mat-raised-button [routerLink]="['/incoming/', message.inbox.url]" [style]="message.inbox.style">
+      <a mat-raised-button [routerLink]="['/incoming/', message.inbox.url]" class="inbox-badge" [style]="message.inbox.style">
         {{message.inbox.name}}
       </a>
     </td>
