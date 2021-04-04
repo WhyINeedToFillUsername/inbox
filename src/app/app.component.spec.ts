@@ -14,7 +14,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
-      providers: [MatSnackBar, Overlay],
+      providers: [MatSnackBar, Overlay, {provide: 'googleTagManagerId', useValue: 'TEST_ID'}],
     }).compileComponents();
   });
 

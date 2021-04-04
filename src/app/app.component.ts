@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {MonitorInboxesService} from "./services/monitor-inboxes/monitor-inboxes.service";
+import {GoogleTagManagerService} from "angular-google-tag-manager";
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -9,5 +10,18 @@ import {MonitorInboxesService} from "./services/monitor-inboxes/monitor-inboxes.
 export class AppComponent {
   title = 'inbox';
 
-  constructor() {}
+  constructor(private gtmService: GoogleTagManagerService,
+              private readonly _router: Router) {
+
+    this._router.events.forEach(item => {
+      if (item instanceof NavigationEnd) {
+        const gtmTag = {
+          event: 'page',
+          pageName: item.url
+        };
+
+        this.gtmService.pushTag(gtmTag);
+      }
+    });
+  }
 }
