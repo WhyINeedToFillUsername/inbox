@@ -25,6 +25,7 @@ describe('AuthService', () => {
   });
 
   it('cannot navigate without login', () => {
+    mockInruptService.isLoggedIn.and.returnValue(false);
     expect(service.canActivate()).toBeFalsy();
     expect(mockRouter.parseUrl).toHaveBeenCalledWith('/login');
   });
