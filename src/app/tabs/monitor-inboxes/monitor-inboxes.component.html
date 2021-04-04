@@ -6,6 +6,10 @@
     when you receive a message to that inbox.
   </p>
   <p>To receive system notifications, enable them <a routerLink="/notifications">here</a>.</p>
+  <p>
+    By adding inbox for monitoring below you will only receive the notifications, but you won't be able to access
+    the messages in this application. To do so, you need to login into the Solid POD in which is the inbox registered.
+  </p>
 
   <div>
     <mat-form-field appearance="fill">
@@ -17,15 +21,30 @@
     </button>
   </div>
 
+  <mat-divider></mat-divider>
+
   <div>
+    <p>
+      Advanced option: if you know the exact LDN inbox URL and don't need the
+      <a href="https://www.w3.org/TR/ldn/#discovery" target="_blank" title="LDN inbox discovery specification">inbox
+      discovery</a>, you can add it for monitoring directly here:
+    </p>
     <mat-form-field appearance="fill">
-      <mat-label>Add directly inbox url to monitor</mat-label>
+      <mat-label>Add directly inbox URL to monitor</mat-label>
       <input matInput type="url" placeholder="Format: 'https://tonda.solidcommunity.net/inbox/'" [(ngModel)]="inboxUrl">
     </mat-form-field>
     <button mat-raised-button type="submit" (click)="startMonitoringInboxDirectly()">Start monitoring inbox</button>
   </div>
 
   <h2>Monitored inboxes:</h2>
+  <p>
+    Below is the list of monitored inboxes that you have added manually
+    (you cannot access messages of these inboxes in the current profile - log in to their Solid POD to do so).
+  </p>
+  <p>
+    Please note that inboxes from your WebID profile are <strong>monitored automatically</strong> and won't show in the
+    list.
+  </p>
   <mat-list *ngIf="monitoredInboxes?.length > 0; else elseBlockMonitor">
     <mat-list-item *ngFor="let inboxUrl of monitoredInboxes">
       {{inboxUrl}}
