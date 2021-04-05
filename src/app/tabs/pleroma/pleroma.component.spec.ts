@@ -6,6 +6,7 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {of} from "rxjs";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {HttpClient} from "@angular/common/http";
+import {APP_BASE_HREF} from "@angular/common";
 
 describe('PleromaComponent', () => {
   let component: PleromaComponent;
@@ -25,7 +26,8 @@ describe('PleromaComponent', () => {
       imports: [RouterTestingModule, HttpClientTestingModule],
       providers: [
         HttpClient,
-        {provide: ActivatedRoute, useValue: fakeQueryMap}
+        {provide: ActivatedRoute, useValue: fakeQueryMap},
+        {provide: APP_BASE_HREF, useValue: "/"}
       ]
     })
     .compileComponents();
