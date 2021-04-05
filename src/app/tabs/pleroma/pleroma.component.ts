@@ -11,7 +11,7 @@ import {Location} from '@angular/common';
   styleUrls: ['./pleroma.component.css']
 })
 export class PleromaComponent implements OnInit, OnDestroy {
-  public idInput = 'https://greenish.red/users/nokton';
+  public idInput = '';
 
   submitted: boolean = false;
   logged: boolean = false;
@@ -35,14 +35,11 @@ export class PleromaComponent implements OnInit, OnDestroy {
 
   submit() {
     this.submitted = true;
-    console.log('Fetching ', this.idInput);
     this.pleromaService.fetchUser(this.idInput).subscribe(
       user => {
         BrowserStorageService.saveToLocalStorage(PleromaService.STORAGE_KEY_USERS, [this.idInput])
-        console.log('Fetched user: ', user)
         this.pleromaService.registerApp(user.endpoints.oauthRegistrationEndpoint).subscribe(
           app => {
-            console.log('Registered app: ', app);
             this.pleromaService.logUserIn(user, app);
           }
         );
@@ -79,20 +76,16 @@ export class PleromaComponent implements OnInit, OnDestroy {
   private loadInbox() {
     const inboxUrl = BrowserStorageService.loadFromSession('userInbox');
 
-    // console.log('retrieving inbox', inboxUrl);
     if (inboxUrl) {
       this.pleromaService.getWithToken(inboxUrl).subscribe(
         inbox => {
-          // console.log('Retrieved inbox: ', inbox);
           this.logged = true;
 
           this.pleromaService.getWithToken(inbox.first).subscribe(
             page => {
-              // console.log('Retrieved page: ', page);
               this.statuses = page.orderedItems;
             },
             error => {
-              // console.error('Error getting page: ', error);
               this.submitted = false;
               this.logged = false;
               return of(error);
@@ -113,21 +106,17 @@ export class PleromaComponent implements OnInit, OnDestroy {
   }
 
   private initPage(): void {
-    // console.log('init');
 
     this.route.queryParamMap.subscribe(
       queryParamMap => {
-        // console.log('map');
 
         this.code = queryParamMap.get('code');
         this.apid = queryParamMap.get('state');
 
         if (this.code && this.apid) {
-          // console.log('Retrieved params: code=\'', this.code, '\', apid=\'', this.apid, '\'.');
           this.submitted = true;
           this.connectPleroma(this.code, this.apid);
         } else {
-          // console.log('no params, loading inbox');
           this.loadInbox()
         }
 
@@ -136,7 +125,6 @@ export class PleromaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // console.log('destroy');
     this.destroyed$.next();
     this.destroyed$.complete();
   }
