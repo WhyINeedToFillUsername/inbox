@@ -21,7 +21,6 @@ export class PleromaService {
     @Inject(APP_BASE_HREF) public baseHref: string) {
 
     this.CALLBACK_URI = location.origin + baseHref + 'pleroma';
-    console.log("callback uri: " + this.CALLBACK_URI);
   }
 
   fetchUser(userUrl: string): Observable<any> {
@@ -36,7 +35,7 @@ export class PleromaService {
       return of(BrowserStorageService.loadFromLocalStorage(storageKey));
 
     } else {
-      console.log("App is not in local storage, retrieving...");
+      console.log("App is not in local storage, registering...");
 
       const body = {
         client_name: 'inbox',
