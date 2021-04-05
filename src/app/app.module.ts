@@ -38,6 +38,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatCardModule} from "@angular/material/card";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MonitorInboxesComponent} from './tabs/monitor-inboxes/monitor-inboxes.component';
+import {APP_BASE_HREF, PlatformLocation} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import {MonitorInboxesComponent} from './tabs/monitor-inboxes/monitor-inboxes.co
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 20000}},
-    {provide: 'googleTagManagerId',  useValue: 'GTM-TMD9XRM'}
+    {provide: 'googleTagManagerId',  useValue: 'GTM-TMD9XRM'},
+    {provide: APP_BASE_HREF, useFactory: (s: PlatformLocation) => s.getBaseHrefFromDOM(), deps: [PlatformLocation]},
   ],
   bootstrap: [AppComponent]
 })

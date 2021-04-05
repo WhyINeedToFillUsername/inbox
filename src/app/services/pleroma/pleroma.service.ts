@@ -1,8 +1,9 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of, throwError} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {BrowserStorageService} from '../browser-storage.service';
+import {APP_BASE_HREF} from "@angular/common";
 
 
 @Injectable({
@@ -12,10 +13,15 @@ export class PleromaService {
   public static readonly STORAGE_KEY_USERS = 'pleroma_users';
   private static readonly STORAGE_TOKEN_KEY = 'token';
   private static readonly STORAGE_PREFIX_APP = 'inbox_app_data_';
-  private static readonly CALLBACK_URI = location.origin + '/pleroma';
+
+  private readonly CALLBACK_URI;
 
   constructor(
-    private http: HttpClient) {
+    private http: HttpClient,
+    @Inject(APP_BASE_HREF) public baseHref: string) {
+
+    this.CALLBACK_URI = location.origin + baseHref + 'pleroma';
+    console.log("callback uri: " + this.CALLBACK_URI);
   }
 
   fetchUser(userUrl: string): Observable<any> {
@@ -34,7 +40,7 @@ export class PleromaService {
 
       const body = {
         client_name: 'inbox',
-        redirect_uris: PleromaService.CALLBACK_URI,
+        redirect_uris: this.CALLBACK_URI,
         scopes: 'read write follow',
       };
       const options = {headers: {'Content-Type': 'application/json'}};
@@ -51,7 +57,7 @@ export class PleromaService {
   logUserIn(user, app) {
     const redirectUrl = user.endpoints.oauthAuthorizationEndpoint +
       '?response_type=code&client_id=' + app.client_id +
-      '&redirect_uri=' + encodeURIComponent(PleromaService.CALLBACK_URI) +
+      '&redirect_uri=' + encodeURIComponent(this.CALLBACK_URI) +
       '&state=' + encodeURIComponent(user.id);
 
     location.assign(redirectUrl);
@@ -66,7 +72,7 @@ export class PleromaService {
       code: code,
       client_id: app.client_id,
       client_secret: app.client_secret,
-      redirect_uri: PleromaService.CALLBACK_URI,
+      redirect_uri: this.CALLBACK_URI,
       scope: 'read write follow',
     };
 
